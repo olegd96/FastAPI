@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.nav{
+    padding: 0 50px;
+    height: 100px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: rgb(6, 39, 99);
+    display: flex; 
+    justify-content: space-between; /*раскидываем логотип и меню по разным краям*/
+    align-items: center; /*размещаем по центру*/
+}
+.menu{
+    list-style: none;
+    height: 100%;
+    display: flex; 
+    align-items: center; /*размещаем по центру меню*/
+}
+.logo{
+    color: rgb(52, 179, 253);
+    font-size: 40px;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+}
+.link{
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    margin-left: 20px; 
+}
+.link:hover{
+    color: rgb(114, 173, 240);
+}

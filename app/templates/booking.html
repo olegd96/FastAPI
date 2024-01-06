@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/menu.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <script src="{{ url_for('static', path='js/logoutUser.js') }}"></script>
+    <script src="{{ url_for('static', path='js/loginUser.js') }}"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('htmx:afterRequest', function(evt) {
+    if(evt.detail.xhr.status == 401){
+        /* Notify the user of a 404 Not Found response */
+        window.location.href = "/pages";
+    } 
+})
+    </script>
+    <title>ONBOOK</title>
+</head>
+<body id="main">
+    {% if  user %}
+    <nav id="nav" class="nav">
+        <span class="logo">ONBOOK</span>
+        <ul class="menu">
+            <li class="link" hx-get="/pages" hx-target="#main">Главная</li>
+            <li class="link">Поиск отелей</li>
+            <li class="link" hx-get="./my_bookings" hx-target="#bookings_list">Мои бронирования</li>
+            <li class="link">{{user.email}}</li>
+            <li class="link" hx-on:click="logoutUser()">Выйти</li>
+        </ul>
+    </nav>
+    {% else %}
+    <nav id="nav" class="nav">
+        <span class="logo">ONBOOK</span>
+        <ul class="menu">
+            <li class="link">Главная</li>
+            <li class="link">Поиск отелей</li>
+            <li class="link" hx-get="/pages/login" hx-target="#login_bar">Войти</li>
+        </ul>
+    </nav>
+    {% endif %}
+    <div id="login_bar"></div>
+    <div id="bookings_list"></div>
+</body>
+</html>

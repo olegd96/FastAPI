@@ -1,0 +1,78 @@
+<style>
+    .book_cart {
+        border-radius: 10px;
+        border: 2px;
+        border-color: black;
+        background-color:rgb(223, 228, 237);
+        width:70%;
+        margin: 15px auto;
+        box-shadow: 1px 0 2px 1px gray;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .descript {
+        margin: 25px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    button {
+        border-radius: 4px;
+        background-color: rgb(63, 129, 205);
+        border: 0;
+        box-shadow: none;
+        padding: 10px 20px;
+        margin: 10px;
+        
+    }
+
+    button:hover {
+        background-color: rgb(167, 197, 230);
+    }
+
+    .cart_item {
+        width: 300px;
+        
+    }
+
+    .pic {
+        
+        height: auto;
+        
+        
+    }
+
+    img {
+        height: 100% auto;
+        width: 70%;
+        border-radius: 10px 0px 0px 10px;
+        
+    }
+
+
+</style>
+
+    {% for item in bookings %}
+        <div class="book_cart">
+        <div class="pic"><img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp"}}></div>
+        <div class="descript">
+        <ul>
+            <li class="cart_item"><label class="cart">Id брони: </label><span>{{item.id}}<span></li>
+            <li class="cart_item"><label class="cart">Отель: </label><span>{{item.name_1}}<span></li>
+            <li class="cart_item"><label class="cart">Расположение: </label><span>{{item.location}}<span></li>    
+            <li class="cart_item"><label class="cart">Id номера: </label><span>{{item.room_id}}</span></li>
+            <li class="cart_item"><label class="cart">Категория: </label><span>{{item.name}}</span></li>
+            <li class="cart_item"><label class="cart">Описание: </label><span>{{item.description}}</span></li>
+            <li class="cart_item"><label class="cart">Дата заезда: </label><span>{{item.date_from}}</span></li>
+            <li class="cart_item"><label class="cart">Дата выезда: </label><span>{{item.date_to}}</span></li>
+            <li class="cart_item"><label class="cart">Всего дней: </label><span>{{item.total_days}}</span></li>
+            <li class="cart_item"><label class="cart">Стоимость: </label><span>{{item.total_cost}}</span></li>
+        </ul>
+        </div>
+        
+        <div class="unbook"><button>Отменить бронь</button></div>
+        </div> 
+    {% endfor %}

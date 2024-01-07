@@ -1,6 +1,8 @@
 from datetime import date
+
 from fastapi import APIRouter, Depends, Request
 from pydantic import TypeAdapter
+from sqlalchemy import select
 
 from app.bookings.dao import BookingDAO
 from app.bookings.models import Bookings
@@ -9,8 +11,6 @@ from app.exceptions import RoomCannotBeBooked
 from app.tasks.tasks import send_booking_confirmation_email
 from app.users.dependencies import get_current_user
 from app.users.models import Users
-from sqlalchemy import select
-
 
 router = APIRouter(
     prefix="/bookings",

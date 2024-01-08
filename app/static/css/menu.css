@@ -25,7 +25,7 @@
 }
 .link{
     color: #fff;
-    font-size: 20px;
+    font-size: 16px;
     font-family: 'Montserrat', sans-serif;
     text-decoration: none;
     margin-left: 20px; 
@@ -36,8 +36,8 @@
 
 .footer {
     flex-shrink: 0;
-    padding: 30px;
-    height: 160px;
+    padding: 10px;
+    height: 140px;
     font-family: 'Montserrat', sans-serif;
     
     background-color: rgb(6, 39, 99);
@@ -60,14 +60,14 @@
     display: flex;
     justify-content: space-between;
     align-items:flex-start;
-    padding: 20px;
+    padding: 10px;
     border-bottom-width: 2px; /* Толщина линии внизу */
     border-bottom-style: solid; /* Стиль линии внизу */
     border-bottom-color: white;
 }
 
 .footer__bottom {
-    padding: 20px;
+    padding: 10px;
 }
 
 
@@ -84,3 +84,36 @@ body {
     flex: 1 0 auto; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
     padding: 20px;
 }
+
+
+
+.search_el {
+    display: flex;
+    
+    font-family: 'Montserrat', sans-serif;
+    width: 80%;
+    
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(63, 129, 205);
+    padding:10px;
+    
+
+}
+
+.search {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: white;
+}
+
+.search_panel {
+    width: 100%;
+    display: flex;
+    justify-content:center;
+    
+      
+}
+
+
+

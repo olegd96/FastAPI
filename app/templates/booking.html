@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', path='css/menu.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <script src="{{ url_for('static', path='js/logoutUser.js') }}"></script>
     <script src="{{ url_for('static', path='js/loginUser.js') }}"></script>
@@ -21,7 +22,7 @@
     <title>ONBOOK</title>
 </head>
 <body id="main" >
-    {% if  user %}
+    {% if user %}
     <nav id="nav" class="nav">
         <span class="logo">ONBOOK</span>
         <ul class="menu">
@@ -29,6 +30,10 @@
             <li class="link">Поиск отелей</li>
             <li class="link" hx-get="./my_bookings" hx-target="#bookings_list">Мои бронирования</li>
             <li class="link">{{user.email}}</li>
+            <li class="link" hx-get="./my_bookings" hx-target="#bookings_list"><i
+                class=
+                "fi fi-rr-shopping-cart"
+                ></i><sup>{{book_count}}</sup></li>
             <li class="link" hx-on:click="logoutUser()">Выйти</li>
         </ul>
     </nav>

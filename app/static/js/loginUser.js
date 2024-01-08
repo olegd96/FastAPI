@@ -14,6 +14,7 @@
             }).then(response => {
                 if (response.status === 200) {
                     window.location.href = "/pages/bookings"
+                
                 } else {
                     wrongCredentialsSpan.textContent = "Неверный email или пароль";
                 }

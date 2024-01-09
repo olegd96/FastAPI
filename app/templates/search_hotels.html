@@ -3,13 +3,13 @@
     <label class="search" for="location">Направление:</label>
     <input type="text" class="search" name="location" id="location">
     <label class="search" for="date_from">Заезд:</label>
-    <input type="date" class="search" name="date_from" id="date_from">
+    <input type="date" class="search_date" name="date_from" id="date_from">
     <label class="search" for="date_to">Выезд:</label>
-    <input type="date" class="search" name="date_to" id="date_to">
-    <button hx-get="./hotels/" 
+    <input type="date" class="search_date" name="date_to" id="date_to">
+    <button class="search_button" hx-get="../pages/hotels" 
     hx-include="*"
     hx-target="#hotels">Найти</button>
 </div>
-<div id="hotels"></div>
+<div id="hotels" class="book_hotels"></div>
 </div>
 </div>

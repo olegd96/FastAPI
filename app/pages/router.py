@@ -6,7 +6,7 @@ from app.bookings.dao import BookingDAO
 from app.bookings.schemas import SBookingInfo
 from app.exceptions import TokenExpiredException, UserIsNotPresentException
 from app.hotels.dao import HotelsDAO
-from app.users.dependencies import get_current_user
+from app.users.dependencies import  get_current_user
 
 
 from app.users.models import Users
@@ -18,7 +18,7 @@ router = APIRouter(
 
 templates = Jinja2Templates(directory="app/templates")
 
-@router.get("/", response_class=HTMLResponse)
+@router.get("", response_class=HTMLResponse)
 async def start_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
@@ -32,7 +32,7 @@ async def booking_page(
     user: Users = Depends(get_current_user)
     ):
     res = len(await BookingDAO.find_all_with_images(user_id=user.id))
-    return templates.TemplateResponse("booking.html", {"request": request, "user": user, "book_count": res})
+    return templates.TemplateResponse("booking.html", {"request": request, "user": user.email, "book_count": res})
 
 @router.get("/my_bookings", response_class=HTMLResponse)
 async def my_bookings(

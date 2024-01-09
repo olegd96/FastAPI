@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
+import time
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
@@ -20,6 +21,7 @@ from app.images.router import router as router_images
 from app.pages.router import router as router_pages
 from app.users.models import Users
 from app.users.router import router_auth, router_users
+from app.loger import logger
 
 
 @asynccontextmanager
@@ -55,6 +57,17 @@ app.add_middleware(
 )
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    logger.info("Request execution time",
+                extra={"process_time": round(process_time, 4)
+                       })
+    response.headers["X-Process-Time"] = str(process_time)
+    return response
 
 app.include_router(router_auth)
 app.include_router(router_users)

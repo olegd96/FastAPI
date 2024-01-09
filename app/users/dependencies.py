@@ -14,6 +14,7 @@ def get_token(request: Request):
         raise TokenAbsentException
     return token
 
+
 async def get_current_user(token: str = Depends(get_token)):
     try:
         payload = jwt.decode(

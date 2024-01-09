@@ -83,6 +83,7 @@ body {
 .bookings_list {
     flex: 1 0 auto; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
     padding: 20px;
+    align-items: center;
 }
 
 
@@ -92,7 +93,7 @@ body {
     
     font-family: 'Montserrat', sans-serif;
     width: 80%;
-    
+    margin:auto;
     justify-content: space-between;
     align-items: center;
     background-color: rgb(63, 129, 205);
@@ -107,12 +108,44 @@ body {
     color: white;
 }
 
+.search_date {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    color: black;
+}
+
 .search_panel {
     width: 100%;
-    display: flex;
-    justify-content:center;
+    display: flexbox;
+    flex-direction: column;
+    align-items: center;
+    
+    
     
       
+}
+
+.book_hotels {
+    display: flexbox;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+    width: 80%;
+}
+
+.search_button {
+    border-radius: 4px;
+    background-color: rgb(187, 212, 241);
+    border: 0;
+    box-shadow: none;
+    padding: 10px 20px;
+    margin: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+}
+
+.search_button:hover {
+    background-color: rgb(215, 222, 245);
 }
 
 

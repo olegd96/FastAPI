@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,24 +9,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <script src="{{ url_for('static', path='js/loginUser.js') }}"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
-    <script>
-        document.addEventListener('htmx:afterRequest', function(evt) {
-    if(evt.detail.xhr.status == 401){
-        /* Notify the user of a 404 Not Found response */
-        window.location.href = "/pages";
-    } 
-    
-})
-    </script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"
+        integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+        crossorigin="anonymous"></script>
+  
     <title>ONBOOK</title>
 </head>
+
 <body id="main">
-    
+
     <nav id="nav" class="nav">
         <span class="logo">ONBOOK</span>
         <ul class="menu">
-            <li class="link" hx-get="/pages" hx-target="#main">Главная</li>
+            
             <li class="link" hx-get="/pages/search" hx-target="#bookings_list">Поиск отелей</li>
             <li class="link" hx-get="/pages/login" hx-target="#login_bar">Войти</li>
         </ul>
@@ -34,19 +30,20 @@
     <div id="bookings_list" class="bookings_list"><span></span></div>
     <footer class="footer">
         <div class="footer__top">
-        <div class="footer__left">
-            <div class="logo">ONBOOK</div>
-            <div class="text">Simple booking</div>
-        </div>
-        <div class="footer__right">
-            <div class="contact">Как с нами связаться</div>
-            <div class="phone">+7 (800)800-20-20</div>
-            <div class="address">Екатеринбург, ул.Московская, д.3</div>
-        </div>
+            <div class="footer__left">
+                <div class="logo">ONBOOK</div>
+                <div class="text">Simple booking</div>
+            </div>
+            <div class="footer__right">
+                <div class="contact">Как с нами связаться</div>
+                <div class="phone">+7 (800)800-20-20</div>
+                <div class="address">Екатеринбург, ул.Московская, д.3</div>
+            </div>
         </div>
         <div class="footer__bottom">ONBOOK All rights reserved.</div>
 
     </footer>
 
 </body>
+
 </html>

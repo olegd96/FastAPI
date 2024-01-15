@@ -1,0 +1,164 @@
+<style>
+    .hotel_cart {
+        display: flex;
+        justify-content: space-between;
+        border-radius: 5px;
+        border-color: black;
+        background-color: rgb(223, 228, 237);
+        font-family: 'Montserrat', sans-serif;
+        margin: 5px;
+        padding: 5px;
+        height: 200px;
+        width: 100%;
+     
+        display: flex;
+        align-items:normal;
+    }
+
+    .descr {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+
+    }
+
+    .all_descr {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        
+
+
+    }
+
+
+
+
+
+    .serv {
+        width: 300px;
+        font-family: 'Montserrat', sans-serif;
+        margin: 15px auto;
+        padding-left: 30px;
+
+    }
+
+    .composition {
+        display: flex;
+        flex-direction: column;
+        margin: 10px auto;
+        justify-content: space-between;
+        width: 100%;
+
+
+
+    }
+
+
+
+    img {
+        object-fit: cover;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 5px;
+
+    }
+
+    .hotel_img {
+        display: flexbox;
+        width: 300px;
+        height: 200px;
+        margin-right: 15px;
+        border-radius: 5px;
+
+    }
+
+    .rooms_sec {
+        background-color: rgb(223, 228, 237);
+        min-height: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
+        border-radius: 5px;
+    }
+
+    .hotel_paragraph {
+        display: flex;
+    }
+
+
+
+    .hotel_like {
+        display: flex;
+        justify-content: end;
+        padding-right: 5px;
+
+    }
+
+    .hotel_like:hover {
+        color: red;
+    }
+
+    .button_box {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 190px;
+        
+    }
+
+    .hotels_discover {
+        border-radius: 14px;
+        background-color: rgb(63, 129, 205);
+        border: 0;
+        box-shadow: none;
+        padding: 5px 20px;
+        
+        font-family: 'Montserrat', sans-serif;
+        width: 120px;
+        
+    }
+
+    .hotels_discover:hover {
+        background-color: rgb(167, 197, 230);
+    }
+</style>
+
+<div>
+    {% for hotel in hotels %}
+    <div class="hotel_paragraph">
+    <div class="hotel_cart" >
+        <div class="hotel_img"><img src={{"/static/images/" ~ hotel.image_id ~ ".jpg" }}></div>
+        <div class="composition">
+            <div class="all_descr">
+                <div class="descr">
+                    <div>{{hotel.name}}</div>
+                    <div>{{hotel.location}}</div>
+                    <div><label>Свободных комнат: </label>{{hotel.rooms_left}}</div>
+                </div>
+                <div class="serv">
+                    {% for serv in hotel.services %}
+                    <ul>
+                        <li>{{serv}}</li>
+                    </ul>
+                    {% endfor %}
+                </div>
+                <div class="button_box">
+                    <button class="hotels_discover"
+                    hx-get={{"/pages/hotels/" ~ hotel.id ~ "/rooms" }} 
+                    hx-include="#date_from, #date_to"
+                    hx-target={{"#rooms_cart" ~ hotel.id }} 
+                    hx-swap="outerHTML transition:true">Посмотреть номера</button>
+                    <div class="hotel_like" hx-target="">
+                        <i class="fi fi-rs-heart"></i></div>
+                </div>
+                </div>
+                   
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="rooms_sec" id={{"rooms_cart" ~ hotel.id }}></div>
+    {% endfor %}
+</div>

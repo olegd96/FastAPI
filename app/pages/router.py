@@ -6,6 +6,7 @@ from app.bookings.dao import BookingDAO
 from app.bookings.schemas import SBookingInfo
 from app.exceptions import TokenExpiredException, UserIsNotPresentException
 from app.hotels.dao import HotelsDAO
+from app.hotels.rooms.dao import RoomsDAO
 from app.users.dependencies import  get_current_user
 
 
@@ -18,6 +19,10 @@ router = APIRouter(
 
 templates = Jinja2Templates(directory="app/templates")
 
+@router.get("/clear", response_class=HTMLResponse)
+async def clear_page(request: Request):
+    return templates.TemplateResponse("clear.html", {"request": request})
+
 @router.get("", response_class=HTMLResponse)
 async def start_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
@@ -25,6 +30,10 @@ async def start_page(request: Request):
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
+
+@router.get("/reg_user", response_class=HTMLResponse)
+async def reg_user(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
 
 @router.get("/bookings", response_class=HTMLResponse)
 async def booking_page(
@@ -45,8 +54,15 @@ async def my_bookings(
 async def get_hotels_by_loc_date(request: Request,
     location: str, date_from: date, date_to: date):
     res = await HotelsDAO.find_all(location, date_from, date_to)
-    return templates.TemplateResponse("hotels.html", {"request": request, "hotels": res})
+    return templates.TemplateResponse("hotels_by_loc_and_time.html", {"request": request, "hotels": res})
 
 @router.get("/search", response_class=HTMLResponse)
 async def search_page(request: Request):
     return templates.TemplateResponse("search_hotels.html", {"request": request})
+
+@router.get("/hotels/{hotel_id}/rooms", response_class=HTMLResponse)
+async def get_rooms_by__date(request: Request,
+    hotel_id: int, date_from: date, date_to: date):
+    res = await RoomsDAO.find_all(hotel_id, date_from, date_to)
+    return templates.TemplateResponse("rooms_by__time.html", {"request": request, "rooms": res})
+    

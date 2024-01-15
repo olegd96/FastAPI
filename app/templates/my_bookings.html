@@ -5,7 +5,6 @@
         background-color:rgb(223, 228, 237);
         width:70vw;
         margin: 15px auto;
-        
         display: flex;
         align-items: flex-start;
     }
@@ -49,29 +48,42 @@
     }
 
     .pic {
+
         
-        height: auto;
-        margin-bottom: none;
+        width: 300px;
+        height: 200px;
+        margin: 10px;
         
         
         
     }
 
     img {
-        height: auto;
-        width:90%;
-        border-radius: 5px 0px 0px 5px;
-        margin-bottom: none;
+
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
         
     }
 
+    .book_cart.htmx-swapping {
+        opacity: 0;
+        transition: opacity 1s ease-out;
+    }
 
+    .notice {
+        font-family: 'Montserrat', sans-serif;
+        align-items: center;
+        width:fit-content;
+        margin:auto;
+    }
 
 
 </style>
-
+    {% if bookings %}
     {% for item in bookings %}
-        <div class="book_cart">
+        <div class="book_cart" hx-target="this" hx-swap="innerHTML swap:1s">
         <div class="pic"><img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp"}}></div>
         <div class="descript">
         <ul>
@@ -88,6 +100,12 @@
         </ul>
         </div>
         
-        <div class="unbook"><button>Отменить бронь</button></div>
+        <div class="unbook"><button hx-delete={{"/bookings/" ~ item.id ~ ""}} 
+            hx-confirm="Отменить бронь?" >Отменить бронь</button></div>
         </div> 
     {% endfor %}
+    {% else %}
+    <div class="notice">У вас нет активных бронирований</div>
+    {% endif %}
+
+    

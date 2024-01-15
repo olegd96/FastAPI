@@ -88,12 +88,14 @@ body {
 
 
 
+
+
 .search_el {
     display: flex;
     
     font-family: 'Montserrat', sans-serif;
     width: 80%;
-    margin:auto;
+    margin: auto;
     justify-content: space-between;
     align-items: center;
     background-color: rgb(63, 129, 205);
@@ -105,7 +107,7 @@ body {
 .search {
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
-    color: white;
+    color: black;
 }
 
 .search_date {
@@ -122,10 +124,11 @@ body {
     
     
     
+    
       
 }
 
-.book_hotels {
+.book_hotels, .rooms {
     display: flexbox;
     flex-direction: column;
     margin: auto;
@@ -147,6 +150,13 @@ body {
 .search_button:hover {
     background-color: rgb(215, 222, 245);
 }
+
+
+
+  .login_bar {
+
+    transition: all 1s ease-out;
+  }
 
 
 

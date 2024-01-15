@@ -1,3 +1,4 @@
+from pydantic import BaseModel
 from sqlalchemy import insert, select, delete
 from app.database import async_session_maker
 
@@ -27,6 +28,8 @@ class BaseDAO:
             return result.mappings().all()
         
     @classmethod
+
+    
     async def add(cls, **data):
         async with async_session_maker() as session:
             query = insert(cls.models).values(**data)

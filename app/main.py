@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 import time
+import sentry_sdk
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,6 +23,7 @@ from app.pages.router import router as router_pages
 from app.users.models import Users
 from app.users.router import router_auth, router_users
 from app.loger import logger
+from app.hotels.rooms import router
 
 
 @asynccontextmanager
@@ -38,6 +40,12 @@ origins = [
 
 
 app = FastAPI(lifespan=lifespan)
+
+sentry_sdk.init(
+    dsn="https://5c7f688a239ae54b0a58d59f1d3ecb49@o4506548030865408.ingest.sentry.io/4506548074905600",
+    traces_sample_rate=1.0,
+    profiles_sample_rate=1.0,
+)
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 admin.add_view(UsersAdmin)

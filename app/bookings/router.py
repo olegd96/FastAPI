@@ -1,6 +1,7 @@
 from datetime import date
 
 from fastapi import APIRouter, Depends, Request
+from fastapi.responses import JSONResponse
 from pydantic import TypeAdapter
 from sqlalchemy import select
 
@@ -26,7 +27,7 @@ async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBooking
 @router.post("")
 async def add_booking(
     booking: SNewBooking,
-    user: Users = Depends(get_current_user),
+    user: Users = Depends(get_current_user)
 ):
     booking = await BookingDAO.add(
         user.id,
@@ -46,3 +47,5 @@ async def delete_booking(
     user: Users = Depends(get_current_user),
 ):
     await BookingDAO.delete(booking_id=booking_id, user_id=user.id)
+    return "Booking delete"
+    

@@ -1,80 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', path='css/menu.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel='stylesheet'
-        href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-straight/css/uicons-regular-straight.css'>
-    <link rel='stylesheet'
-        href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
-    <script src="{{ url_for('static', path='js/logoutUser.js') }}"></script>
-    <script src="{{ url_for('static', path='js/loginUser.js') }}"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.10"
-        integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
-        crossorigin="anonymous"></script>
-    <script>
-        document.addEventListener('htmx:afterRequest', function (evt) {
-            if (evt.detail.xhr.status == 401) {
-                /* Notify the user of a 404 Not Found response */
-                window.location.href = "/pages";
-            }
-
-        });
-
-    </script>
-    <title>ONBOOK</title>
-</head>
-
-<body id="main">
-
-    
-    {% if user %}
-    <nav id="nav" class="nav">
+<nav  id="nav" class="nav">
         <span class="logo">ONBOOK</span>
         <ul class="menu">
-            <li class="link" hx-get="/pages/search" hx-target="#bookings_list">Поиск отелей</li>
-            <li class="link" hx-get="./my_bookings" hx-target="#bookings_list">Мои бронирования</li>
+            <li class="link" hx-get="/pages/search" hx-target="#bookings_list" 
+            hx-swap="innerHTML transition:true">Поиск отелей</li>
+            <li class="link" hx-get="pages/my_bookings" hx-target="#bookings_list"
+            hx-swap="innerHTML transition:true">Мои бронирования</li>
             <li class="link">{{user}}</li>
             <li class="link" hx-target="#bookings_list">
                 <i class="fi fi-rs-heart"></i>
             </li>
-            <li class="link" hx-get="./my_bookings" hx-target="#bookings_list"><i
+            <li class="link" hx-get="pages/my_bookings" hx-target="#bookings_list"><i
                     class="fi fi-rr-shopping-cart"></i><sup>{{book_count}}</sup></li>
             <li class="link" hx-on:click="logoutUser()">Выйти</li>
         </ul>
-    </nav>
-    {% else %}
-    <nav id="nav" class="nav">
-        <span class="logo">ONBOOK</span>
-        <ul class="menu">
-            <li class="link">Главная</li>
-            <li class="link" hx-get="/pages/search" hx-target="#bookings_list">Поиск отелей</li>
-            <li class="link" hx-get="/pages/login" hx-target="#login_bar">Войти</li>
-        </ul>
-    </nav>
-    {% endif %}
-    <div id="login_bar"></div>
-    <div id="bookings_list" class="bookings_list"></div>
-    <footer class="footer">
-        <div class="footer__top">
-            <div class="footer__left">
-                <div class="logo">ONBOOK</div>
-                <div class="text">Simple booking</div>
-            </div>
-            <div class="footer__right">
-                <div class="contact">Как с нами связаться</div>
-                <div class="phone">+7 (800)800-20-20</div>
-                <div class="address">Екатеринбург, ул.Московская, д.3</div>
-            </div>
-        </div>
-        <div class="footer__bottom">ONBOOK All rights reserved.</div>
-
-    </footer>
-</body>
-
-</html>
+</nav>

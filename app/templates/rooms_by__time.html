@@ -1,0 +1,192 @@
+<style>
+ 
+
+
+
+    .rooms_cart {
+        display: flexbox;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 5px;
+        border-color: black;
+        background-color:rgb(223, 228, 237);
+        font-family: 'Montserrat', sans-serif;
+        margin: 5px;
+        padding: 5px;
+        align-items: center;
+
+        
+        
+       
+    }
+
+    .room_cart {
+        display: flex;
+        
+        justify-content: space-between;
+        border-radius: 5px;
+        border-color: black;
+        background-color:rgb(236, 238, 243);
+        font-family: 'Montserrat', sans-serif;
+        margin: 15px auto;
+        padding: 5px;
+
+        height: 200px;
+        
+       
+        align-items: center;
+    }
+
+    .descr {
+        display: flexbox;
+        justify-content:first baseline;
+  
+    }
+
+    .all_descr {
+        display: flex;
+        justify-content:space-between;
+
+    }
+
+    .serv {
+        width: 300px;
+        font-family: 'Montserrat', sans-serif;
+        margin: 15px auto;
+        padding-left: 30px;
+  
+    }
+
+    .composition1 {
+        display: flex;
+        flex-direction:column;
+        margin: 10px auto;
+        justify-content: space-between;
+        width: 100%;
+        
+        
+    }
+
+
+
+    img {
+        object-fit: cover;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 5px;
+        
+    }
+
+    .hotel_img {
+        
+        width: 300px;
+        height: 200px;
+        margin-right: 15px;
+        border-radius: 5px;
+        
+    }
+
+    .hotel_rooms {
+        padding: 15px;
+        margin: 5px auto;
+    }
+
+    .rooms_head {
+        display: flex;
+    }
+
+    .cancel {
+        display: flex;
+        justify-content: right;
+        color: white;
+    }
+
+    .cancel:hover {
+        color: black;
+    }
+
+    .cart {
+        border-radius: 14px;
+        background-color: rgb(63, 129, 205);
+        border: 0;
+        box-shadow: none;
+        padding: 5px 20px;
+        
+        font-family: 'Montserrat', sans-serif;
+        width: 120px;
+        
+    }
+
+    .cart:hover {
+        background-color: rgb(167, 197, 230);
+    }
+
+    .room_like {
+        display: flex;
+        justify-content: end;
+        padding-right: 5px;
+
+    }
+
+    .room_like:hover {
+        color: red;
+    }
+
+    .button_box {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 170px;
+    }
+</style>
+
+<div>
+    <div class="rooms_cart" id={{"rooms_cart" ~ rooms[0].hotel_id}}>
+    <div class="rooms_head">
+    <label class="hotel_rooms">Список доступных номеров</label>
+    <div class="cancel"><i class="fi fi-br-cross" 
+        hx-get="/pages/clear"
+        hx-target={{"#rooms_cart" ~ rooms[0].hotel_id}}
+        hx-swap="innerHTML transition:true"
+        
+        ></i></div>
+    </div>
+    {% for room in rooms %}
+    <div class="room_cart">
+        
+    <div class="hotel_img">
+        <img src={{"/static/images/resized_500_300_" ~ room.image_id ~ ".webp"}}>
+    </div>
+    <div class="composition1">
+    <div class="all_descr">    
+    <div class="descr">
+        <div>{{room.name}}</div>
+        <div>{{room.description}}</div>
+        <div>Цена: {{room.price}}/сутки</div>
+        <div>Общая стоимость: {{room.total_cost}}</div>
+        <div>Свободных номеров: {{room.rooms_left}}</div>
+    </div> 
+    <div class="serv">   
+        <div >
+            {% for serv in room.services %}
+            <ul>
+                <li>{{serv}}</li>
+            </ul>
+            {% endfor %}    
+        </div>
+    
+    </div>
+    <div class="button_box">
+    <button class="cart">Добавить в корзину</button>
+    <div class="room_like" hx-target="">
+        <i class="fi fi-rs-heart"></i></div>
+</div>
+
+    </div>
+    
+    </div>
+        
+    </div>
+    {% endfor %}
+    </div>
+</div>

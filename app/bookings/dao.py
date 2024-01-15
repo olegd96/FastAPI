@@ -1,4 +1,5 @@
 from datetime import date
+import re
 from app.loger import logger
 
 from sqlalchemy import insert, select, delete, and_, func
@@ -40,7 +41,9 @@ class BookingDAO(BaseDAO):
                 .where(
                     and_(
                         Bookings.room_id == room_id,
-                        and_(Bookings.date_to >= date_to, Bookings.date_from <= date_from),
+                        and_(
+                            Bookings.date_to >= date_to, Bookings.date_from <= date_from
+                        ),
                     )
                 )
                 .cte("booked_rooms")
@@ -88,7 +91,7 @@ class BookingDAO(BaseDAO):
                     return new_booking.mappings().one()
                 else:
                     return None
-            
+
         except (SQLAlchemyError, Exception) as e:
             if isinstance(e, SQLAlchemyError):
                 msg = "Database Exc"
@@ -98,24 +101,36 @@ class BookingDAO(BaseDAO):
             extra = {
                 "user_id": user_id,
                 "room_id": room_id,
-                "date_from":date_from,
+                "date_from": date_from,
                 "date_to": date_to,
             }
             logger.error(msg, extra=extra, exc_info=True)
 
-    
-
     @classmethod
     async def delete(cls, booking_id: int, user_id: int):
-        b_user_id = select(Bookings.user_id).where(Bookings.id == booking_id)
-        async with async_session_maker() as session:
-            b_user_id = await session.execute(b_user_id)
-            b_user_id = b_user_id.scalar()
-            if b_user_id != user_id:
-                raise UserIsNotPresentException
-            delete_booking = delete(Bookings).where(Bookings.id == booking_id)
-            await session.execute(delete_booking)
-            await session.commit()
+        try:
+            b_user_id = select(Bookings.user_id).where(Bookings.id == booking_id)
+            async with async_session_maker() as session:
+                b_user_id = await session.execute(b_user_id)
+                b_user_id = b_user_id.scalar()
+                if b_user_id != user_id:
+                    raise UserIsNotPresentException
+                delete_booking = delete(Bookings).where(Bookings.id == booking_id)
+                await session.execute(delete_booking)
+                await session.commit()
+        except (SQLAlchemyError, UserIsNotPresentException, Exception) as e:
+            if isinstance(e, SQLAlchemyError):
+                msg = "Database Exc"
+            elif isinstance(e, UserIsNotPresentException):
+                msg = "User Exc"
+            elif isinstance(e, Exception):
+                msg = "Unknown Exc"
+            msg += ": Cannot add booking"
+            extra = {
+                "current_user_id": user_id,
+                "owner_booking_id": b_user_id,
+            }
+            logger.error(msg, extra=extra, exc_info=True)
 
     @classmethod
     async def find_all_with_images(cls, user_id: int):

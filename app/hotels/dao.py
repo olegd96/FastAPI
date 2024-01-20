@@ -51,10 +51,10 @@ class HotelsDAO(BaseDAO):
         
         get_hotels_with_rooms = (select(Hotels.__table__.columns,
                                        booked_hotels.c.rooms_left,
-                                       ).join(booked_hotels, Hotels.id == booked_hotels.c.hotel_id, isouter=True)
+                                       ).join(booked_hotels, booked_hotels.c.hotel_id == Hotels.id , isouter=True)
                                         .where(
-                                            and_(Hotels.location.like(f"%{location}%"),
-                                                booked_hotels.c.rooms_left > 0,
+                                            and_(booked_hotels.c.rooms_left>0,
+                                                Hotels.location.like(f"%{location}%")
                                                 )
                                             )
                                         )

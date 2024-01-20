@@ -7,13 +7,13 @@
         display: flexbox;
         flex-direction: column;
         justify-content: space-between;
-        border-radius: 5px;
         border-color: black;
         background-color:rgb(223, 228, 237);
         font-family: 'Montserrat', sans-serif;
-        margin: 5px;
+        
         padding: 5px;
         align-items: center;
+        
 
         
         
@@ -24,14 +24,15 @@
         display: flex;
         
         justify-content: space-between;
-        border-radius: 5px;
         border-color: black;
         background-color:rgb(236, 238, 243);
         font-family: 'Montserrat', sans-serif;
-        margin: 15px auto;
+        border-bottom: 2px solid;
+        
+        border-color: white;
         padding: 5px;
-
         height: 200px;
+        
         
        
         align-items: center;
@@ -52,7 +53,7 @@
     .serv {
         width: 300px;
         font-family: 'Montserrat', sans-serif;
-        margin: 15px auto;
+        margin-left: 15px;
         padding-left: 30px;
   
     }
@@ -73,7 +74,7 @@
         object-fit: cover;
         max-width: 100%;
         max-height: 100%;
-        border-radius: 5px;
+   
         
     }
 
@@ -82,49 +83,62 @@
         width: 300px;
         height: 200px;
         margin-right: 15px;
-        border-radius: 5px;
+     
         
     }
 
     .hotel_rooms {
         padding: 15px;
-        margin: 5px auto;
+        margin-right: 10px auto;
+        background-color: rgb(236, 238, 243);
     }
 
     .rooms_head {
         display: flex;
+        background-color: rgb(236, 238, 243);
+        align-items: center;
+        height: 90px;
+    }
+
+    .rooms_label {
+        display: flex;
+        width: 100%;
+        justify-content: center;
     }
 
     .cancel {
         display: flex;
         justify-content: right;
         color: white;
+        background-color: rgb(236, 238, 243);
+        padding: 15px;
     }
 
     .cancel:hover {
-        color: black;
+        color: rgb(202, 214, 237);
     }
 
     .cart {
-        border-radius: 14px;
-        background-color: rgb(63, 129, 205);
+        
+        background-color: rgb(187, 212, 241);
         border: 0;
         box-shadow: none;
         padding: 5px 20px;
-        
+        color: rgb(85, 85, 107);
         font-family: 'Montserrat', sans-serif;
         width: 120px;
         
     }
 
     .cart:hover {
-        background-color: rgb(167, 197, 230);
+        background-color: rgb(202, 214, 237);
     }
 
     .room_like {
         display: flex;
         justify-content: end;
         padding-right: 5px;
+        padding-top: 12px;
 
     }
 
@@ -135,23 +149,33 @@
     .button_box {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        height: 170px;
+        
+        height: 190px;
     }
+
+    .clear_box {
+        height: 120px;
+    }
+
+   #room_id {
+    visibility: hidden;
+   }
 </style>
 
+<script>
+
+
+</script>
 <div>
     <div class="rooms_cart" id={{"rooms_cart" ~ rooms[0].hotel_id}}>
     <div class="rooms_head">
-    <label class="hotel_rooms">Список доступных номеров</label>
+    <div class="rooms_label"><label class="hotel_rooms">Список доступных номеров</label></div>
     <div class="cancel"><i class="fi fi-br-cross" 
-        hx-get="/pages/clear"
-        hx-target={{"#rooms_cart" ~ rooms[0].hotel_id}}
-        hx-swap="innerHTML transition:true"
-        
+        hx-on:click={{"cancel('rooms_cart" ~ rooms[0].hotel_id ~"')"}}
         ></i></div>
     </div>
     {% for room in rooms %}
+    
     <div class="room_cart">
         
     <div class="hotel_img">
@@ -165,6 +189,7 @@
         <div>Цена: {{room.price}}/сутки</div>
         <div>Общая стоимость: {{room.total_cost}}</div>
         <div>Свободных номеров: {{room.rooms_left}}</div>
+        <div><input id="room_id" value={{room.id}}></div>
     </div> 
     <div class="serv">   
         <div >
@@ -177,16 +202,18 @@
     
     </div>
     <div class="button_box">
-    <button class="cart">Добавить в корзину</button>
+    <button class="cart" hx-on:click="add_booking()">Добавить в корзину</button>
     <div class="room_like" hx-target="">
         <i class="fi fi-rs-heart"></i></div>
+    <div class="clear_box"></div>
 </div>
 
     </div>
     
-    </div>
+   
         
     </div>
+</div>
     {% endfor %}
     </div>
 </div>

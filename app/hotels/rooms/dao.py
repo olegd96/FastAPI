@@ -44,9 +44,10 @@ class RoomsDAO(BaseDAO):
                 Rooms.quantity.label("rooms_left")).select_from(Rooms).where(
                     and_(
                     Rooms.hotel_id == hotel_id,
-                    Rooms.name.not_in(select(booked.c.name))
+                    Rooms.name.not_in(select(booked.c.name)),
+                    
                 )
-        )).union_all(select(booked))
+        )).union_all(select(booked).where(booked.c.rooms_left > 0))
 
 
         async with async_session_maker() as session:

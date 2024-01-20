@@ -12,9 +12,9 @@ else:
     DATABASE_PARAMS = {}
 
 engine = create_async_engine(DATABASE_URL, **DATABASE_PARAMS)
-
+engine_nullpool = create_async_engine(DATABASE_URL, **{"poolclass": NullPool})
 async_session_maker = async_sessionmaker(bind=engine, expire_on_commit=False)
-
+async_session_taskmaker = async_sessionmaker(bind=engine, expire_on_commit=False)
 
 class Base(DeclarativeBase):
     pass

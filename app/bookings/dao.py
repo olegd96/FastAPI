@@ -1,5 +1,4 @@
 from datetime import date
-import re
 from app.loger import logger
 
 from sqlalchemy import insert, select, delete, and_, func

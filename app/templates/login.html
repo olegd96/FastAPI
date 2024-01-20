@@ -5,20 +5,24 @@
     .logpanel {
         padding: 15px;
         margin: 15px auto;
-        background-color: rgb(63, 129, 205);
+        background-color:rgb(223, 228, 237);
         display: flexbox;
         font-family: 'Montserrat', sans-serif;
         font-size: 18px;
         width: 40%;
         transition: all 3s ease-in;
-        
+        color: rgb(85, 85, 107);
     }
 
 
 
     .log {
-        font-size: 18px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 15px;
         margin: 5px auto;
+        border: none;
+        color: rgb(85, 85, 107);
+        padding: 10px;
     }
 
     .box {
@@ -46,14 +50,17 @@
         width: 80px;
         color: white;
         margin: 5px auto;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 18px;
+        color: rgb(85, 85, 107);
     }
 
     .log_button {
-        border-radius: 4px;
+
         background-color: rgb(187, 212, 241);
         border: 0;
         box-shadow: none;
-        padding: 10px 20px;
+        padding: 10px 30px;
         margin: 5px auto;
         font-family: 'Montserrat', sans-serif;
         font-size: 18px;
@@ -65,7 +72,7 @@
     }
 
     .reg {
-        color:white;
+        color: rgb(85, 85, 107);
     }
 
     .reg:hover {
@@ -77,13 +84,14 @@
         margin: 5px auto;
     }
 
-    .cancel {
+    .log_cancel {
         display: flex;
         justify-content: right;
+        background-color: rgb(223, 228, 237);
         color: white;
     }
 
-    .cancel:hover {
+    .log_cancel:hover {
         color: black;
     }
 
@@ -91,7 +99,7 @@
 </style>
 
 <div class="logpanel" id="logpanel">
-    <div class="cancel"><i class="fi fi-br-cross" hx-on:click='cancel("logpanel")'></i></div>
+    <div class="log_cancel"><i class="fi fi-br-cross" hx-on:click='cancel("logpanel")'></i></div>
     <div class="box">
         <label for="email" class="log_el">Email:</label>
         <input id="email" class="log" type="email">

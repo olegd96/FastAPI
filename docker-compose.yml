@@ -22,7 +22,8 @@ services:
     depends_on:
       - db
       - redis
-    command: ["/booking/docker/app.sh"]
+    #command: ["/booking/docker/app.sh"]
+    command: sh -c "alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000"
     ports:
       - 7777:8000
 
@@ -31,7 +32,20 @@ services:
     build:
       context: .
     container_name: booking_celery
-    command: ["/booking/docker/celery.sh", "celery"]
+    #command: ["/booking/docker/celery.sh", "celery"]
+    command: sh -c "celery --app=app.tasks.celery:celery worker -l INFO"
+    env_file:
+      - .env-non-dev
+    depends_on:
+      - redis
+
+  celery_beat:
+    image: booking_celery
+    build:
+      context: .
+    container_name: booking_celery_beat
+    #command: ["/booking/docker/celery.sh", "celery_beat"]
+    command: sh -c "celery --app=app.tasks.celery:celery worker -l INFO -B"
     env_file:
       - .env-non-dev
     depends_on:

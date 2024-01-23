@@ -8,7 +8,8 @@ from app.dao.base import BaseDAO
 from app.exceptions import UserIsNotPresentException
 from app.hotels.models import Hotels
 from app.hotels.rooms.models import Rooms
-from app.database import async_session_maker
+from app.users.models import Users
+from app.database import async_session_maker, async_session_taskmaker
 
 
 class BookingDAO(BaseDAO):
@@ -114,9 +115,10 @@ class BookingDAO(BaseDAO):
                 b_user_id = b_user_id.scalar()
                 if b_user_id != user_id:
                     raise UserIsNotPresentException
-                delete_booking = delete(Bookings).where(Bookings.id == booking_id)
-                await session.execute(delete_booking)
+                delete_booking = delete(Bookings).where(Bookings.id == booking_id).returning(Bookings.id)
+                res = await session.execute(delete_booking)
                 await session.commit()
+                return res.mappings().one()
         except (SQLAlchemyError, UserIsNotPresentException, Exception) as e:
             if isinstance(e, SQLAlchemyError):
                 msg = "Database Exc"
@@ -144,5 +146,18 @@ class BookingDAO(BaseDAO):
             .where(Bookings.user_id == user_id)
         )
         async with async_session_maker() as session:
+            result = await session.execute(query)
+            return result.mappings().all()
+        
+    
+    @classmethod
+    async def find_all_nearest_bookings(cls, day_delta: int):
+        query = (
+            select(Bookings.__table__.columns,
+                   Users.email)
+        .join(Users, Users.id == Bookings.user_id)
+        .where((Bookings.date_from - func.current_date()
+                ) <= day_delta))
+        async with async_session_taskmaker() as session:
             result = await session.execute(query)
             return result.mappings().all()

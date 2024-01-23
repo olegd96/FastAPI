@@ -1,5 +1,7 @@
 
-<nav  id="nav" class="nav">
+
+
+<nav  id="nav" class="nav" >
         <span class="logo">ONBOOK</span>
         <ul class="menu">
             <li class="link" hx-get="/pages/search" hx-target="#bookings_list" 
@@ -11,7 +13,9 @@
                 <i class="fi fi-rs-heart"></i>
             </li>
             <li class="link" hx-get="pages/my_bookings" hx-target="#bookings_list"><i
-                    class="fi fi-rr-shopping-cart"></i><sup>{{book_count}}</sup></li>
+                    class="fi fi-rr-shopping-cart" id="cart"></i><sup>{{book_count}}</sup></li>
             <li class="link" hx-on:click="logoutUser()">Выйти</li>
         </ul>
 </nav>
+
+

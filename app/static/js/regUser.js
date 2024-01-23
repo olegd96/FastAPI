@@ -6,7 +6,7 @@ async function regUser() {
     let button = document.getElementById("log_button");
     let l_pass = document.getElementById("l_pass");
     let l_em = document.getElementById("l_em");
-    const url = "http://localhost:8000/auth/register";
+    const url = "/auth/register";
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     if (email=="" || password=="") {

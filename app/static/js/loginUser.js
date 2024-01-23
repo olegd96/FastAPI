@@ -16,7 +16,7 @@ async function loginUser() {
     const wrongCredentialsSpan = document.getElementById("wrong_credentials");
     wrongCredentialsSpan.textContent = "";
 
-    const url = "http://localhost:8000/auth/login";
+    const url = "/auth/login";
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     let myDiv = document.getElementById('nav_box');

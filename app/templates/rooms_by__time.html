@@ -1,3 +1,6 @@
+
+
+
 <style>
  
 
@@ -24,7 +27,10 @@
         display: flex;
         
         justify-content: space-between;
-        border-color: black;
+        border-color:
+        
+        
+         black;
         background-color:rgb(236, 238, 243);
         font-family: 'Montserrat', sans-serif;
         border-bottom: 2px solid;
@@ -47,7 +53,7 @@
     .all_descr {
         display: flex;
         justify-content:space-between;
-
+        font-size: 14px;
     }
 
     .serv {
@@ -162,10 +168,8 @@
    }
 </style>
 
-<script>
 
 
-</script>
 <div>
     <div class="rooms_cart" id={{"rooms_cart" ~ rooms[0].hotel_id}}>
     <div class="rooms_head">
@@ -202,7 +206,7 @@
     
     </div>
     <div class="button_box">
-    <button class="cart" hx-on:click="add_booking()">Добавить в корзину</button>
+    <button class="cart" hx-on:click={{"add_booking(" ~ room.id ~ "," ~ rooms[0].hotel_id ~ ",'rooms_cart" ~ rooms[0].hotel_id ~ "')"}}>Добавить в корзину</button>
     <div class="room_like" hx-target="">
         <i class="fi fi-rs-heart"></i></div>
     <div class="clear_box"></div>

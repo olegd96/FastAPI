@@ -24,7 +24,9 @@ async def clear_page(request: Request):
     return templates.TemplateResponse("clear.html", {"request": request})
 
 @router.get("", response_class=HTMLResponse)
-async def start_page(request: Request):
+async def start_page(
+    request: Request,
+    ):
     return templates.TemplateResponse("index.html", {"request": request})
 
 @router.get("/login", response_class=HTMLResponse)

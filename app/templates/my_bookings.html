@@ -1,12 +1,13 @@
 <style>
     .book_cart {
-        border-radius: 5px;
+        display: flex;
         border-color: black;
         background-color:rgb(223, 228, 237);
-        width:70vw;
+        justify-content: space-between;
         margin: 15px auto;
         display: flex;
         align-items: flex-start;
+        font-family: 'Montserrat', sans-serif;
     }
 
     .descript {
@@ -15,11 +16,6 @@
         
     }
 
-    .book_cart:hover {
-        
-        
-        box-shadow: 1px 0 2px 1px gray;
-    }
 
     label {
         font-weight: bold;
@@ -27,7 +23,6 @@
     }
 
     button {
-        border-radius: 5px;
         background-color: rgb(63, 129, 205);
         border: 0;
         box-shadow: none;
@@ -69,7 +64,7 @@
 
     .book_cart.htmx-swapping {
         opacity: 0;
-        transition: opacity 1s ease-out;
+        transition: opacity 0.3s ease-out;
     }
 
     .notice {
@@ -78,12 +73,28 @@
         width:fit-content;
         margin:auto;
     }
-
-
 </style>
+
+<script>
+async function refresh_nav(){
+    let myDiv = document.getElementById('nav_box');
+    fetch('pages/bookings')
+        .then(response => response.text())
+        .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); } );
+}
+async function refresh_my_bookings(){
+    let myDiv = document.getElementById('bookings_list');
+    fetch('pages/my_bookings')
+        .then(response => response.text())
+        .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); } );
+}
+
+</script>
+
+
     {% if bookings %}
     {% for item in bookings %}
-        <div class="book_cart" hx-target="this" hx-swap="innerHTML swap:1s">
+        <div class="book_cart">
         <div class="pic"><img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp"}}></div>
         <div class="descript">
         <ul>
@@ -101,7 +112,7 @@
         </div>
         
         <div class="unbook"><button hx-delete={{"/bookings/" ~ item.id ~ ""}} 
-            hx-confirm="Отменить бронь?" >Отменить бронь</button></div>
+            hx-confirm="Отменить бронь?" hx-on:htmx:after-request="refresh_nav(); refresh_my_bookings()">Отменить бронь</button></div>
         </div> 
     {% endfor %}
     {% else %}

@@ -2,6 +2,15 @@ from datetime import datetime
 import json
 from typing import Iterable
 from app.loger import logger
+from app.hotels.dao import HotelsDAO
+from app.hotels.rooms.dao import RoomsDAO
+from app.bookings.dao import BookingDAO
+
+TABLE_MODEL_MAP = {
+    "hotels": HotelsDAO,
+    "rooms": RoomsDAO,
+    "bookings": BookingDAO,
+}
 
 def convert_csv_to_postgres_format(csv_iterable: Iterable):
     try:

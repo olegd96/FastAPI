@@ -1,7 +1,8 @@
 from datetime import date
+from urllib import response
 
 from fastapi import APIRouter, Depends, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import TypeAdapter
 from sqlalchemy import select
 from fastapi_versioning import version
@@ -50,6 +51,12 @@ async def delete_booking(
     booking_id: int,
     user: Users = Depends(get_current_user),
 ):
-    await BookingDAO.delete(booking_id=booking_id, user_id=user.id)
-    return "Booking delete"
-    
+    res = await BookingDAO.delete(booking_id=booking_id, user_id=user.id)
+    return res
+
+
+@router.get('/notice', status_code=201)
+async def get_notice_list(
+    delta:int
+):
+    return await BookingDAO.find_all_nearest_bookings(delta) 

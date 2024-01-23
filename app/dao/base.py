@@ -1,6 +1,8 @@
+from venv import logger
 from pydantic import BaseModel
 from sqlalchemy import insert, select, delete
 from app.database import async_session_maker
+from sqlalchemy.exc import SQLAlchemyError
 
 class BaseDAO:
     models = None
@@ -29,10 +31,21 @@ class BaseDAO:
         
     @classmethod
     async def add(cls, **data):
-        async with async_session_maker() as session:
-            query = insert(cls.models).values(**data)
-            await session.execute(query)
-            await session.commit()
+        try:
+            async with async_session_maker() as session:
+                query = insert(cls.models).values(**data).returning(cls.models.id)
+                result = await session.execute(query)
+                await session.commit()
+                return result.mappings().first()
+        except (SQLAlchemyError, Exception) as e:
+            if isinstance(e, SQLAlchemyError):
+                msg = "Database Exc: Cannot insert data into table"
+            elif isinstance(e, Exception):
+                msg = "Unknown Exc: Cannot insert data into table"
+
+            logger.error(msg, extra={"table": cls.models.__tablename__}, exc_info=True)
+            return None
+
 
 
     @classmethod
@@ -41,3 +54,22 @@ class BaseDAO:
             query = delete(cls.models).filter_by(**filter_by)
             await session.execute(query)
             await session.commit()
+
+    @classmethod
+    async def add_bulk(cls, *data):
+        try:
+            query = insert(cls.models).values(*data).returning(cls.models.id)
+            async with async_session_maker() as session:
+                result = await session.execute(query)
+                await session.commit()
+                return result.mappings().first()
+        except (SQLAlchemyError, Exception) as e:
+            if isinstance(e, SQLAlchemyError):
+                msg = "Database Exc: Cannot insert data into table"
+            elif isinstance(e, Exception):
+                msg = "Unknown Exc: Cannot insert data into table"
+
+            logger.error(msg, extra={"table": cls.models.__tablename__}, exc_info=True)
+            return None
+                
+                            

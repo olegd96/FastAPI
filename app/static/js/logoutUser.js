@@ -1,6 +1,6 @@
 
 async function logoutUser() {
-    const url = "http://localhost:8000/auth/logout";
+    const url = "/auth/logout";
 
     await fetch(url, {
         method: 'POST',

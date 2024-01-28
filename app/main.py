@@ -12,6 +12,7 @@ from pydantic import BaseModel
 from redis import asyncio as aioredis
 from sqladmin import Admin, ModelView
 from fastapi_versioning import VersionedFastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.admin.auth import authentication_backend
 from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
@@ -22,10 +23,13 @@ from app.hotels.router import router as router_hotels
 from app.images.router import router as router_images
 from app.pages.router import router as router_pages
 from app.importer.router import router as router_importer
+from app.prometheus.router import router as prometheus_router
+from app.cart.router import router as router_cart
 from app.users.models import Users
 from app.users.router import router_auth, router_users
 from app.loger import logger
 from app.hotels.rooms import router
+
 
 
 @asynccontextmanager
@@ -36,6 +40,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+
+
 app.include_router(router_auth)
 app.include_router(router_users)
 app.include_router(router_bookings)
@@ -43,6 +49,8 @@ app.include_router(router_hotels)
 app.include_router(router_images)
 app.include_router(router_pages)
 app.include_router(router_importer)
+app.include_router(prometheus_router)
+app.include_router(router_cart)
 
 
 sentry_sdk.init(
@@ -74,6 +82,13 @@ app.add_middleware(
     #    Middleware(SessionMiddleware, secret_key='mysecretkey')
     #]
 ) """
+
+instrumentator = Instrumentator(
+    should_group_status_codes=False,
+    excluded_handlers=[".*admin.*", "/metrics"],
+)
+
+instrumentator.instrument(app).expose(app)
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 

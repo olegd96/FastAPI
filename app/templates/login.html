@@ -1,11 +1,8 @@
-
-
-
 <style>
     .logpanel {
         padding: 15px;
         margin: 15px auto;
-        background-color:rgb(223, 228, 237);
+        background-color: rgb(223, 228, 237);
         display: flexbox;
         font-family: 'Montserrat', sans-serif;
         font-size: 18px;
@@ -32,7 +29,7 @@
         font-size: 18px;
         margin: 5px auto;
         width: 100% auto;
-        
+
     }
 
     .box1 {
@@ -43,7 +40,7 @@
         font-size: 18px;
         margin: 5px auto;
         width: 100% auto;
-        
+
     }
 
     .log_el {
@@ -64,7 +61,7 @@
         margin: 5px auto;
         font-family: 'Montserrat', sans-serif;
         font-size: 18px;
-        
+
     }
 
     .log_button:hover {
@@ -77,7 +74,7 @@
     }
 
     .reg:hover {
-        color:rgb(2, 23, 62);
+        color: rgb(2, 23, 62);
     }
 
     .text-sm_text-red-400 {
@@ -95,8 +92,6 @@
     .log_cancel:hover {
         color: black;
     }
-
-
 </style>
 
 <div class="logpanel" id="logpanel">
@@ -110,7 +105,8 @@
         <input id="password" class="log" type="password">
     </div>
     <div class="box1"><span id="wrong_credentials" class="text-sm_text-red-400"></span>
-    <button class="log_button" hx-on:click="loginUser()" >Войти</button>
-    <span class="reg" hx-get="/pages/reg_user" hx-target="#login_bar" hx-swap="innerHTML transition:true">Зарегистрироваться</span>
-</div>
+        <button class="log_button" hx-on:click="loginUser()">Войти</button>
+        <span class="reg" hx-get="/pages/reg_user" hx-target="#login_bar"
+            hx-swap="innerHTML transition:true">Зарегистрироваться</span>
+    </div>
 </div>

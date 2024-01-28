@@ -3,6 +3,7 @@ from app.hotels.models import Hotels
 from app.hotels.rooms.models import Rooms
 from app.bookings.models import Bookings
 from app.users.models import Users
+from app.cart.models import Carts
 from app.database import Base
 
 from logging.config import fileConfig

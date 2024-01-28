@@ -1,0 +1,164 @@
+<style>
+    .book_cart {
+        font-size: 14px;
+        display: flex;
+        border-color: black;
+        background-color: rgb(223, 228, 237);
+        justify-content: space-between;
+        margin: 5px auto;
+        display: flex;
+        align-items: flex-start;
+        font-family: 'Montserrat', sans-serif;
+
+    }
+
+    .book_cart:disabled {
+        pointer-events: none;
+        /* for "disabled" effect */
+        opacity: 0.5;
+
+    }
+
+    .descript {
+
+        margin: 10px;
+
+    }
+
+
+    label {
+
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    button {
+        background-color: rgb(187, 212, 241);
+        border: 0;
+        box-shadow: none;
+        padding: 10px 20px;
+        margin: 10px;
+        font-family: 'Montserrat', sans-serif;
+
+    }
+
+    button:hover {
+        background-color: rgb(202, 214, 237);
+    }
+
+    .cart_item {
+        width: 300px;
+        font-family: 'Montserrat', sans-serif;
+        margin: 2px;
+    }
+
+    .pic {
+
+        display: flex;
+        align-items: self-start;
+        width: 300px;
+        height: 200px;
+        margin: 15px;
+
+
+
+    }
+
+    img {
+
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        margin-left: 5px;
+
+    }
+
+    .book_cart.htmx-swapping {
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+    }
+
+    .notice {
+        font-family: 'Montserrat', sans-serif;
+        align-items: center;
+        width: fit-content;
+        margin: auto;
+    }
+
+    .choice {
+        margin-top: 3px;
+        margin-right: 10px;
+        transform: scale(1.5);
+
+    }
+
+    .unbook {
+        padding: 15px;
+        font-size: 20px;
+
+    }
+
+    .unbook:hover {
+        color: crimson;
+    }
+
+    .order_booking {
+        display: flex;
+        justify-content: end;
+    }
+</style>
+
+<script>
+    function disables(name) {
+        var el = document.getElementById(name);
+        el.background = 'white';
+        // document.querySelector("#demoA fieldset").disabled = false;
+        return false;
+    }
+
+
+</script>
+
+
+
+
+
+
+{% if bookings %}
+{% for item in bookings %}
+{% if item.date_from >= date %}
+<div class="book_cart" id={{item.room_id}}>
+    {% else %}
+    <div class="book_cart" id={{item.room_id}} style="background:rgb(244, 244, 244);">
+        {% endif %}
+        <div class="pic">
+            {% if item.date_from >= date %}
+            <input type="checkbox" name={{item.id}} value={{item.id}} class="choice" checked="true">
+            {% else %}
+            <input type="checkbox" name={{item.id}} value={{item.id}} class="choice" disabled="true">
+            {% endif %}
+            <img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp" }}
+                onerror="this.src='static/images/simple-booking.jpg';">
+        </div>
+        <div class="descript">
+            <ul>
+                <li class="cart_item"><label class="cart">Id брони: </label><span>{{item.id}}<span></li>
+                <li class="cart_item"><label class="cart">Отель: </label><span>{{item.name_1}}<span></li>
+                <li class="cart_item"><label class="cart">Расположение: </label><span>{{item.location}}<span></li>
+                <li class="cart_item"><label class="cart">Id номера: </label><span>{{item.room_id}}</span></li>
+                <li class="cart_item"><label class="cart">Категория: </label><span>{{item.name}}</span></li>
+                <li class="cart_item"><label class="cart">Описание: </label><span>{{item.description}}</span></li>
+                <li class="cart_item"><label class="cart">Дата заезда: </label><span>{{item.date_from}}</span></li>
+                <li class="cart_item"><label class="cart">Дата выезда: </label><span>{{item.date_to}}</span></li>
+                <li class="cart_item"><label class="cart">Всего дней: </label><span>{{item.total_days}}</span></li>
+                <li class="cart_item"><label class="cart">Стоимость: </label><span>{{item.total_cost}}</span></li>
+            </ul>
+        </div>
+
+        <div class="unbook" hx-delete={{"/cart/" ~ item.id ~ "" }} hx-confirm="Удалить позицию из корзины?"
+            hx-on:htmx:after-request="refresh_nav(); refresh_my_cart()"><i class="fi fi-rr-trash"></i></div>
+    </div>
+    {% endfor %}
+    <div class="order_booking"><button>Оформить бронирование</button></div>
+    {% else %}
+    <div class="notice">Пустая корзина</div>
+    {% endif %}

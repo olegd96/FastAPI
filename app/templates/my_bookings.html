@@ -1,56 +1,57 @@
 <style>
     .book_cart {
+        font-size: 14px;
         display: flex;
         border-color: black;
-        background-color:rgb(223, 228, 237);
+        background-color: rgb(223, 228, 237);
         justify-content: space-between;
-        margin: 15px auto;
+        margin: 5px auto;
         display: flex;
         align-items: flex-start;
         font-family: 'Montserrat', sans-serif;
     }
 
     .descript {
-        
+
         margin: 10px;
-        
+
     }
 
 
     label {
-        font-weight: bold;
+
         font-family: 'Montserrat', sans-serif;
     }
 
     button {
-        background-color: rgb(63, 129, 205);
+        background-color: rgb(187, 212, 241);
         border: 0;
         box-shadow: none;
         padding: 10px 20px;
         margin: 10px;
         font-family: 'Montserrat', sans-serif;
-        
+
     }
 
     button:hover {
-        background-color: rgb(167, 197, 230);
+        background-color: rgb(202, 214, 237);
     }
 
     .cart_item {
         width: 300px;
         font-family: 'Montserrat', sans-serif;
-        
+        margin: 2px;
     }
 
     .pic {
 
-        
+
         width: 300px;
         height: 200px;
         margin: 10px;
-        
-        
-        
+
+
+
     }
 
     img {
@@ -58,8 +59,8 @@
         object-fit: cover;
         width: 100%;
         height: 100%;
-        border-radius: 5px;
-        
+
+
     }
 
     .book_cart.htmx-swapping {
@@ -70,37 +71,24 @@
     .notice {
         font-family: 'Montserrat', sans-serif;
         align-items: center;
-        width:fit-content;
-        margin:auto;
+        width: fit-content;
+        margin: auto;
     }
 </style>
 
-<script>
-async function refresh_nav(){
-    let myDiv = document.getElementById('nav_box');
-    fetch('pages/bookings')
-        .then(response => response.text())
-        .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); } );
-}
-async function refresh_my_bookings(){
-    let myDiv = document.getElementById('bookings_list');
-    fetch('pages/my_bookings')
-        .then(response => response.text())
-        .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); } );
-}
-
-</script>
 
 
-    {% if bookings %}
-    {% for item in bookings %}
-        <div class="book_cart">
-        <div class="pic"><img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp"}}></div>
-        <div class="descript">
+
+{% if bookings %}
+{% for item in bookings %}
+<div class="book_cart">
+    <div class="pic"><img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp" }}
+            onerror="this.src='static/images/simple-booking.jpg';"></div>
+    <div class="descript">
         <ul>
             <li class="cart_item"><label class="cart">Id брони: </label><span>{{item.id}}<span></li>
             <li class="cart_item"><label class="cart">Отель: </label><span>{{item.name_1}}<span></li>
-            <li class="cart_item"><label class="cart">Расположение: </label><span>{{item.location}}<span></li>    
+            <li class="cart_item"><label class="cart">Расположение: </label><span>{{item.location}}<span></li>
             <li class="cart_item"><label class="cart">Id номера: </label><span>{{item.room_id}}</span></li>
             <li class="cart_item"><label class="cart">Категория: </label><span>{{item.name}}</span></li>
             <li class="cart_item"><label class="cart">Описание: </label><span>{{item.description}}</span></li>
@@ -109,14 +97,12 @@ async function refresh_my_bookings(){
             <li class="cart_item"><label class="cart">Всего дней: </label><span>{{item.total_days}}</span></li>
             <li class="cart_item"><label class="cart">Стоимость: </label><span>{{item.total_cost}}</span></li>
         </ul>
-        </div>
-        
-        <div class="unbook"><button hx-delete={{"/bookings/" ~ item.id ~ ""}} 
-            hx-confirm="Отменить бронь?" hx-on:htmx:after-request="refresh_nav(); refresh_my_bookings()">Отменить бронь</button></div>
-        </div> 
-    {% endfor %}
-    {% else %}
-    <div class="notice">У вас нет активных бронирований</div>
-    {% endif %}
+    </div>
 
-    
+    <div class="unbook"><button hx-delete={{"/bookings/" ~ item.id ~ "" }} hx-confirm="Отменить бронь?"
+            hx-on:htmx:after-request="refresh_nav(); refresh_my_bookings()">Отменить бронь</button></div>
+</div>
+{% endfor %}
+{% else %}
+<div class="notice">У вас нет активных бронирований</div>
+{% endif %}

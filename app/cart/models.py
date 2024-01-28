@@ -1,10 +1,12 @@
-from sqlalchemy import JSON, Computed, Date, ForeignKey, Integer, Column, String
-from sqlalchemy.orm import mapped_column, Mapped, relationship
-from app.database import Base
 from datetime import date
+from sqlalchemy import Integer, ForeignKey, Date, Computed
+from app.database import Base
+from sqlalchemy.orm import Mapped, relationship, mapped_column
+from app.bookings.models import Bookings
 
-class Bookings(Base):
-    __tablename__ = "bookings"
+class Carts(Base):
+
+    __tablename__ = "cart"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     room_id: Mapped[int] = mapped_column(ForeignKey("rooms.id"))
@@ -14,10 +16,6 @@ class Bookings(Base):
     price: Mapped[int]
     total_cost: Mapped[int] = mapped_column(Computed("(date_to - date_from) * price"))
     total_days: Mapped[int] = mapped_column(Computed("date_to - date_from"))
-
-    user: Mapped["Users"] = relationship(back_populates="bookings")
-    room: Mapped["Rooms"] = relationship(back_populates="bookings")
-   
 
     def __str__(self):
         return f"Бронирование #{self.id}"

@@ -3,6 +3,7 @@ from app.config import settings
 from pydantic import EmailStr
 
 
+
 def create_booking_confirmation_templates(
         booking: dict,
         email_to: EmailStr,

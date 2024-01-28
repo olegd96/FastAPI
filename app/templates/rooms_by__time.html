@@ -1,58 +1,51 @@
-
-
-
 <style>
- 
-
-
-
     .rooms_cart {
         display: flexbox;
         flex-direction: column;
         justify-content: space-between;
         border-color: black;
-        background-color:rgb(223, 228, 237);
+        background-color: rgb(223, 228, 237);
         font-family: 'Montserrat', sans-serif;
-        
+
         padding: 5px;
         align-items: center;
-        
 
-        
-        
-       
+
+
+
+
     }
 
     .room_cart {
         display: flex;
-        
+
         justify-content: space-between;
         border-color:
-        
-        
-         black;
-        background-color:rgb(236, 238, 243);
+
+
+            black;
+        background-color: rgb(236, 238, 243);
         font-family: 'Montserrat', sans-serif;
         border-bottom: 2px solid;
-        
+
         border-color: white;
         padding: 5px;
         height: 200px;
-        
-        
-       
+
+
+
         align-items: center;
     }
 
     .descr {
         display: flexbox;
-        justify-content:first baseline;
-  
+        justify-content: first baseline;
+
     }
 
     .all_descr {
         display: flex;
-        justify-content:space-between;
+        justify-content: space-between;
         font-size: 14px;
     }
 
@@ -61,17 +54,17 @@
         font-family: 'Montserrat', sans-serif;
         margin-left: 15px;
         padding-left: 30px;
-  
+
     }
 
     .composition1 {
         display: flex;
-        flex-direction:column;
+        flex-direction: column;
         margin: 10px auto;
         justify-content: space-between;
         width: 100%;
-        
-        
+
+
     }
 
 
@@ -80,17 +73,16 @@
         object-fit: cover;
         max-width: 100%;
         max-height: 100%;
-   
-        
+
+
     }
 
     .hotel_img {
-        
+
         width: 300px;
         height: 200px;
         margin-right: 15px;
-     
-        
+
     }
 
     .hotel_rooms {
@@ -125,7 +117,7 @@
     }
 
     .cart {
-        
+
         background-color: rgb(187, 212, 241);
         border: 0;
         box-shadow: none;
@@ -133,7 +125,7 @@
         color: rgb(85, 85, 107);
         font-family: 'Montserrat', sans-serif;
         width: 120px;
-        
+
     }
 
     .cart:hover {
@@ -155,7 +147,7 @@
     .button_box {
         display: flex;
         flex-direction: column;
-        
+
         height: 190px;
     }
 
@@ -163,61 +155,55 @@
         height: 120px;
     }
 
-   #room_id {
-    visibility: hidden;
-   }
+    #room_id {
+        visibility: hidden;
+    }
 </style>
-
 
 
 <div>
     <div class="rooms_cart" id={{"rooms_cart" ~ rooms[0].hotel_id}}>
-    <div class="rooms_head">
-    <div class="rooms_label"><label class="hotel_rooms">Список доступных номеров</label></div>
-    <div class="cancel"><i class="fi fi-br-cross" 
-        hx-on:click={{"cancel('rooms_cart" ~ rooms[0].hotel_id ~"')"}}
-        ></i></div>
-    </div>
-    {% for room in rooms %}
-    
-    <div class="room_cart">
-        
-    <div class="hotel_img">
-        <img src={{"/static/images/resized_500_300_" ~ room.image_id ~ ".webp"}}>
-    </div>
-    <div class="composition1">
-    <div class="all_descr">    
-    <div class="descr">
-        <div>{{room.name}}</div>
-        <div>{{room.description}}</div>
-        <div>Цена: {{room.price}}/сутки</div>
-        <div>Общая стоимость: {{room.total_cost}}</div>
-        <div>Свободных номеров: {{room.rooms_left}}</div>
-        <div><input id="room_id" value={{room.id}}></div>
-    </div> 
-    <div class="serv">   
-        <div >
-            {% for serv in room.services %}
-            <ul>
-                <li>{{serv}}</li>
-            </ul>
-            {% endfor %}    
+        <div class="rooms_head">
+            <div class="rooms_label"><label class="hotel_rooms">Список доступных номеров</label></div>
+            <div class="cancel"><i class="fi fi-br-cross" hx-on:click={{"cancel('rooms_cart" ~ rooms[0].hotel_id
+                    ~"')"}}></i></div>
         </div>
-    
-    </div>
-    <div class="button_box">
-    <button class="cart" hx-on:click={{"add_booking(" ~ room.id ~ "," ~ rooms[0].hotel_id ~ ",'rooms_cart" ~ rooms[0].hotel_id ~ "')"}}>Добавить в корзину</button>
-    <div class="room_like" hx-target="">
-        <i class="fi fi-rs-heart"></i></div>
-    <div class="clear_box"></div>
-</div>
-
-    </div>
-    
-   
-        
-    </div>
-</div>
-    {% endfor %}
+        {% for room in rooms %}
+        <div class="room_cart">
+            <div class="hotel_img">
+                <img src={{"/static/images/resized_500_300_" ~ room.image_id ~ ".webp" }}
+                    onerror="this.src='static/images/simple-booking.jpg';">
+            </div>
+            <div class="composition1">
+                <div class="all_descr">
+                    <div class="descr">
+                        <div>{{room.name}}</div>
+                        <div>{{room.description}}</div>
+                        <div>Цена: {{room.price}}/сутки</div>
+                        <div>Общая стоимость: {{room.total_cost}}</div>
+                        <div>Свободных номеров: {{room.rooms_left}}</div>
+                        <div><input id="room_id" value={{room.id}}></div>
+                    </div>
+                    <div class="serv">
+                        <div>
+                            {% for serv in room.services %}
+                            <ul>
+                                <li>{{serv}}</li>
+                            </ul>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="button_box">
+                        <button class="cart" hx-on:click={{"add_cart(" ~ room.id ~ "," ~ rooms[0].hotel_id
+                            ~ ",'rooms_cart" ~ rooms[0].hotel_id ~ "')" }}>Добавить в корзину</button>
+                        <div class="room_like" hx-target="">
+                            <i class="fi fi-rs-heart"></i>
+                        </div>
+                        <div class="clear_box"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>

@@ -61,3 +61,6 @@ class CannotProcessCSV(BookingException):
 class CannotAddDataToDatabase(BookingException):
     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
     detail="Не удалось добавить запись"
+
+class CannotAddToCart(BookingException):
+    status_code=status.HTTP_409_CONFLICT

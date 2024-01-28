@@ -15,7 +15,7 @@ celery = Celery(
 celery.conf.beat_schedule = {
     "app_periodic_tasks": {
         "task": "notice_one_day",
-        "schedule": 20,
-        #"schedule": crontab(minute="30", hour="15"),
+        #"schedule": 60,
+        "schedule": schedules.crontab(minute="30", hour="15"),
     }
 }

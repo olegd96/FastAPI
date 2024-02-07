@@ -1,6 +1,8 @@
 from sqlalchemy import JSON, ForeignKey, Integer, Column, String
 from sqlalchemy.orm import mapped_column, Mapped, relationship
+
 from app.database import Base
+
 
 class Users(Base):
     __tablename__= "users"
@@ -10,6 +12,8 @@ class Users(Base):
     hashed_password: Mapped[str]
 
     bookings: Mapped[list["Bookings"]] = relationship(back_populates="user")
-
+    carts: Mapped[list["Carts"]] = relationship(back_populates="user")
+    favourites: Mapped[list["Favourites"]] = relationship(back_populates="user")
+    
     def __str__(self):
         return f"Пользователь {self.email}"

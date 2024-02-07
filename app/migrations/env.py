@@ -4,6 +4,7 @@ from app.hotels.rooms.models import Rooms
 from app.bookings.models import Bookings
 from app.users.models import Users
 from app.cart.models import Carts
+from app.favourites.models import Favourites
 from app.database import Base
 
 from logging.config import fileConfig

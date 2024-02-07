@@ -6,6 +6,7 @@ from pydantic import EmailStr
 from app.config import settings
 from app.users.dao import UsersDAO
 
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
@@ -27,7 +28,6 @@ def create_access_token(data: dict) -> str:
 
 async def authenticate_user(email: EmailStr, password: str):
     user = await UsersDAO.find_one_or_none(email=email)
-    if user and verify_password(password, user.hashed_password):
-        
+    if user and verify_password(password, user.hashed_password):  
         return user
     return None

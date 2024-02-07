@@ -32,7 +32,7 @@ async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBooking
 async def add_booking(
     booking: SNewBooking,
     user: Users = Depends(get_current_user)
-):
+) -> SNewBooking:
     booking = await BookingDAO.add(
         user.id,
         booking.room_id,
@@ -40,8 +40,8 @@ async def add_booking(
         booking.date_to)
     if not booking:
         raise RoomCannotBeBooked
-    booking_mes = TypeAdapter(SNewBooking).validate_python(booking).model_dump()
-    send_booking_confirmation_email.delay(booking_mes, "chepalin@yandex.ru")
+    booking = TypeAdapter(SNewBooking).validate_python(booking).model_dump()
+    send_booking_confirmation_email.delay(booking, "chepalin@yandex.ru")
     return booking
 
 
@@ -58,5 +58,6 @@ async def delete_booking(
 @router.get('/notice', status_code=201)
 async def get_notice_list(
     delta:int
-):
-    return await BookingDAO.find_all_nearest_bookings(delta) 
+) :
+    res = await BookingDAO.find_all_nearest_bookings(delta)
+    return res

@@ -2,8 +2,104 @@
     margin: 0;
     padding: 0;
 }
-.nav{
-    padding: 10px 150px;
+
+
+.wrapper {
+        
+    margin-right: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .tabs {
+        background: rgb(6, 39, 99);
+        padding: 10px;
+        align-items: center;
+        display: flex;
+        position: relative;
+        
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    .nav_lab {
+        
+        height: 40px;
+        margin: 15px;
+        font-size: 16px;
+        
+        color: white;
+        display: flex;
+        
+        align-items: center;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    .nav_lab:hover {
+        color: rgb(114, 173, 240);
+    }
+
+    .glider {
+        position: absolute;
+        top: 30px;
+        left: 15px;
+        background: rgb(223, 228, 237);
+        width: 130px;
+        height: 30px;
+        
+        transition: ease .3s;
+    }
+
+    #tab1:checked ~ label[for="tab1"] {
+        color: rgb(71, 98, 130);
+    }
+
+
+
+    #tab2:checked ~ label[for="tab2"] {
+        color: rgb(71, 98, 130);
+    }
+
+    #tab3:checked ~ label[for="tab3"] {
+        color: rgb(71, 98, 130);
+    }
+
+    #tab4:checked ~ label[for="tab4"] {
+        color: rgb(71, 98, 130);
+    }
+
+    #tab1:checked ~ .glider {
+        transform: translateX(0px);
+    }
+
+    #tab2:checked ~ .glider {
+        transform: translateX(148px);
+        width: 40px;
+    }
+
+    #tab3:checked ~ .glider {
+        transform: translateX(210px);
+        width: 40px;
+    }
+
+    #tab4:checked ~ .glider {
+        transform: translateX(256px);
+        width: 90px;
+
+    }
+
+    .sup {
+        margin: 3px;
+    }
+
+
+.nav {
+    
     
     height: 100px;
     font-family: 'Montserrat', sans-serif;
@@ -13,10 +109,26 @@
     align-items: center; /*размещаем по центру*/
 }
 
+    .logo {
+    color: rgb(52, 179, 253);
+    font-size: 40px;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    margin-left: 150px;
+    }
+
+    .logo_1 {
+        color: rgb(52, 179, 253);
+        font-size: 40px;
+        font-family: 'Montserrat', sans-serif;
+        text-decoration: none;
+        }
+
 .nav_box {
     display: flex;
     width: 100%;
     margin-bottom: 10px;
+    
 }
 .menu{
     list-style: none;
@@ -25,13 +137,7 @@
     align-items: center; /*размещаем по центру меню*/
     
 }
-.logo{
-    color: rgb(52, 179, 253);
-    font-size: 40px;
-    font-family: 'Montserrat', sans-serif;
-    text-decoration: none;
-    
-}
+
 .link{
     color: #fff;
     font-size: 16px;
@@ -45,7 +151,7 @@
 
 .footer {
     flex-shrink: 0;
-    padding: 0px 170px;
+    padding: 40px 170px;
     height: 140px;
     font-family: 'Montserrat', sans-serif;
     

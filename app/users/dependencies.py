@@ -42,6 +42,3 @@ async def get_current_admin_user(current_user: Users = Depends(get_current_user)
         #raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
     return current_user
 
-
-
-

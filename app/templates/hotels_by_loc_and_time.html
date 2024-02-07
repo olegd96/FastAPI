@@ -80,7 +80,8 @@
         min-height: min-content;
         margin-left: 5px;
         margin-right: 5px;
-        border-radius: 5px;
+        
+
     }
 
     .hotel_paragraph {
@@ -158,9 +159,16 @@
                     <div class="button_box">
                         <button class="hotels_discover" hx-get={{"/pages/hotels/" ~ hotel.id ~ "/rooms" }}
                             hx-include="#date_from, #date_to" hx-target={{"#rooms_cart" ~ hotel.id }}
-                            hx-swap="outerHTML transition:true">Посмотреть номера</button>
-                        <div class="hotel_like" hx-target="">
-                            <i class="fi fi-rs-heart"></i>
+                            hx-swap="outerHTML transition:true"
+                            >Посмотреть номера</button>
+                        <div class="hotel_like" >
+                            
+        
+                                
+                                
+                                
+                                
+                            
                         </div>
                         <div class="clear_box"></div>
                     </div>

@@ -2,6 +2,7 @@ from sqlalchemy import JSON, ForeignKey, Integer, Column, String
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from app.database import Base
 
+
 class Hotels(Base):
     __tablename__ = "hotels"
 
@@ -13,6 +14,7 @@ class Hotels(Base):
     image_id: Mapped[int]
 
     rooms: Mapped[list["Rooms"]] = relationship(back_populates="hotel")
+    favourite: Mapped[list["Favourites"]] = relationship(back_populates="hotel")
 
     def __str__(self):
         return f"Отель {self.name} {self.location}"

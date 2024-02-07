@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 import time
+from fastapi.responses import PlainTextResponse, RedirectResponse
 import sentry_sdk
 
 from fastapi import FastAPI, Request
@@ -15,7 +16,7 @@ from fastapi_versioning import VersionedFastAPI
 from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.admin.auth import authentication_backend
-from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
+from app.admin.views import BookingsAdmin, CartAdmin, FavourAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
 from app.bookings.router import router as router_bookings
 from app.config import settings
 from app.database import engine
@@ -25,11 +26,13 @@ from app.pages.router import router as router_pages
 from app.importer.router import router as router_importer
 from app.prometheus.router import router as prometheus_router
 from app.cart.router import router as router_cart
+from app.favourites.router import router as router_fav
 from app.users.models import Users
 from app.users.router import router_auth, router_users
 from app.loger import logger
 from app.hotels.rooms import router
-
+from starlette.middleware.sessions import SessionMiddleware
+from app.test_session.session import router as router_session
 
 
 @asynccontextmanager
@@ -51,6 +54,8 @@ app.include_router(router_pages)
 app.include_router(router_importer)
 app.include_router(prometheus_router)
 app.include_router(router_cart)
+app.include_router(router_session)
+app.include_router(router_fav)
 
 
 sentry_sdk.init(
@@ -92,15 +97,19 @@ instrumentator.instrument(app).expose(app)
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
+#app.add_middleware(SessionMiddleware, secret_key="cart")
+
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 admin.add_view(UsersAdmin)
 admin.add_view(BookingsAdmin)
 admin.add_view(HotelsAdmin)
 admin.add_view(RoomsAdmin)
+admin.add_view(CartAdmin)
+admin.add_view(FavourAdmin)
 
 
 
-app.mount("/static", StaticFiles(directory="app/static"), "static")
+
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):

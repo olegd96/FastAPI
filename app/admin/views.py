@@ -1,8 +1,10 @@
 from sqladmin import ModelView
 from app.bookings.models import Bookings
+from app.favourites.models import Favourites
 from app.hotels.rooms.models import Rooms
 from app.users.models import Users
 from app.hotels.models import Hotels
+from app.cart.models import Carts
 
 
 class UsersAdmin(ModelView, model=Users):
@@ -34,6 +36,18 @@ class RoomsAdmin(ModelView, model=Rooms):
     name = "Номер"
     name_plural = "Номера"
     icon = "fa-solid fa-bed"
+
+class CartAdmin(ModelView, model=Carts):
+    column_list = [c.name for c in Carts.__table__.c] + [Carts.user] + [Carts.room]
+    name = "Корзина"
+    name_plural = "Корзина"
+    icon = "fa-solid fa-cart"
+
+class FavourAdmin(ModelView, model=Favourites):
+    column_list = [c.name for c in Favourites.__table__.c] + [Favourites.user] + [Favourites.room] + [Favourites.hotel]
+    name = "Избранное"
+    name_plural = "Избранное"
+    icon = ""
 
     
     

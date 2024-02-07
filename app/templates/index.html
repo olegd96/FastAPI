@@ -14,6 +14,7 @@
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <script src="{{ url_for('static', path='js/scripts.js') }}"></script>
     <script src="https://unpkg.com/htmx.org/dist/ext/class-tools.js"></script>
@@ -24,7 +25,9 @@
         document.addEventListener('htmx:afterRequest', function (evt) {
             if (evt.detail.xhr.status == 401) {
                 /* Notify the user of a 404 Not Found response */
-                window.location.href = "/pages";
+                
+                alert("Войдите в систему")
+                
             }
         })
 
@@ -43,13 +46,28 @@
     <div id="nav_box">
         <nav id="nav" class="nav">
             <span class="logo">ONBOOK</span>
-            <ul class="menu">
-
-                <li class="link" hx-get="/pages/search" hx-target="#bookings_list" hx-swap="innerHTML transition:true">
-                    Поиск отелей</li>
-                <li class="link" hx-get="/pages/login" hx-target="#login_bar" hx-swap="innerHTML transition:true">Войти
-                </li>
-            </ul>
+        <div class="wrapper">
+            <div class="tabs">
+                <input type="radio" name="tabs" checked id="tab1">
+                <label class="nav_lab" for="tab1" hx-get="/pages/search" 
+                hx-target="#bookings_list" 
+                hx-swap="innerHTML transition:true">Поиск отелей</label>
+                <input type="radio" name="tabs" checked id="tab2">
+                <label class="nav_lab" for="tab2" hx-target="#bookings_list"><div><i class="fi fi-rs-heart"></i><sup class="sup">{{fav_count}}</sup></div></label>
+                <input type="radio" name="tabs" checked id="tab3">
+                <label class="nav_lab" for="tab3" hx-get="pages/cart/anon" 
+                hx-target="#bookings_list" 
+                hx-swap="innerHTML transition:true"><div>
+                <i class="fi fi-rr-shopping-cart" id="cart"></i><sup class="sup">{{cart_count}}</sup></div></label>
+                <input type="radio" name="tabs" checked id="tab4">
+                <label class="nav_lab" for="tab4" 
+                hx-get="/pages/login" 
+                hx-target="#login_bar" 
+                hx-swap="innerHTML transition:true">Войти</label>
+                <div class="glider"></div>
+            </div>
+        
+        </div>
         </nav>
     </div>
     <div id="login_bar"></div>
@@ -58,7 +76,7 @@
     <footer class="footer">
         <div class="footer__top">
             <div class="footer__left">
-                <div class="logo">ONBOOK</div>
+                <div class="logo_1">ONBOOK</div>
                 <div class="text">Simple booking</div>
             </div>
             <div class="footer__right">

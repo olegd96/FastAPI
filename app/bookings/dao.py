@@ -26,7 +26,7 @@ class BookingDAO(BaseDAO):
     ):
         """
         WITH booked_rooms AS (
-        SELECT *FROM cls.models
+        SELECT *FROM Bookings
         WHERE room_id = 1 AND
         (date_to >= '2023-06-20' AND
         date_from <= '2023-06-15')
@@ -38,12 +38,12 @@ class BookingDAO(BaseDAO):
         """
         try:
             booked_rooms = (
-                select(cls.models)
+                select(Bookings)
                 .where(
                     and_(
-                        cls.models.room_id == room_id,
+                        Bookings.room_id == room_id,
                         and_(
-                            cls.models.date_to >= date_to, cls.models.date_from <= date_from
+                            Bookings.date_to >= date_to, Bookings.date_from <= date_from
                         ),
                     )
                 )
@@ -70,7 +70,7 @@ class BookingDAO(BaseDAO):
                     price = await session.execute(get_price)
                     price: int = price.scalar()
                     add_booking = (
-                        insert(cls.models)
+                        insert(Bookings)
                         .values(
                             room_id=room_id,
                             user_id=user_id,
@@ -79,11 +79,11 @@ class BookingDAO(BaseDAO):
                             price=price,
                         )
                         .returning(
-                            cls.models.id,
-                            cls.models.user_id,
-                            cls.models.room_id,
-                            cls.models.date_from,
-                            cls.models.date_to,
+                            Bookings.id,
+                            Bookings.user_id,
+                            Bookings.room_id,
+                            Bookings.date_from,
+                            Bookings.date_to,
                         )
                     )
 
@@ -110,13 +110,13 @@ class BookingDAO(BaseDAO):
     @classmethod
     async def delete(cls, booking_id: int, user_id: int):
         try:
-            b_user_id = select(cls.models.user_id).where(cls.models.id == booking_id)
+            b_user_id = select(Bookings.user_id).where(Bookings.id == booking_id)
             async with async_session_maker() as session:
                 b_user_id = await session.execute(b_user_id)
                 b_user_id = b_user_id.scalar()
                 if b_user_id != user_id:
                     raise UserIsNotPresentException
-                delete_booking = delete(cls.models).where(cls.models.id == booking_id).returning(cls.models.id)
+                delete_booking = delete(Bookings).where(Bookings.id == booking_id).returning(Bookings.id)
                 res = await session.execute(delete_booking)
                 await session.commit()
                 return res.mappings().one()
@@ -138,13 +138,16 @@ class BookingDAO(BaseDAO):
     async def find_all_with_images(cls, user_id: int):
         query = (
             select(
-                cls.models.__table__.columns,
+                Bookings.__table__.columns,
                 Rooms.__table__.columns,
                 Hotels.__table__.columns,
             )
-            .join(Rooms, Rooms.id == cls.models.room_id, isouter=True)
+            .join(Rooms, Rooms.id == Bookings.room_id, isouter=True)
             .join(Hotels, Hotels.id == Rooms.hotel_id)
-            .where(cls.models.user_id == user_id)
+            .where(
+                and_(Bookings.user_id == user_id,
+                     Bookings.deleted == False)
+            )
         )
         async with async_session_maker() as session:
             result = await session.execute(query)
@@ -155,9 +158,12 @@ class BookingDAO(BaseDAO):
     async def find_all_nearest_bookings(cls, day_delta: int):
         async with async_session_taskmaker() as session:
             query = (
-                select(cls.models)
-                .options(joinedload(cls.models.user))
-                .filter(date.today() == cls.models.date_from - timedelta(days=day_delta))
+                select(Bookings)
+                .options(joinedload(Bookings.user))
+                .filter(
+                    and_(date.today() == Bookings.date_from - timedelta(days=day_delta),
+                         Bookings.deleted == False)
+                )
             )
         
             result = await session.execute(query)

@@ -1,5 +1,6 @@
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Request, Response
+from app.cart.dao import CartDao
 from app.exceptions import CannotAddDataToDatabase, IncorrectEmailOrPasswordException, UserAlreadyExistsException
 from app.users.dao import UsersDAO
 from app.users.auth import authenticate_user, create_access_token, get_password_hash
@@ -29,18 +30,25 @@ async def register_user(user_data: SUserAuth):
         raise CannotAddDataToDatabase
 
 @router_auth.post("/login")
-async def login_user(response: Response, user_data: SUserAuth):
+async def login_user(request: Request, response: Response, user_data: SUserAuth):
     user = await authenticate_user(user_data.email, user_data.password)
     if not user:
         raise IncorrectEmailOrPasswordException
     access_token = create_access_token({"sub": str(user.id)})
     response.set_cookie("booking_access_token", access_token, httponly=True)
+    response.set_cookie("user_id", user.id, httponly=True)
+    if (anonimous_id := request.cookies.get("cart")):
+        res = await CartDao.from_anon_to_reg(anonimous_id=anonimous_id, user=user)
     return access_token
+
 
 
 @router_auth.post("/logout")
 async def logout_user(response: Response):
     response.delete_cookie("booking_access_token")
+    response.delete_cookie("user_id")
+
+
 
 
 @router_users.get("/me")

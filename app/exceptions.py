@@ -64,3 +64,4 @@ class CannotAddDataToDatabase(BookingException):
 
 class CannotAddToCart(BookingException):
     status_code=status.HTTP_409_CONFLICT
+    detail="Не удалось добавить номер в корзину"

@@ -182,7 +182,7 @@
                         <div>Цена: {{room.price}}/сутки</div>
                         <div>Общая стоимость: {{room.total_cost}}</div>
                         <div>Свободных номеров: {{room.rooms_left}}</div>
-                        <div><input id="room_id" value={{room.id}}></div>
+                        <!-- <div><input id="room_id" value={{room.id}}></div> -->
                     </div>
                     <div class="serv">
                         <div>
@@ -196,8 +196,13 @@
                     <div class="button_box">
                         <button class="cart" hx-on:click={{"add_cart(" ~ room.id ~ "," ~ rooms[0].hotel_id
                             ~ ",'rooms_cart" ~ rooms[0].hotel_id ~ "')" }}>Добавить в корзину</button>
-                        <div class="room_like" hx-target="">
+                        <div class="room_like" hx-on:click={{"add_fav(" ~ room.id ~ "," ~ rooms[0].hotel_id
+                            ~ ",'rooms_cart" ~ rooms[0].hotel_id ~ "')" }}>
+                            {% if room.id in fav %}
+                            <i class="fi fi-ss-heart" style="color: red;"></i>
+                            {% else %}
                             <i class="fi fi-rs-heart"></i>
+                            {% endif %}
                         </div>
                         <div class="clear_box"></div>
                     </div>

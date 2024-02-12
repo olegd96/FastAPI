@@ -187,10 +187,7 @@ async function add_cart(room_id, hotel_id, block_id) {
     }).then(response => {
         if (response.status === 201) {
             alert("Номер добавлен в корзину");
-            var url_1 = 'pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
-            fetch(url_1)
-                .then(response => response.text())
-                .then(data => { myDiv_1.innerHTML= data, htmx.process(myDiv_1); });
+
             refresh_nav();
         }
         else if (response.status === 401) {
@@ -205,13 +202,20 @@ async function add_cart(room_id, hotel_id, block_id) {
             }).then(response => {
                 if (response.status === 201) {
                     alert("Номер добавлен в корзину");
-                    fetch('pages/anon_bookings')
-                    .then(response => response.text())
-                    .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });     
+                    refresh_anon_nav();
                 }
+                else if (response.status === 422) {
+                    alert("Выберите даты бронирования");
+                }
+                else if (response.status === 401) {
+                    alert("Войдите или зарегистрируйтесь");
+                    }
         });}
-        else if (response.status === 409) {
-            alert(response.statusText);
+        else if (response.status === 422) {
+            alert("Выберите даты бронирования");
+        }
+        else if (response.status === 401) {
+            alert("Войдите или зарегистрируйтесь");
         }
 
     });
@@ -267,6 +271,7 @@ async function add_fav(room_id, hotel_id, block_id) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             id: room_id,
+            h_id: hotel_id,
         }),
     }).then(response => {
         if (response.status === 201) {
@@ -282,6 +287,7 @@ async function add_fav(room_id, hotel_id, block_id) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     id: room_id,
+                    h_id: hotel_id,
                 }),
             }).then(response => {
                 if (response.status === 201) {
@@ -300,3 +306,94 @@ async function add_fav(room_id, hotel_id, block_id) {
     
 }
 
+async function add_fav_from_cart(room_id, hotel_id) {
+    const url = "/fav";
+    let myDiv = document.getElementById('nav_box');
+    let myDiv_1 = document.getElementById("bookings_list");
+    await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            id: room_id,
+            h_id: hotel_id,
+        }),
+    }).then(response => {
+        if (response.status === 201) {
+            var url_1 = 'pages/cart';
+            fetch(url_1)
+            .then(response => response.text())
+            .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1)});
+            refresh_nav();
+        }
+        else if (response.status === 401) {
+            fetch("/fav/anon", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: room_id,
+                    h_id: hotel_id,
+                }),
+            }).then(response => {
+                if (response.status === 201) {
+                    var url_1 = 'pages/cart/anon';
+                    fetch(url_1)
+                    .then(response => response.text())
+                    .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
+                    refresh_anon_nav();     
+                }
+        });}
+        else if (response.status === 409) {
+            alert(response.statusText);
+        }
+
+    })
+    
+}
+
+async function add_fav_single(room_id, hotel_id) {
+    const url = "/fav";
+    let myDiv = document.getElementById(room_id);
+    let myDiv_1 = document.getElementById("bookings_list");
+    await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            id: room_id,
+            h_id: hotel_id,
+        }),
+    }).then(response => {
+        if (response.status === 201) {
+            if (myDiv.className === "fi fi-ss-heart") { 
+                myDiv.className = "fi fi-rs-heart";
+            }
+            else {
+                myDiv.className = "fi fi-ss-heart";
+            }
+            refresh_nav();
+        }
+        else if (response.status === 401) {
+            fetch("/fav/anon", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: room_id,
+                    h_id: hotel_id,
+                }),
+            }).then(response => {
+                if (response.status === 201) {
+                    if (myDiv.className === "fi fi-ss-heart") { 
+                        myDiv.className = "fi fi-rs-heart";
+                    }
+                    else {
+                        myDiv.className = "fi fi-ss-heart";
+                    }
+                    refresh_anon_nav();     
+                }
+        });}
+        else if (response.status === 409) {
+            alert(response.statusText);
+        }
+
+    })
+    
+}

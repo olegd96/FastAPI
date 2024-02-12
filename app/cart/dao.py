@@ -188,10 +188,21 @@ class CartDao(BaseDAO):
                 .values(user_id=user.id, anonimous_id="")
                 .returning(Carts.user_id)
         )
-
-        async with async_session_maker() as session:
-            result = await session.execute(query)
-            await session.commit()
-        return result.scalar()
+        try:
+            async with async_session_maker() as session:
+                result = await session.execute(query)
+                await session.commit()
+            return result.scalar()
+        except (SQLAlchemyError, Exception) as e:
+            if isinstance(e, SQLAlchemyError):
+                msg = "Database Exc"
+            elif isinstance(e, Exception):
+                msg = "Unknown Exc"
+            msg += ": Cannot replace anon_cart to user_cart"
+            extra = {
+                "user_id": user.id,
+                "anon_id": anonimous_id,
+            }
+            logger.error(msg, extra=extra, exc_info=True)
     
     

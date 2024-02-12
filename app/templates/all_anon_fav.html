@@ -1,0 +1,348 @@
+<style>
+    .rooms_cart {
+        display: flexbox;
+        flex-direction: column;
+        justify-content: space-between;
+        border-color: black;
+        background-color: rgb(223, 228, 237);
+        font-family: 'Montserrat', sans-serif;
+
+        padding: 5px;
+        align-items: center;
+
+
+
+
+
+    }
+
+    .room_cart {
+        display: flex;
+
+        justify-content: space-between;
+        border-color:
+
+
+            black;
+        background-color: rgb(236, 238, 243);
+        font-family: 'Montserrat', sans-serif;
+        border-bottom: 2px solid;
+
+        border-color: white;
+        padding: 5px;
+        height: 200px;
+
+
+
+        align-items: center;
+    }
+
+    .descr {
+        display: flexbox;
+        justify-content: first baseline;
+
+    }
+
+    .all_descr {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+    }
+
+    .serv {
+        width: 300px;
+        font-family: 'Montserrat', sans-serif;
+        margin-left: 15px;
+        padding-left: 30px;
+        margin-right: 20px;
+
+    }
+
+    .serv1 {
+        width: 200px;
+        font-family: 'Montserrat', sans-serif;
+        margin-left: 15px;
+        padding-left: 30px;
+        
+
+    }
+
+    .composition1 {
+        display: flex;
+        flex-direction: column;
+        margin: 10px auto;
+        justify-content: space-between;
+        width: 100%;
+
+
+    }
+
+
+
+    img {
+        object-fit: cover;
+        max-width: 100%;
+        max-height: 100%;
+
+
+    }
+
+    .hotel_img {
+
+        width: 300px;
+        height: 200px;
+        margin-right: 15px;
+
+    }
+
+    .hotel_rooms {
+        padding: 15px;
+        margin-right: 10px auto;
+        background-color: rgb(236, 238, 243);
+    }
+
+    .rooms_head {
+        display: flex;
+        background-color: rgb(236, 238, 243);
+        align-items: center;
+        height: 60px;
+    }
+
+    .rooms_label {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cancel {
+        display: flex;
+        justify-content: right;
+        color: rgb(187, 212, 241);
+        background-color: rgb(236, 238, 243);
+        padding: 15px;
+    }
+
+    .cancel:hover {
+        color: rgb(86, 142, 206);
+    }
+
+    .cart {
+
+        background-color: rgb(187, 212, 241);
+        border: 0;
+        box-shadow: none;
+        padding: 5px 20px;
+        color: rgb(85, 85, 107);
+        font-family: 'Montserrat', sans-serif;
+        width: 120px;
+
+    }
+
+    .cart:hover {
+        background-color: rgb(202, 214, 237);
+    }
+
+    .room_like {
+        display: flex;
+        justify-content: end;
+        padding-right: 5px;
+        padding-top: 12px;
+        color: #558dce;
+        font-size: 18px;
+
+    }
+
+    .room_like:hover {
+        color: rgb(68, 110, 158);
+    }
+
+    .button_box {
+        display: flex;
+        flex-direction: column;
+
+        height: 190px;
+    }
+
+
+
+    #room_id {
+        visibility: hidden;
+    }
+
+    .notice {
+        font-family: 'Montserrat', sans-serif;
+        align-items: center;
+        width: fit-content;
+        margin: auto;
+    }
+
+    .search_el {
+        display: flex;
+        font-family: 'Montserrat', sans-serif;
+
+       
+        margin: auto;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgb(223, 228, 237);
+
+ 
+
+
+    }
+
+    .search {
+        font-size: 15px;
+
+        font-family: 'Montserrat', sans-serif;
+        color: rgb(85, 85, 107);
+        border: none;
+        padding: 10px;
+        margin-left: 10px;
+    }
+
+    .search_date {
+        font-size: 15px;
+        font-family: 'Montserrat', sans-serif;
+        color: rgb(85, 85, 107);
+        border: none;
+        padding: 10px;
+        margin-left: 10px;
+
+    }
+
+
+
+
+
+
+    .search_button {
+
+        background-color: rgb(86, 142, 206);
+        border: 0;
+        box-shadow: none;
+        padding: 12px 30px;
+        margin-right: 20px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 15px;
+        font-weight: bold;
+        color: white;
+    }
+
+    .search_button:hover {
+        background-color: rgb(98, 148, 205);
+    }
+
+    .inner_box_search {
+        background-color: rgb(223, 228, 237);
+        padding: 25px;
+
+
+    }
+
+
+
+
+</style>
+
+
+<!-- <div>
+    <div class="rooms_cart">
+        <div class="rooms_head">
+            <div class="rooms_label"><label class="hotel_rooms">Список доступных номеров</label></div>
+            <div class="cancel"><i class="fi fi-br-cross "  ></i></div>
+        </div>
+        {% for room in rooms %}
+            <div>{{room.hotel.name}}</div>
+            <div>{{room.hotel.location}}</div>
+            <div>{{room.hotel.services}}</div>
+            <div>{{room.hotel.rooms_quantity}}</div>
+            <div>{{room.room.services}}</div>
+        {% endfor %}
+    </div>
+</div> -->
+
+
+<div>
+    {% if rooms %}
+    <div class="rooms_cart" id={{"rooms_cart" ~ rooms[0].hotel_id}}>
+        <div class="rooms_head">
+            <div class="rooms_label"><label class="hotel_rooms">Избранное</label></div>
+        </div>
+        <div class="search_el">
+            <div class="inner_box_search">
+                <label class="search" for="date_from">ЗАЕЗД:</label>
+                <input type="date" class="search_date" name="date_from" id="date_from" 
+                hx-get="/pages/anon_fav_by_date" 
+                hx-include="#date_from, #date_to" 
+                hx-target="#rooms" 
+                hx-swap="innerHTML transition:true">
+                <label class="search" for="date_to">ВЫЕЗД:</label>
+                <input type="date" class="search_date" name="date_to" id="date_to" 
+                hx-get="/pages/anon_fav_by_date" 
+                hx-include="#date_from, #date_to" 
+                hx-target="#rooms" 
+                hx-swap="innerHTML transition:true">
+            </div>
+        </div>
+        <div class="rooms" id="rooms">
+        {% for room in rooms|sort(attribute="hotel.name") %}
+        <div class="room_cart" id="room_cart">
+            <div class="hotel_img">
+                <img src={{"/static/images/resized_500_300_" ~ room.hotel.image_id ~ ".webp" }}
+                    onerror="this.src='static/images/simple-booking.jpg';">
+            </div>
+            <div class="composition1">
+                <div class="all_descr">
+                    <div class="descr">
+                        <div>{{room.hotel.name}}</div>
+            <div>{{room.hotel.location}}</div>
+            <div class="serv">
+                <div>
+
+
+
+                    {% for serv in room.hotel.services %}
+                    <ul>
+                        <li>{{serv}}</li>
+                    </ul>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>Номеров: {{room.hotel.rooms_quantity}}</div>
+            
+            
+                        <!-- <div><input id="room_id" value={{room.id}}></div> -->
+                    </div>
+                    <div class="serv">
+                        <div>{{room.room.name}}</div>
+                        <div>{{room.room.description}}</div>
+                        <div class="serv1">
+                            {% for serv in room.room.services %}
+                            <ul>
+                                <li>{{serv}}</li>
+                            </ul>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="button_box">
+                        <button class="cart" hx-on:click={{"add_cart(" ~ room.room.id ~ "," ~ room.hotel.id
+                            ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>Добавить в корзину</button>
+                        <div class="room_like" 
+                        hx-on:click={{"add_fav_single(" ~ room.room.id ~ "," ~ room.hotel.id~ ")" }}>
+                            
+                            <i class="fi fi-ss-heart" id={{room.room.id}}></i>
+        
+                        </div>
+                        <div class="clear_box"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+        {% else %}
+        <div class="notice">Список избранного пуст</div>
+        {% endif %}
+    </div>
+</div>

@@ -94,11 +94,12 @@
     .unbook {
         padding: 15px;
         font-size: 20px;
+        color: rgb(86, 142, 206);
 
     }
 
     .unbook:hover {
-        color: crimson;
+        color: rgb(68, 110, 158);
     }
 
     .order_booking {
@@ -115,6 +116,25 @@
 
     .info {
         display: flexbox;
+    }
+
+    .room_like {
+        display: flex;
+        justify-content: end;
+        padding-right: 5px;
+        padding-top: 15px;
+        color: rgb(86, 142, 206);
+        font-size: 18px;
+
+    }
+
+    .room_like:hover {
+        color: rgb(68, 110, 158);
+    }
+
+
+    .like_trash {
+        display: flex;
     }
 </style>
 
@@ -135,46 +155,57 @@
 
 
 {% if bookings %}
-{% for item in bookings %}
+{% for item in bookings|sort(attribute="id") %}
 {% if item.date_from >= date %}
 <div class="book_cart" id={{item.room_id}}>
     {% else %}
     <div class="book_cart" id={{item.room_id}} style="background:rgb(244, 244, 244);">
         {% endif %}
-    <div class="info">
-        <div class="pic">
-            {% if item.date_from >= date %}
-            <input type="checkbox" name={{item.id}} value={{item.room_id ~ '/' ~ item.date_from ~ '/' ~ item.date_to}} class="choice" checked="true">
-            {% else %}
-            <input type="checkbox" name={{item.id}} value={{item.room_id}} class="choice" disabled="true">
-            {% endif %}
-            <img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp" }}
-                onerror="this.src='static/images/simple-booking.jpg';">
+        <div class="info">
+            <div class="pic">
+                {% if item.date_from >= date %}
+                <input type="checkbox" name={{item.id}} value={{item.room_id ~ '/' ~ item.date_from ~ '/' ~
+                    item.date_to}} class="choice" checked="true">
+                {% else %}
+                <input type="checkbox" name={{item.id}} value={{item.room_id}} class="choice" disabled="true">
+                {% endif %}
+                <img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp" }}
+                    onerror="this.src='static/images/simple-booking.jpg';">
+            </div>
+            {% if item.date_from < date %} <div class="unavailable">В данный момент вариант недоступен
         </div>
-        {% if item.date_from < date %}
-        <div class="unavailable">В данный момент вариант недоступен</div>
         {% endif %}
     </div>
-        <div class="descript">
-            <ul>
-                <li class="cart_item"><label class="cart">Id брони: </label><span>{{item.id}}<span></li>
-                <li class="cart_item"><label class="cart">Отель: </label><span>{{item.name_1}}<span></li>
-                <li class="cart_item"><label class="cart">Расположение: </label><span>{{item.location}}<span></li>
-                <li class="cart_item"><label class="cart">Id номера: </label><span>{{item.room_id}}</span></li>
-                <li class="cart_item"><label class="cart">Категория: </label><span>{{item.name}}</span></li>
-                <li class="cart_item"><label class="cart">Описание: </label><span>{{item.description}}</span></li>
-                <li class="cart_item"><label class="cart">Дата заезда: </label><span>{{item.date_from}}</span></li>
-                <li class="cart_item"><label class="cart">Дата выезда: </label><span>{{item.date_to}}</span></li>
-                <li class="cart_item"><label class="cart">Всего дней: </label><span>{{item.total_days}}</span></li>
-                <li class="cart_item"><label class="cart">Стоимость: </label><span>{{item.total_cost}}</span></li>
-            </ul>
+    <div class="descript">
+        <ul>
+            <li class="cart_item"><label class="cart">Id брони: </label><span>{{item.id}}<span></li>
+            <li class="cart_item"><label class="cart">Отель: </label><span>{{item.name_1}}<span></li>
+            <li class="cart_item"><label class="cart">Расположение: </label><span>{{item.location}}<span></li>
+            <li class="cart_item"><label class="cart">Id номера: </label><span>{{item.room_id}}</span></li>
+            <li class="cart_item"><label class="cart">Категория: </label><span>{{item.name}}</span></li>
+            <li class="cart_item"><label class="cart">Описание: </label><span>{{item.description}}</span></li>
+            <li class="cart_item"><label class="cart">Дата заезда: </label><span>{{item.date_from}}</span></li>
+            <li class="cart_item"><label class="cart">Дата выезда: </label><span>{{item.date_to}}</span></li>
+            <li class="cart_item"><label class="cart">Всего дней: </label><span>{{item.total_days}}</span></li>
+            <li class="cart_item"><label class="cart">Стоимость: </label><span>{{item.total_cost}}</span></li>
+        </ul>
+    </div>
+    <div class="like_trash">
+        <div class="room_like" hx-on:click={{"add_fav_from_cart(" ~ item.room_id ~ "," ~ item.hotel_id ~ ")" }}>
+            {% if item.room_id in fav %}
+            <i class="fi fi-ss-heart"></i>
+            {% else %}
+            <i class="fi fi-rs-heart"></i>
+            {% endif %}
         </div>
-
         <div class="unbook" hx-delete={{"/cart/" ~ item.id ~ "" }} hx-confirm="Удалить позицию из корзины?"
             hx-on:htmx:after-request="refresh_nav(); refresh_my_cart()"><i class="fi fi-rr-trash"></i></div>
+
     </div>
-    {% endfor %}
-    <div class="order_booking"><button hx-on:click="book_all_checked();refresh_nav()" hx-swap="innerHTML transition:true">Оформить бронирование</button></div>
-    {% else %}
-    <div class="notice">Пустая корзина</div>
-    {% endif %}
+</div>
+{% endfor %}
+<div class="order_booking"><button hx-on:click="book_all_checked();refresh_nav()"
+        hx-swap="innerHTML transition:true">Оформить бронирование</button></div>
+{% else %}
+<div class="notice">Пустая корзина</div>
+{% endif %}

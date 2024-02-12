@@ -127,7 +127,8 @@
             <label class="nav_lab" for="tab3" hx-swap="innerHTML transition:true">Личный кабинет</label>
 
             <input type="radio" name="tabs" checked id="tab4">
-            <label class="nav_lab" for="tab4" hx-target="#bookings_list">
+            <label class="nav_lab" for="tab4" hx-get="pages/my_fav" hx-target="#bookings_list"
+            hx-swap="innerHTML transition:true">
                 <div><i class="fi fi-rs-heart"></i><sup class="sup">{{fav_count}}</sup></div>
             </label>
 

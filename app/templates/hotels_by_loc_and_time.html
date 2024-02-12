@@ -3,7 +3,7 @@
         display: flex;
         justify-content: space-between;
 
-        border-color: black;
+        
         background-color: rgb(223, 228, 237);
         font-family: 'Montserrat', sans-serif;
         margin: 2px;
@@ -87,7 +87,6 @@
     .hotel_paragraph {
         display: flex;
         padding: 2px;
-
         background-color: rgb(223, 228, 237);
         margin-top: 5px;
     }
@@ -137,7 +136,7 @@
 </style>
 
 <div>
-    {% for hotel in hotels %}
+    {% for hotel in hotels|sort(attribute="name") %}
     <div class="hotel_paragraph">
         <div class="hotel_cart">
             <div class="hotel_img"><img src={{"/static/images/" ~ hotel.image_id ~ ".jpg" }}

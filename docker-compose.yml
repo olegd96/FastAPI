@@ -8,7 +8,7 @@ services:
     env_file:
       - .env-non-dev
     ports:
-      - 5432:5432
+      - 5431:5432
   
   redis:
     image: redis:7
@@ -24,8 +24,8 @@ services:
     depends_on:
       - db
       - redis
-    #command: ["/booking/docker/app.sh"]
-    command: sh -c "alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000"
+    command: ["/booking/docker/app.sh"]
+    #command: sh -c "alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000"
     ports:
       - 7777:8000
 

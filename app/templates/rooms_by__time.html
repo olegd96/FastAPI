@@ -107,13 +107,13 @@
     .cancel {
         display: flex;
         justify-content: right;
-        color: white;
+        color: rgb(187, 212, 241);
         background-color: rgb(236, 238, 243);
         padding: 15px;
     }
 
     .cancel:hover {
-        color: rgb(202, 214, 237);
+        color: rgb(86, 142, 206);
     }
 
     .cart {
@@ -137,11 +137,13 @@
         justify-content: end;
         padding-right: 5px;
         padding-top: 12px;
+        color: rgb(86, 142, 206);
+        font-size: 18px;
 
     }
 
     .room_like:hover {
-        color: red;
+        color: rgb(68, 110, 158);
     }
 
     .button_box {
@@ -165,10 +167,10 @@
     <div class="rooms_cart" id={{"rooms_cart" ~ rooms[0].hotel_id}}>
         <div class="rooms_head">
             <div class="rooms_label"><label class="hotel_rooms">Список доступных номеров</label></div>
-            <div class="cancel"><i class="fi fi-br-cross" hx-on:click={{"cancel('rooms_cart" ~ rooms[0].hotel_id
+            <div class="cancel"><i class="fi fi-br-cross "  hx-on:click={{"cancel('rooms_cart" ~ rooms[0].hotel_id
                     ~"')"}}></i></div>
         </div>
-        {% for room in rooms %}
+        {% for room in rooms|sort(attribute="name") %}
         <div class="room_cart">
             <div class="hotel_img">
                 <img src={{"/static/images/resized_500_300_" ~ room.image_id ~ ".webp" }}
@@ -194,12 +196,12 @@
                         </div>
                     </div>
                     <div class="button_box">
-                        <button class="cart" hx-on:click={{"add_cart(" ~ room.id ~ "," ~ rooms[0].hotel_id
-                            ~ ",'rooms_cart" ~ rooms[0].hotel_id ~ "')" }}>Добавить в корзину</button>
-                        <div class="room_like" hx-on:click={{"add_fav(" ~ room.id ~ "," ~ rooms[0].hotel_id
-                            ~ ",'rooms_cart" ~ rooms[0].hotel_id ~ "')" }}>
+                        <button class="cart" hx-on:click={{"add_cart(" ~ room.id ~ "," ~ room.hotel_id
+                            ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>Добавить в корзину</button>
+                        <div class="room_like" hx-on:click={{"add_fav(" ~ room.id ~ "," ~ room.hotel_id
+                            ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>
                             {% if room.id in fav %}
-                            <i class="fi fi-ss-heart" style="color: red;"></i>
+                            <i class="fi fi-ss-heart"></i>
                             {% else %}
                             <i class="fi fi-rs-heart"></i>
                             {% endif %}

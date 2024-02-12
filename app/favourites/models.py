@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, Integer, String
+from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint
 from app.database import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -16,3 +16,8 @@ class Favourites(Base):
     user: Mapped["Users"] = relationship(back_populates="favourites")
     hotel: Mapped["Hotels"] = relationship(back_populates="favourite")
     room: Mapped["Rooms"] = relationship(back_populates="favourite")
+
+    __table_args__ = (
+        (UniqueConstraint("user_id", "room_id", name="fav_room_uc"),)
+        )
+

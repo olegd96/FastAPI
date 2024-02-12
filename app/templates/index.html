@@ -21,11 +21,12 @@
     <script src="https://unpkg.com/htmx.org@1.9.10"
         integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
         crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
     <script>
         document.addEventListener('htmx:afterRequest', function (evt) {
             if (evt.detail.xhr.status == 401) {
                 /* Notify the user of a 404 Not Found response */
-                
+                refresh_anon_nav();
                 alert("Войдите в систему")
                 
             }
@@ -53,7 +54,7 @@
                 hx-target="#bookings_list" 
                 hx-swap="innerHTML transition:true">Поиск отелей</label>
                 <input type="radio" name="tabs" checked id="tab2">
-                <label class="nav_lab" for="tab2" hx-target="#bookings_list"><div><i class="fi fi-rs-heart"></i><sup class="sup">{{fav_count}}</sup></div></label>
+                <label class="nav_lab" for="tab2" hx-get="pages/anon_fav"  hx-target="#bookings_list"><div><i class="fi fi-rs-heart"></i><sup class="sup">{{fav_count}}</sup></div></label>
                 <input type="radio" name="tabs" checked id="tab3">
                 <label class="nav_lab" for="tab3" hx-get="pages/cart/anon" 
                 hx-target="#bookings_list" 
@@ -70,7 +71,8 @@
         </div>
         </nav>
     </div>
-    <div id="login_bar"></div>
+
+    <div id="login_bar" class="login_bar"></div>
     <div id="bookings_list" class="bookings_list" hx-swap="outerHTML transition:true"><span></span></div>
 
     <footer class="footer">

@@ -1,0 +1,51 @@
+{% for room in rooms|sort(attribute="hotel.name") %}
+        <div class="room_cart" id="room_cart">
+            <div class="hotel_img">
+                <img src={{"/static/images/resized_500_300_" ~ room.hotel.image_id ~ ".webp" }}
+                    onerror="this.src='static/images/simple-booking.jpg';">
+            </div>
+            <div class="composition1">
+                <div class="all_descr">
+                    <div class="descr">
+                        <div>{{room.hotel.name}}</div>
+            <div>{{room.hotel.location}}</div>
+            <div class="serv">
+                <div>
+                    {% for serv in room.hotel.services %}
+                    <ul>
+                        <li>{{serv}}</li>
+                    </ul>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>Номеров: {{room.hotel.rooms_quantity}}</div>
+            
+            
+                        <!-- <div><input id="room_id" value={{room.id}}></div> -->
+                    </div>
+                    <div class="serv">
+                        <div>{{room.room.name}}</div>
+                        <div>{{room.room.description}}</div>
+                        <div>
+                            {% for serv in room.room.services %}
+                            <ul>
+                                <li>{{serv}}</li>
+                            </ul>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="button_box">
+                        <button class="cart" hx-on:click={{"add_cart(" ~ room.room.id ~ "," ~ room.hotel.id
+                            ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>Добавить в корзину</button>
+                        <div class="room_like" 
+                        hx-on:click={{"add_fav_single(" ~ room.room.id ~ "," ~ room.hotel.id~ ")" }}>
+                            
+                            <i class="fi fi-ss-heart" id={{room.room.id}}></i>
+        
+                        </div>
+                        <div class="clear_box"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}

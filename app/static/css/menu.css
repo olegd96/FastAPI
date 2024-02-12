@@ -99,8 +99,8 @@
 
 
 .nav {
-    
-    
+    width: 100%;
+    position: fixed;
     height: 100px;
     font-family: 'Montserrat', sans-serif;
     background-color: rgb(6, 39, 99);
@@ -129,7 +129,12 @@
     width: 100%;
     margin-bottom: 10px;
     
-}
+    
+    top: 0;   
+      }
+
+
+
 .menu{
     list-style: none;
     height: 100%;
@@ -205,13 +210,8 @@ body {
 
 
 
-
-
-
-
-
   .login_bar {
-
+    margin-top: 120px;
     transition: all 1s ease-out;
   }
 

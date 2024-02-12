@@ -2,6 +2,7 @@
 from fastapi import APIRouter, Depends, Request, Response
 from app.cart.dao import CartDao
 from app.exceptions import CannotAddDataToDatabase, IncorrectEmailOrPasswordException, UserAlreadyExistsException
+from app.favourites.dao import FavDao
 from app.users.dao import UsersDAO
 from app.users.auth import authenticate_user, create_access_token, get_password_hash
 from app.users.dependencies import get_current_admin_user, get_current_user
@@ -39,6 +40,7 @@ async def login_user(request: Request, response: Response, user_data: SUserAuth)
     response.set_cookie("user_id", user.id, httponly=True)
     if (anonimous_id := request.cookies.get("cart")):
         res = await CartDao.from_anon_to_reg(anonimous_id=anonimous_id, user=user)
+        res_1 = await FavDao.from_anon_to_reg(anonimous_id=anonimous_id, user=user)
     return access_token
 
 
@@ -47,7 +49,6 @@ async def login_user(request: Request, response: Response, user_data: SUserAuth)
 async def logout_user(response: Response):
     response.delete_cookie("booking_access_token")
     response.delete_cookie("user_id")
-
 
 
 

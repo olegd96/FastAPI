@@ -1,0 +1,315 @@
+<style>
+    .tablist {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+    }
+
+    .selected {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        padding: 5px;
+        margin: None;
+        border: None;
+        background-color: rgb(223, 228, 237);
+    }
+
+    .not_selected {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        padding: 5px;
+        margin: None;
+        border: None;
+        background-color: white;
+    }
+
+    .not_selected:hover {
+        color: rgb(114, 173, 240);
+    }
+
+    .tab-content {
+        border-top: 3px solid;
+        border-color: rgb(223, 228, 237);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        padding-top: 10px;
+    }
+
+    .content {
+        margin-left: 15px;
+    }
+
+    .rooms_cart {
+        display: flexbox;
+        flex-direction: column;
+        justify-content: space-between;
+        border-color: black;
+        background-color: rgb(223, 228, 237);
+        font-family: 'Montserrat', sans-serif;
+
+        padding: 5px;
+        align-items: center;
+
+
+
+
+
+    }
+
+    .room_cart {
+        display: flex;
+
+        justify-content: space-between;
+        background-color: rgb(236, 238, 243);
+        font-family: 'Montserrat', sans-serif;
+        border-bottom: 2px solid;
+
+        border-color: white;
+        padding: 5px;
+        height: 200px;
+
+
+
+        align-items: center;
+    }
+
+    .descr {
+        display: flexbox;
+        justify-content: first baseline;
+        margin-right:15px;
+
+    }
+
+    .all_descr {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+    }
+
+    .serv {
+        width: 300px;
+        font-family: 'Montserrat', sans-serif;
+        margin-left: 15px;
+        padding-left: 30px;
+
+    }
+
+    .composition1 {
+        display: flex;
+        flex-direction: column;
+        margin: 10px auto;
+        justify-content: space-between;
+        width: 100%;
+
+
+    }
+
+
+
+    img {
+        object-fit: cover;
+        max-width: 100%;
+        max-height: 100%;
+
+
+    }
+
+    .hotel_img {
+
+        width: 300px;
+        height: 200px;
+        margin-right: 15px;
+
+    }
+
+    .hotel_rooms {
+        padding: 15px;
+        margin-right: 10px auto;
+        background-color: rgb(236, 238, 243);
+    }
+
+    .rooms_head {
+        display: flex;
+        background-color: rgb(236, 238, 243);
+        align-items: center;
+        height: 90px;
+    }
+
+    .rooms_label {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .cancel {
+        display: flex;
+        justify-content: right;
+        color: rgb(187, 212, 241);
+        background-color: rgb(236, 238, 243);
+        padding: 15px;
+    }
+
+    .cancel:hover {
+        color: rgb(86, 142, 206);
+    }
+
+    .cart {
+
+        background-color: rgb(187, 212, 241);
+        border: 0;
+        box-shadow: none;
+        padding: 5px 20px;
+        color: rgb(85, 85, 107);
+        font-family: 'Montserrat', sans-serif;
+        width: 120px;
+
+    }
+
+    .cart:hover {
+        background-color: rgb(202, 214, 237);
+    }
+
+    .room_like {
+        display: flex;
+        justify-content: end;
+        padding-right: 5px;
+        padding-top: 12px;
+        color: rgb(86, 142, 206);
+        font-size: 18px;
+
+    }
+
+    .room_like:hover {
+        color: rgb(68, 110, 158);
+    }
+
+    .button_box {
+        display: flex;
+        flex-direction: column;
+        margin-right: 5px;
+        margin-left:30px;
+        height: 190px;
+    }
+
+    .clear_box {
+        height: 120px;
+    }
+
+    #room_id {
+        visibility: hidden;
+    }
+
+
+    .search_el {
+        display: flex;
+        font-family: 'Montserrat', sans-serif;
+
+       
+        margin-bottom: 10px;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgb(236, 238, 243);
+
+    }
+
+    .inner_box_search {
+        background-color: rgb(236, 238, 243);
+        padding: 25px;
+
+
+    }
+
+    .search {
+        font-size: 15px;
+
+        font-family: 'Montserrat', sans-serif;
+        color: rgb(85, 85, 107);
+        border: none;
+        padding: 10px;
+        margin-left: 10px;
+    }
+
+    .search_date {
+        font-size: 15px;
+        font-family: 'Montserrat', sans-serif;
+        color: rgb(85, 85, 107);
+        border: none;
+        padding: 10px;
+        margin-left: 10px;
+
+    }
+</style>
+
+
+<div class="tab-list" role="tablist">
+    <button hx-get="/pages/personal_account" hx-target="#bookings_list" hx-swap="innerHTML transition:true"
+        class="not_selected">Личные данные</button>
+    <button hx-get="/pages/personal_account_archive" hx-target="#bookings_list" hx-swap="innerHTML transition:true"
+        class="selected">Архив бронирований</button>
+</div>
+
+<div id="tab-content" class="tab-content">
+    <div class="search_el">
+        <div class="inner_box_search">
+            <label class="search" for="date_from">ЗАЕЗД:</label>
+            <input type="date" class="search_date" name="date_from" id="date_from" 
+            hx-get="pages/personal_account_archive_by_date" 
+            hx-include="#date_from, #date_to" 
+            hx-target="#past_book" 
+            hx-swap="innerHTML transition:true">
+            <label class="search" for="date_to">ВЫЕЗД:</label>
+            <input type="date" class="search_date" name="date_to" id="date_to" 
+            hx-get="pages/personal_account_archive_by_date" 
+            hx-include="#date_from, #date_to" 
+            hx-target="#past_book" 
+            hx-swap="innerHTML transition:true">
+        </div>
+    </div>
+    <div id="past_book">
+    {% if past_book %}
+    {% for book in past_book|sort(attribute="book.date_from") %}
+    <div class="room_cart">
+        <div class="hotel_img">
+            <img src={{"/static/images/resized_500_300_" ~ book.room.image_id ~ ".webp" }}
+                onerror="this.src='static/images/simple-booking.jpg';">
+        </div>
+        <div class="composition1">
+            <div class="all_descr">
+                <div class="descr" hx-get={{"pages/hotel/id/" ~ book.room.hotel_id}} hx-trigger="load"></div>
+                <div class="descr">                    
+                    <h4>{{book.room.name}}</h4>
+                    <div>{{book.room.description}}</div>
+                    <div>Цена: {{book.room.price}}/сутки</div>
+                    <div>Дата визита: {{book.date_from}} - {{book.date_from}}</div>
+                    <div>Количество дней: {{book.total_days}}</div>
+                    <div>Общая стоимость: {{book.total_cost}}</div>
+                </div>
+                <div class="serv">
+                    <div>
+                        {% for serv in book.room.services %}
+                        <ul>
+                            <li>{{serv}}</li>
+                        </ul>
+                        {% endfor %}
+                    </div>
+                </div>                
+                <div class="button_box">
+                    <button class="cart" hx-on:click={{"add_cart(" ~ book.room.id ~ "," ~ book.room.hotel_id
+                        ~ ",'rooms_cart" ~ book.room.hotel_id ~ "')" }}>Повторить</button>
+                    <div class="room_like" hx-on:click={{"add_fav_single(" ~ book.room.id ~ "," ~ book.room.hotel_id~ ")" }}>
+                        {% if book.room.id in fav %}
+                        <i class="fi fi-ss-heart" id={{book.room.id}}></i>
+                        {% else %}
+                        <i class="fi fi-rs-heart" id={{book.room.id}}></i>
+                        {% endif %}
+                    </div>
+                    <div class="clear_box"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="notice">Список прошедших бронирований пуст</div>
+    {% endif %}
+</div>
+</div>

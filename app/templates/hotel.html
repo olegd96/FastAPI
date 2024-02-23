@@ -1,0 +1,30 @@
+<style>
+    .serv {
+        width: 300px;
+        font-family: 'Montserrat', sans-serif;
+        margin-left: 15px;
+        padding-left: 30px;
+    }
+
+    .descr {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+
+    }
+
+</style>
+
+
+<div class="descr">
+    <h3>{{hotel.name}}</h3>
+    <div>{{hotel.location}}</div>
+    <div class="serv">
+        {% for serv in hotel.services %}
+        <ul>
+            <li>{{serv}}</li>
+        </ul>
+        {% endfor %}
+    </div>
+</div>

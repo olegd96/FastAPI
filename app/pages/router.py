@@ -1,4 +1,6 @@
 from datetime import date, datetime
+import re
+from typing import Annotated
 import uuid
 from fastapi import APIRouter, Depends, Request, Response
 from fastapi.responses import HTMLResponse
@@ -11,7 +13,8 @@ from app.favourites.dao import FavDao
 from app.hotels.dao import HotelsDAO
 from app.hotels.rooms.dao import RoomsDAO
 from app.cart.dao import CartDao
-from app.users.dependencies import  get_current_user
+from app.users.dao import UsersDAO
+from app.users.dependencies import get_current_user
 from app.users.models import Users
 
 
@@ -83,6 +86,14 @@ async def get_hotels_by_loc_date(request: Request,
     ):
     res = await HotelsDAO.find_all(location, date_from, date_to)
     return templates.TemplateResponse("hotels_by_loc_and_time.html", {"request": request, "hotels": res})
+
+@router.get("/hotel/id/{hotel_id}", response_class=HTMLResponse)
+async def get_hotel_by_id(
+    request: Request,
+    hotel_id: int,
+):
+    res = await HotelsDAO.find_one_or_none(id=hotel_id)
+    return templates.TemplateResponse("hotel.html", {"request": request, "hotel": res})
 
 @router.get("/search", response_class=HTMLResponse)
 async def search_page(request: Request):
@@ -158,7 +169,7 @@ async def get_fav_by_date(
     res = await FavDao.get_fav_by_date(date_from, date_to, user_id=user.id)
     return templates.TemplateResponse("all_my_fav_by_date.html", {"request": request, "rooms": res})
 
-@router.get("/anon_fav_by_date")
+@router.get("/anon_fav_by_date", response_class=HTMLResponse)
 async def get_anon_fav_by_date(
     request: Request,
     response: Response,
@@ -170,3 +181,52 @@ async def get_anon_fav_by_date(
         response.set_cookie("cart", anonimous_id, httponly=True)
     res = await FavDao.get_fav_by_date(date_from, date_to, anonimous_id=anonimous_id)
     return templates.TemplateResponse("all_my_fav_by_date.html", {"request": request, "rooms": res})
+
+@router.get("/personal_account", response_class=HTMLResponse)
+async def personal_account(
+    request: Request,
+    user: Users = Depends(get_current_user),
+):
+    return templates.TemplateResponse("personal_account.html", {"request": request, "user": user.email})
+
+
+@router.get("/personal_account_archive", response_class=HTMLResponse)
+async def personal_account_archive(
+    request: Request,
+    user: Users = Depends(get_current_user),
+):
+    past_bookings = await BookingDAO.find_all_past_bookings(user=user)
+    fav = await FavDao.find_all(user_id=user.id)
+    fav = [f.room_id for f in fav]
+    return templates.TemplateResponse("personal_account_archive.html", {"request": request, "past_book": past_bookings, "fav": fav})
+
+@router.get("/personal_account_archive_by_date", response_class=HTMLResponse)
+async def personal_account_by_date(
+    request: Request,
+    date_from: date,
+    date_to: date,
+    user: Users = Depends(get_current_user),
+):
+    past_bookings_by_date = await BookingDAO.find_all_past_bookings_by_date(
+        user=user, 
+        date_from=date_from,
+        date_to=date_to)
+    return templates.TemplateResponse("personal_account_archive_by_date.html", {"request": request, "past_book": past_bookings_by_date})
+
+@router.get("/loc_list", response_class=HTMLResponse)
+async def get_loc_list(
+    request: Request,
+    location: str,
+):
+    loc_list = await HotelsDAO.find_location(location=location)
+    if len(loc_list) > 0:
+        loc_list = [re.search(rf"([^,]*{location}[^,]*)", loc, re.IGNORECASE).group() for loc in loc_list]
+    return templates.TemplateResponse("loc_list.html", {"request": request, "loc_list": set(loc_list)})
+
+
+@router.get("/banners", response_class=HTMLResponse)
+async def get_most_popular(
+    request: Request,
+):
+    popular_hotels = await BookingDAO.get_most_popular_location()
+    return templates.TemplateResponse("popular.html", {"request": request, "rooms_hotels": popular_hotels})

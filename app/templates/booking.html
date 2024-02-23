@@ -10,7 +10,8 @@
 
     .tabs {
         background: rgb(6, 39, 99);
-        padding: 10px;
+        padding-bottom: 23px;
+        padding-top: 7px;
         align-items: center;
         display: flex;
         position: relative;
@@ -30,7 +31,7 @@
         color: white;
         display: flex;
 
-        align-items: center;
+        align-items:end;
         cursor: pointer;
         z-index: 2;
     }
@@ -41,7 +42,7 @@
 
     .glider {
         position: absolute;
-        top: 30px;
+        top: 35px;
         left: 15px;
         background: rgb(223, 228, 237);
         width: 130px;
@@ -110,7 +111,11 @@
 
 
 <nav id="nav" class="nav">
-    <span class="logo">ONBOOK</span>
+    <span class="logo"
+    hx-get="/pages/banners" 
+            hx-swap="innerHTML transition:true"
+            hx-target="#bookings_list"
+    >ONBOOK</span>
     <div class="wrapper">
         <div class="tabs">
             <input type="radio" name="tabs" checked id="tab1">
@@ -124,7 +129,7 @@
             </label>
 
             <input type="radio" name="tabs" checked id="tab3">
-            <label class="nav_lab" for="tab3" hx-swap="innerHTML transition:true">Личный кабинет</label>
+            <label class="nav_lab" for="tab3" hx-get="/pages/personal_account" hx-target="#bookings_list"  hx-swap="innerHTML transition:true">Личный кабинет</label>
 
             <input type="radio" name="tabs" checked id="tab4">
             <label class="nav_lab" for="tab4" hx-get="pages/my_fav" hx-target="#bookings_list"
@@ -139,12 +144,10 @@
                     <i class="fi fi-rr-shopping-cart" id="cart"></i><sup class="sup">{{cart_count}}</sup>
                 </div>
             </label>
-
             <input type="radio" name="tabs" checked id="tab6">
             <label class="nav_lab" for="tab6" hx-on:click="logoutUser()"
                 hx-swap="innerHTML transition:true">Выйти</label>
             <div class="glider"></div>
         </div>
-
     </div>
 </nav>

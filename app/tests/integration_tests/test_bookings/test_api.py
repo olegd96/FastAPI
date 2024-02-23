@@ -21,7 +21,7 @@ async def test_add_and_get_booking(room_id, date_from, date_to, status_code,
     response = await authenticated_ac.post("/bookings", json={
         "room_id": room_id,
         "date_from": date_from,
-        "date_to": date_to
+        "date_to": date_to,
     })
 
     assert response.status_code == status_code

@@ -1,4 +1,5 @@
 from datetime import date
+import uuid
 
 
 
@@ -28,7 +29,7 @@ class CartDao(BaseDAO):
         date_from: date,
         date_to: date,
         anonimous_id: str = "",
-        user_id: int|None = None,
+        user_id: uuid.UUID|None = None,
     ):
         """
         WITH booked_rooms AS (
@@ -119,7 +120,7 @@ class CartDao(BaseDAO):
             logger.error(msg, extra=extra, exc_info=True)
 
     @classmethod
-    async def delete(cls, booking_id: int, user_id: int|None = None, anonimous_id: str = "",):
+    async def delete(cls, booking_id: int, user_id: uuid.UUID|None = None, anonimous_id: str = "",):
         try:
             b_user_id = select(Carts.user_id).where(Carts.id == booking_id)
             async with async_session_maker() as session:
@@ -150,7 +151,7 @@ class CartDao(BaseDAO):
             logger.error(msg, extra=extra, exc_info=True)
 
     @classmethod
-    async def find_all_with_images(cls, user_id: int|None = None, anonimous_id: str = "",):
+    async def find_all_with_images(cls, user_id: uuid.UUID|None = None, anonimous_id: str = "",):
         if user_id:
             query = (
                 select(

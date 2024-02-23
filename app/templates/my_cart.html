@@ -200,7 +200,6 @@
         </div>
         <div class="unbook" hx-delete={{"/cart/" ~ item.id ~ "" }} hx-confirm="Удалить позицию из корзины?"
             hx-on:htmx:after-request="refresh_nav(); refresh_my_cart()"><i class="fi fi-rr-trash"></i></div>
-
     </div>
 </div>
 {% endfor %}

@@ -98,7 +98,6 @@
             <li class="cart_item"><label class="cart">Стоимость: </label><span>{{item.total_cost}}</span></li>
         </ul>
     </div>
-
     <div class="unbook"><button hx-delete={{"/bookings/" ~ item.id ~ "" }} hx-confirm="Отменить бронь?"
             hx-on:htmx:after-request="refresh_nav(); refresh_my_bookings()">Отменить бронь</button></div>
 </div>

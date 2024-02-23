@@ -1,0 +1,185 @@
+<style>
+    .hotel_cart {
+        display: flexbox;
+        justify-content:center;
+        align-items: center;
+        
+        background-color: rgb(223, 228, 237);
+        font-family: 'Montserrat', sans-serif;
+        margin: 2px;
+        padding: 5px;
+        height: 800px auto;
+        min-height: 500px;
+        width: 280px;
+
+
+        align-items: center;
+    }
+
+    .descr {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+
+
+    }
+
+    .all_descr {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        font-size: 14px;
+
+
+    }
+
+
+
+
+
+    .serv {
+        width: 300px;
+        font-family: 'Montserrat', sans-serif;
+        margin-left: 15px;
+        padding-left: 30px;
+
+    }
+
+    .composition_block {
+        display: flex;
+        flex-direction: column;
+        margin: 15px;
+        justify-content: space-between;
+        width: 95%;
+        
+
+
+
+    }
+
+
+
+    img {
+        object-fit: cover;
+        max-width: 100%;
+        max-height: 100%;
+
+
+    }
+
+    .hotel_img {
+
+        width: 300px;
+        height: 200px;
+        margin-right: 15px;
+        background-image: "/static/images/simple-booking.jpg";
+
+    }
+
+
+    .rooms_sec {
+        background-color: rgb(223, 228, 237);
+        min-height: min-content;
+        margin-left: 5px;
+        margin-right: 5px;
+        
+
+    }
+
+    .hotel_paragraph {
+        display: flex;
+        padding: 2px;
+        background-color: rgb(223, 228, 237);
+        margin-top: 5px;
+    }
+
+
+
+    .hotel_like {
+        display: flex;
+        justify-content: end;
+        padding-right: 5px;
+        padding-top: 12px;
+
+    }
+
+    .hotel_like:hover {
+        color: red;
+    }
+
+    .button_box {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 190px;
+        margin-right: 10px;
+        margin-left:30px;
+
+    }
+
+    .hotels_discover {
+
+        background-color: rgb(187, 212, 241);
+        border: 0;
+        box-shadow: none;
+        padding: 5px 20px;
+        color: rgb(85, 85, 107);
+        font-family: 'Montserrat', sans-serif;
+        width: 120px;
+
+    }
+
+    .hotels_discover:hover {
+        background-color: rgb(202, 214, 237);
+    }
+
+    .clear_box {
+        height: 120px;
+    }
+
+    .banner {
+        display: flex;
+        justify-content: space-between;
+        align-items:start;
+
+    }
+
+    .top {
+        font-size: 30px;
+        font-family: 'Montserrat', sans-serif;
+        align-items: center;
+        width: fit-content;
+        margin: 30px auto;
+    }
+</style>
+
+
+<div class="top">ТОП БРОНИРОВАНИЙ</div>
+<div class="banner">
+
+{% for room in rooms_hotels %}
+    <div class="card">
+        <div class="hotel_cart">
+            <div class="hotel_img"><img src={{"/static/images/" ~ room.hotel.image_id ~ ".jpg" }}
+                    onerror="this.src='static/images/simple-booking.jpg';"></div>
+            <div class="composition_block">
+                
+                    <div class="descr">
+                        <h3>{{room.hotel.name}}</h3>
+                        <div>{{room.hotel.location}}</div>
+                        <div><label>Количество комнат: </label>{{room.hotel.rooms_quantity}}</div>
+                    </div>
+                    <div class="serv">
+                        {% for serv in room.hotel.services %}
+                        <ul>
+                            <li>{{serv}}</li>
+                        </ul>
+                        {% endfor %}
+                    </div>
+                    <div>{{room.name}}</div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>

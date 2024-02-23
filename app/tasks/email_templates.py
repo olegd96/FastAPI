@@ -1,26 +1,36 @@
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText  # Added
+from email.mime.image import MIMEImage
 from email.message import EmailMessage
 from app.config import settings
 from pydantic import EmailStr
 
+attachment = 'app/static/images/simple-booking.jpg'
 
 
 def create_booking_confirmation_templates(
         booking: dict,
         email_to: EmailStr,
 ):
-    email = EmailMessage()
+    email = MIMEMultipart()
 
     email["Subject"] = "Подтверждение бронирования"
     email["From"] = settings.SMTP_USER
     email["To"] = email_to
-
-    email.set_content(
-        f"""
+    
+    body = f"""
         <h1>Подтвердите бронирование</h1>
         Вы забронировали отель с {booking["date_from"]} по {booking["date_to"]}
-        """,
-        subtype="html"
-    )
+        """
+    msgText = MIMEText('<b>%s</b><br/><img src="cid:%s"/><br/>' % (body, attachment), 'html')
+    email.attach(msgText)
+    email.add_header('Content-Disposition', 'attachment', filename='app/static/images/simple-booking.jpg')
+    with open(attachment, "rb") as file:
+        image = MIMEImage(file.read())
+    
+    image.add_header('Content-ID', '<{}>'.format(attachment))
+    email.attach(image)
+
 
     return email
 
@@ -46,6 +56,9 @@ def create_booking_notice_template(
         f"""
         <h1>Напоминание о бронировании</h1>
         Вы забронировали отель с {booking["date_from"]} по {booking["date_to"]}
+        <h2>{booking["room_name"]}</h2>
+         <img src='/static/images/resized_500_300_'{booking['img']}'.webp'
+                    onerror="this.src='static/images/simple-booking.jpg';">
         """,
         subtype="html"
     )

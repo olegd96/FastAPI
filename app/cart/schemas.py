@@ -1,10 +1,11 @@
 from datetime import date, datetime
+import uuid
 from pydantic import BaseModel, ConfigDict
 
 class SCart(BaseModel):
     id: int
     room_id: int
-    user_id: int|None
+    user_id: uuid.UUID|None
     anonimous_id: str|None
     date_from: date
     date_to: date
@@ -20,7 +21,7 @@ class SCart(BaseModel):
 class SCartInfo(BaseModel):
     id: int
     room_id: int
-    user_id: int|None
+    user_id: uuid.UUID|None
     anonimous_id: str|None
     date_from: date
     date_to: date

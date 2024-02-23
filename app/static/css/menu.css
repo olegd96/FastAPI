@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    line-height: 150%;
 }
 
 
@@ -107,6 +108,7 @@
     display: flex; 
     justify-content: space-between; /*раскидываем логотип и меню по разным краям*/
     align-items: center; /*размещаем по центру*/
+    z-index: 5;
 }
 
     .logo {
@@ -128,7 +130,7 @@
     display: flex;
     width: 100%;
     margin-bottom: 10px;
-    
+    z-index: 5;
     
     top: 0;   
       }

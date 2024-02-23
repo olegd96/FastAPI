@@ -1,11 +1,14 @@
 from datetime import date
 from typing import Optional
+import uuid
 from pydantic import BaseModel, ConfigDict, EmailStr
+
+from app.hotels.rooms.schemas import SRoom
 
 class SBooking(BaseModel):
     id : int 
     room_id : int
-    user_id : int
+    user_id : uuid.UUID
     date_from : date
     date_to : date
     price : int
@@ -30,3 +33,9 @@ class SNewBooking(BaseModel):
     room_id: int
     date_from: date
     date_to: date
+
+
+class SBookingWithRoom(SBooking):
+    room: "SRoom"
+
+    model_config = ConfigDict(from_attributes=True)

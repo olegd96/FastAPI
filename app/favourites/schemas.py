@@ -1,5 +1,6 @@
 
 from typing import Any, List, Optional
+import uuid
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy import JSON
 from app.favourites.models import Favourites
@@ -20,7 +21,7 @@ class SFavNew(BaseModel):
 
 class SFav(BaseModel):
     id: int
-    user_id: int | None
+    user_id: uuid.UUID | None
     anonimous_id: str | None
     hotel_id: int | None
     room_id: int | None

@@ -1,7 +1,12 @@
 from datetime import date, timedelta
+import uuid
+
+from pydantic import TypeAdapter
+from app.bookings.schemas import SBooking, SBookingInfo, SBookingWithRoom
+from app.hotels.rooms.schemas import SRoomWithHotel
 from app.loger import logger
 
-from sqlalchemy import insert, select, delete, and_, func
+from sqlalchemy import desc, insert, select, delete, and_, func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload
 from app.bookings.models import Bookings
@@ -19,7 +24,7 @@ class BookingDAO(BaseDAO):
     @classmethod
     async def add(
         cls,
-        user_id: int,
+        user_id: uuid.UUID,
         room_id: int,
         date_from: date,
         date_to: date,
@@ -108,7 +113,7 @@ class BookingDAO(BaseDAO):
             logger.error(msg, extra=extra, exc_info=True)
 
     @classmethod
-    async def delete(cls, booking_id: int, user_id: int):
+    async def delete(cls, booking_id: int, user_id: uuid.UUID):
         try:
             b_user_id = select(Bookings.user_id).where(Bookings.id == booking_id)
             async with async_session_maker() as session:
@@ -116,7 +121,8 @@ class BookingDAO(BaseDAO):
                 b_user_id = b_user_id.scalar()
                 if b_user_id != user_id:
                     raise UserIsNotPresentException
-                delete_booking = delete(Bookings).where(Bookings.id == booking_id).returning(Bookings.id)
+                delete_booking = delete(Bookings).where(
+                    Bookings.id == booking_id).returning(Bookings.id)
                 res = await session.execute(delete_booking)
                 await session.commit()
                 return res.mappings().one()
@@ -135,7 +141,7 @@ class BookingDAO(BaseDAO):
             logger.error(msg, extra=extra, exc_info=True)
 
     @classmethod
-    async def find_all_with_images(cls, user_id: int):
+    async def find_all_with_images(cls, user_id: uuid.UUID):
         query = (
             select(
                 Bookings.__table__.columns,
@@ -152,20 +158,107 @@ class BookingDAO(BaseDAO):
         async with async_session_maker() as session:
             result = await session.execute(query)
             return result.mappings().all()
-    
-    
+
     @classmethod
     async def find_all_nearest_bookings(cls, day_delta: int):
         async with async_session_taskmaker() as session:
-            query = (
+            book_query = (
                 select(Bookings)
                 .options(joinedload(Bookings.user))
+                .options(joinedload(Bookings.room))
                 .filter(
                     and_(date.today() == Bookings.date_from - timedelta(days=day_delta),
                          Bookings.deleted == False)
                 )
             )
-        
-            result = await session.execute(query)
+            
+            result = await session.execute(book_query)
             return result.scalars().all()
 
+    @classmethod
+    async def find_all_past_bookings(cls, user: Users):
+        async with async_session_maker() as session:
+            query = (
+                select(Bookings)
+                .options(joinedload(Bookings.room))
+                .filter(
+                    and_(Bookings.date_to <= date.today(),
+                         Bookings.deleted == False,
+                         Bookings.user_id == user.id)
+                )
+            )
+
+            past_bookings = await session.execute(query)
+            past_bookings = past_bookings.scalars().all()
+            past_bookings = [TypeAdapter(SBookingWithRoom).validate_python(
+                book).model_dump() for book in past_bookings]
+            return past_bookings
+
+    @classmethod
+    async def find_all_past_bookings_by_date(
+        cls,
+        user: Users,
+        date_from: date,
+        date_to: date,
+    ):
+        booked = select(Rooms.__table__.columns,
+                        (Rooms.quantity - func.count(Bookings.room_id)).label("rooms_left"),
+                        ).select_from(Rooms).join(
+                            Bookings, Bookings.room_id == Rooms.id
+        ).where(
+            and_(
+                Bookings.date_from <= date_from,
+                Bookings.date_to >= date_to,
+            ),
+        ).group_by(Bookings.room_id, Rooms.id).cte("booked")
+
+        rooms_left = (select(Rooms.__table__.columns,
+                             Rooms.quantity.label("rooms_left")).select_from(Rooms)
+                      .where(
+            Rooms.name.not_in(select(booked.c.name))
+        )
+        ).union_all(select(booked)
+                    .where(booked.c.rooms_left > 0))
+
+        room_query = (
+            select(Bookings)
+            .options(joinedload(Bookings.room))
+            .filter(
+                and_(Bookings.date_to <= date.today(),
+                     Bookings.deleted == False,
+                     Bookings.user_id == user.id)
+            )
+            .where(Bookings.room_id.in_(select(rooms_left.c.id)))
+        )
+
+        async with async_session_maker() as session:
+            past_bookings_by_date = await session.execute(room_query)
+            past_bookings_by_date = past_bookings_by_date.scalars().all()
+            past_bookings_by_date = [TypeAdapter(SBookingWithRoom).validate_python(
+                book).model_dump() for book in past_bookings_by_date]
+            return past_bookings_by_date
+
+    @classmethod
+    async def get_most_popular_location(
+        cls,
+    ):
+        bookings = (select(Bookings.room_id,
+                           func.count(Bookings.room_id)
+                           .label("book_count")
+                           )
+                    .order_by(desc("book_count"))
+                    .group_by(Bookings.room_id)
+                    .limit(3)
+                    ).cte("bookings")
+
+        hotels = (select(Rooms)
+                  .options(joinedload(Rooms.hotel))
+                  .filter(Rooms.id.in_(select(bookings.c.room_id)))
+                  )
+
+        async with async_session_maker() as session:
+            res = await session.execute(hotels)
+            res = res.scalars().all()
+            rooms_hotels = [TypeAdapter(SRoomWithHotel).validate_python(
+                r).model_dump() for r in res]
+            return rooms_hotels

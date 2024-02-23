@@ -1,3 +1,4 @@
+import uuid
 from sqlalchemy import JSON, Boolean, Computed, Date, ForeignKey, Integer, Column, String, text
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from app.database import Base
@@ -8,7 +9,7 @@ class Bookings(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     room_id: Mapped[int] = mapped_column(ForeignKey("rooms.id"))
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"))
     date_from: Mapped[date] = mapped_column(Date)
     date_to: Mapped[date] = mapped_column(Date)
     price: Mapped[int]

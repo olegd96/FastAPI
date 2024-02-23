@@ -1,5 +1,5 @@
 from datetime import date
-from sqlalchemy import select, func, and_
+from sqlalchemy import desc, select, func, and_
 from app.bookings.models import Bookings
 from app.dao.base import BaseDAO
 from app.database import async_session_maker
@@ -64,4 +64,23 @@ class HotelsDAO(BaseDAO):
             return hotels_with_rooms.mappings().all()
 
         
-        
+    @classmethod
+    async def find_location(
+        cls,
+        location: str,
+    ):
+        location_query = (
+            select(Hotels.location)
+            .order_by(desc(Hotels.location))
+            .filter(
+                Hotels.location.ilike(f"%{location}%")
+            )
+    
+        )
+
+        async with async_session_maker() as session:
+            locations = await session.execute(location_query)
+            locations = locations.unique().scalars().all()
+            return locations
+
+    

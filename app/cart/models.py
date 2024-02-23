@@ -1,4 +1,5 @@
 from datetime import date, datetime
+import uuid
 from sqlalchemy import Boolean, Integer, ForeignKey, Date, Computed, String, text
 from app.database import Base
 from sqlalchemy.orm import Mapped, relationship, mapped_column
@@ -10,7 +11,7 @@ class Carts(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     room_id: Mapped[int] = mapped_column(ForeignKey("rooms.id"))
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=True)
+    user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id"), nullable=True)
     anonimous_id: Mapped[str] = mapped_column(String, nullable=True)
     date_from: Mapped[date] = mapped_column(Date)
     date_to: Mapped[date] = mapped_column(Date)

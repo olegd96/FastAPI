@@ -1,0 +1,55 @@
+<style>
+    .tablist {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+    }
+
+    .selected {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        padding: 5px;
+        margin: None;
+        border: None;
+        background-color: rgb(223, 228, 237);
+    }
+
+    .not_selected {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        padding: 5px;
+        margin: None;
+        border: None;
+        background-color: white;
+    }
+
+    .not_selected:hover {
+        color: rgb(114, 173, 240);
+    }
+
+    .tab-content {
+        border-top: 3px solid;
+        border-color: rgb(223, 228, 237);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        padding: 20px;
+    }
+
+    .content {
+        margin-left: 15px;
+    }
+    
+</style>
+
+
+<div class="tab-list" role="tablist">
+	<button hx-get="/pages/personal_account" hx-target="#bookings_list"  hx-swap="innerHTML transition:true"  class="selected" aria-selected="false" >Личные данные</button>
+	<button hx-get="/pages/personal_account_archive" 
+    hx-target="#bookings_list" 
+    hx-swap="innerHTML transition:true" 
+    class="not_selected" 
+    aria-selected="false" >Архив бронирований</button>
+</div>
+
+<div id="tab-content" role="tabpanel" class="tab-content">
+	<label class="">Email:   </label><span class="content">{{user}}</span>
+</div>

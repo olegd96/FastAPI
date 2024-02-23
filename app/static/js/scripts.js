@@ -50,13 +50,19 @@ async function loginUser() {
     wrongCredentialsSpan.textContent = "";
 
     const url = "/auth/login";
+    
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+    let formBody = [];
+    formBody.push('username' + '=' + email);
+    formBody.push('password' + '=' + password);
+    formBody = formBody.join("&");
     let myDiv = document.getElementById('nav_box');
+
     await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, password: password }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+        body: formBody
     }).then(response => {
         if (response.status === 200) {
             //window.location.href = "/pages/bookings"
@@ -397,3 +403,20 @@ async function add_fav_single(room_id, hotel_id) {
     })
     
 }
+
+function setLoc(loc) {
+    let myDiv = document.getElementById("loc");
+    myDiv.value = loc.replace(/_/gi, " ");
+    cancel("loc_list");
+}
+
+
+window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                cancel("loc_list");
+            }
+
+            else {
+
+            }
+        }

@@ -1,14 +1,22 @@
 
+from datetime import timedelta
+import re
+import uuid
+from weakref import ref
 from fastapi import APIRouter, Depends, Request, Response
+from fastapi.security import OAuth2PasswordRequestForm
+from pydantic import TypeAdapter
 from app.cart.dao import CartDao
 from app.exceptions import CannotAddDataToDatabase, IncorrectEmailOrPasswordException, UserAlreadyExistsException
 from app.favourites.dao import FavDao
-from app.users.dao import UsersDAO
-from app.users.auth import authenticate_user, create_access_token, get_password_hash
-from app.users.dependencies import get_current_admin_user, get_current_user
+from app.users.dao import RefreshSessionDAO, UsersDAO
+from app.users.utils import get_password_hash
+from app.users.dependencies import get_current_active_user, get_current_admin_user, get_current_user
 from app.users.models import Users
+from app.config import settings
 
-from app.users.schemas import SUserAuth
+from app.users.schemas import SRefreshSessionCreate, SToken, SUser, SUserAuth, SUserBase, SUserDB, SUserReg
+from app.users.service import AuthService
 
 router_users = APIRouter(
     prefix ="/auth",
@@ -20,43 +28,92 @@ router_auth = APIRouter(
     tags=["Auth"],
 )
 
+
+
 @router_auth.post("/register")
-async def register_user(user_data: SUserAuth):
-    existing_user = await UsersDAO.find_one_or_none(email=user_data.email)
+async def register_user(user: SUserReg):
+    existing_user = await UsersDAO.find_one_or_none(email=user.email)
     if existing_user:
         raise UserAlreadyExistsException
-    hashed_password = get_password_hash(user_data.password)
-    new_user = await UsersDAO.add(email=user_data.email, hashed_password=hashed_password)
+    user.is_verified = False
+    user.is_administrator = False
+    hashed_password = get_password_hash(user.password)
+    # user_db = SUserDB(
+    #     **user.model_dump(),
+    #     hashed_password=hashed_password).model_dump()
+    new_user = await UsersDAO.add(
+        **SUserDB(
+        **user.model_dump(),
+        hashed_password=hashed_password).model_dump())
     if not new_user:
         raise CannotAddDataToDatabase
+    return new_user
 
 @router_auth.post("/login")
-async def login_user(request: Request, response: Response, user_data: SUserAuth):
-    user = await authenticate_user(user_data.email, user_data.password)
+async def login_user(request: Request, response: Response, 
+                     credentials: OAuth2PasswordRequestForm = Depends()):
+    user = await AuthService.authenticate_user(credentials.username, credentials.password)
     if not user:
         raise IncorrectEmailOrPasswordException
-    access_token = create_access_token({"sub": str(user.id)})
-    response.set_cookie("booking_access_token", access_token, httponly=True)
+    token = await AuthService.create_token(user.id)
+    response.set_cookie("booking_access_token", 
+                        token.access_token, 
+                        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+                        httponly=True)
+    response.set_cookie("booking_refresh_token", 
+                        token.refresh_token, 
+                        max_age=settings.REFRESH_TOKEN_EXPIRE_DAYS * 30 * 24 * 60,
+                        httponly=True)
     response.set_cookie("user_id", user.id, httponly=True)
     if (anonimous_id := request.cookies.get("cart")):
         res = await CartDao.from_anon_to_reg(anonimous_id=anonimous_id, user=user)
         res_1 = await FavDao.from_anon_to_reg(anonimous_id=anonimous_id, user=user)
-    return access_token
-
+    return token
+#остановился здесь!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 @router_auth.post("/logout")
-async def logout_user(response: Response):
-    response.delete_cookie("booking_access_token")
-    response.delete_cookie("user_id")
+async def logout_user(
+        request: Request, 
+        response: Response,
+        user: SUser = Depends(get_current_active_user),
+    ):
+        response.delete_cookie("booking_access_token")
+        response.delete_cookie("booking_refresh_token")
+        response.delete_cookie("user_id")
+        await AuthService.logout(request.cookies.get("booking_refresh_token"))
+        return {"message": "Logged out successfully"}
+    
 
+@router_auth.post("/refresh")
+async def refresh_token(
+    request: Request,
+    response: Response
+) -> SToken:
+    new_token = await AuthService.refresh_token(
+        uuid.UUID(request.cookies.get("booking_refresh_token"))
+    )
 
+    response.set_cookie(
+        'booking_access_token',
+        new_token.access_token,
+        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+        httponly=True,
+    )
+    response.set_cookie(
+        'booking_refresh_token',
+        new_token.refresh_token,
+        max_age=settings.REFRESH_TOKEN_EXPIRE_DAYS * 30 * 24 * 60,
+        httponly=True,
+    )
+    return new_token
 
 @router_users.get("/me")
 async def read_users_me(current_user: Users = Depends(get_current_user)):
     return current_user
 
 
-@router_users.get("/all")
+@router_users.get("/all_users")
 async def read_users_all(current_user: Users = Depends(get_current_admin_user)):
-    return await UsersDAO.find_all()
+    res = await UsersDAO.find_all()
+

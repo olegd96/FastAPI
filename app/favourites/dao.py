@@ -1,6 +1,7 @@
 
 
 from datetime import date
+import uuid
 from fastapi import Depends
 from pydantic import TypeAdapter
 from sqlalchemy import and_, func, insert, select, delete, update
@@ -27,7 +28,7 @@ class FavDao(BaseDAO):
         cls, 
         room_id: int,
         hotel_id: int,
-        user_id: int|None = None,
+        user_id: uuid.UUID|None = None,
         anonimous_id: str|None = None,
     ):
         if user_id:
@@ -159,8 +160,9 @@ class FavDao(BaseDAO):
                 .where(
                     Rooms.name.not_in(select(booked.c.name))                  
                 )
-                ).union_all(select(booked)
+                .union_all(select(booked)
                 .where(booked.c.rooms_left > 0))
+                ).cte("rooms_left")
         
 
         room_query_1 = (select(Favourites)

@@ -19,6 +19,8 @@ async def notice(days: int):
             booking_data = {
                 "date_to": booking.date_to,
                 "date_from": booking.date_from,
+                "room_name": booking.room.name,
+                "img": booking.room.image_id,
             }
             email_to = settings.SMTP_USER
             msg_content = create_booking_notice_template(booking_data, email_to, days)

@@ -1,11 +1,16 @@
 from datetime import datetime
-from fastapi import Depends, Request
+from typing import Optional
+import uuid
+from fastapi import Depends, HTTPException, Request, status
 from jose import jwt, JWTError
 
 from app.config import settings
 from app.exceptions import IncorrectTokenFormatException, TokenAbsentException, TokenExpiredException, UserIsNotPresentException
 from app.users.dao import UsersDAO
 from app.users.models import Users
+from app.users.utils import OAuth2PasswordBearerWithCookie
+
+oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/auth/login")
 
 
 def get_token(request: Request):
@@ -15,13 +20,10 @@ def get_token(request: Request):
     return token
 
 
-async def get_current_user(token: str = Depends(get_token)):
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> Optional[Users]:
     try:
         payload = jwt.decode(
-            token, settings.SECRET_KEY, settings.ALGORITHM, options={
-            'verify_signature': False, 'verify_aud': False, 'verify_iat': False,
-            'verify_exp': False, 'verify_nbf': False, 'verify_iss': False,
-            'verify_sub': False, 'verify_jti': False, 'verify_at_hash': False}
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
         )
     except JWTError:
         raise IncorrectTokenFormatException
@@ -31,10 +33,16 @@ async def get_current_user(token: str = Depends(get_token)):
     user_id: str = payload.get("sub")
     if not user_id:
         raise UserIsNotPresentException
-    user = await UsersDAO.find_one_or_none(id=int(user_id))
+    user = await UsersDAO.find_one_or_none(id=uuid.UUID(user_id))
     if not user:
         raise UserIsNotPresentException
     return user
+
+async def get_current_active_user(current_user: Users = Depends(get_current_user)) -> Users:
+    if not current_user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="User is not active")
+    return current_user
 
 
 async def get_current_admin_user(current_user: Users = Depends(get_current_user)):

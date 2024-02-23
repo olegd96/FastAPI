@@ -1,0 +1,17 @@
+<style>
+    .loc_pos:hover {
+        background-color: rgb(223, 228, 237);
+    }
+
+    .loc_pos {
+        padding: 5px;
+        ;
+    }
+</style>
+
+
+<div id="loc_list">
+    {% for loc in loc_list %}
+    <div class="loc_pos" hx-on:click={{"setLoc('" ~ loc|replace(' ', '_') ~ "')" }}>{{loc}}</div>
+    {% endfor %}
+</div>

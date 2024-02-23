@@ -65,3 +65,7 @@ class CannotAddDataToDatabase(BookingException):
 class CannotAddToCart(BookingException):
     status_code=status.HTTP_409_CONFLICT
     detail="Не удалось добавить номер в корзину"
+
+class InvalidTokenException(BookingException):
+    status_code=status.HTTP_401_UNAUTHORIZED
+    detail="Invalid token"

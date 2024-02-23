@@ -1,5 +1,4 @@
 from datetime import datetime
-from operator import ne
 
 from app.bookings.dao import BookingDAO
 

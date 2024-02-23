@@ -9,8 +9,9 @@ from fastapi_versioning import version
 
 from app.bookings.dao import BookingDAO
 from app.bookings.models import Bookings
-from app.bookings.schemas import SBooking, SBookingInfo, SNewBooking
+from app.bookings.schemas import SBooking, SBookingInfo, SBookingWithRoom, SNewBooking
 from app.exceptions import RoomCannotBeBooked
+from app.hotels.rooms.schemas import SRoomWithHotel
 from app.tasks.tasks import send_booking_confirmation_email
 from app.users.dependencies import get_current_user
 from app.users.models import Users
@@ -61,3 +62,16 @@ async def get_notice_list(
 ) :
     res = await BookingDAO.find_all_nearest_bookings(delta)
     return res
+
+@router.get("/past")
+async def get_past_bookings(
+    user: Users = Depends(get_current_user),
+) -> SBookingWithRoom:
+    past_book_query = await BookingDAO.find_all_past_bookings(user)
+    return past_book_query
+
+
+@router.get("/popular")
+async def get_most_popular() -> list[SRoomWithHotel]:
+    popular = await BookingDAO.get_most_popular_location()
+    return popular

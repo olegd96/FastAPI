@@ -2,6 +2,7 @@
     .rooms_cart {
         display: flexbox;
         flex-direction: column;
+        
         justify-content: space-between;
         border-color: black;
         background-color: rgb(223, 228, 237);
@@ -18,12 +19,9 @@
 
     .room_cart {
         display: flex;
-
+        
         justify-content: space-between;
-        border-color:
-
-
-            black;
+        border-color:black;
         background-color: rgb(236, 238, 243);
         font-family: 'Montserrat', sans-serif;
         border-bottom: 2px solid;
@@ -174,7 +172,7 @@
         <div class="room_cart">
             <div class="hotel_img">
                 <img src={{"/static/images/resized_500_300_" ~ room.image_id ~ ".webp" }}
-                    onerror="this.src='static/images/simple-booking.jpg';">
+                    onerror="this.src='/static/images/simple-booking.jpg';">
             </div>
             <div class="composition1">
                 <div class="all_descr">

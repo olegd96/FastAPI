@@ -241,9 +241,13 @@
 
 
 <div class="tab-list" role="tablist">
-    <button hx-get="/pages/personal_account" hx-target="#bookings_list" hx-swap="innerHTML transition:true"
+    <button hx-get="/pages/personal_account" hx-target="#bookings_list" 
+        hx-swap="innerHTML transition:true"
+        hx-push-url="true" 
         class="not_selected">Личные данные</button>
-    <button hx-get="/pages/personal_account_archive" hx-target="#bookings_list" hx-swap="innerHTML transition:true"
+    <button hx-get="/pages/personal_account_archive" hx-target="#bookings_list" 
+        hx-swap="innerHTML transition:true"
+        hx-push-url="true" 
         class="selected">Архив бронирований</button>
 </div>
 
@@ -270,7 +274,7 @@
     <div class="room_cart">
         <div class="hotel_img">
             <img src={{"/static/images/resized_500_300_" ~ book.room.image_id ~ ".webp" }}
-                onerror="this.src='static/images/simple-booking.jpg';">
+                onerror="this.src='/static/images/simple-booking.jpg';">
         </div>
         <div class="composition1">
             <div class="all_descr">

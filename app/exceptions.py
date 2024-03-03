@@ -69,3 +69,7 @@ class CannotAddToCart(BookingException):
 class InvalidTokenException(BookingException):
     status_code=status.HTTP_401_UNAUTHORIZED
     detail="Invalid token"
+
+class RequestAttorneyException(BookingException):
+    status_code=status.HTTP_405_METHOD_NOT_ALLOWED
+    detail="Невалидный запрос"

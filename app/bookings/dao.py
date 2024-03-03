@@ -6,7 +6,7 @@ from app.bookings.schemas import SBooking, SBookingInfo, SBookingWithRoom
 from app.hotels.rooms.schemas import SRoomWithHotel
 from app.loger import logger
 
-from sqlalchemy import desc, insert, select, delete, and_, func
+from sqlalchemy import desc, insert, or_, select, delete, and_, func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload
 from app.bookings.models import Bookings
@@ -47,9 +47,16 @@ class BookingDAO(BaseDAO):
                 .where(
                     and_(
                         Bookings.room_id == room_id,
-                        and_(
-                            Bookings.date_to >= date_to, Bookings.date_from <= date_from
-                        ),
+                        or_(
+                                and_(
+                                    Bookings.date_from >= date_from,
+                                    Bookings.date_from <= date_to,
+                                ),
+                                and_(
+                                    Bookings.date_from <= date_from,
+                                    Bookings.date_to > date_from,
+                                ),
+                            ),
                     )
                 )
                 .cte("booked_rooms")
@@ -133,7 +140,7 @@ class BookingDAO(BaseDAO):
                 msg = "User Exc"
             elif isinstance(e, Exception):
                 msg = "Unknown Exc"
-            msg += ": Cannot add booking"
+            msg += ": Cannot delete booking"
             extra = {
                 "current_user_id": user_id,
                 "owner_booking_id": b_user_id,
@@ -206,10 +213,16 @@ class BookingDAO(BaseDAO):
                         ).select_from(Rooms).join(
                             Bookings, Bookings.room_id == Rooms.id
         ).where(
-            and_(
-                Bookings.date_from <= date_from,
-                Bookings.date_to >= date_to,
-            ),
+            or_(
+                                and_(
+                                    Bookings.date_from >= date_from,
+                                    Bookings.date_from <= date_to,
+                                ),
+                                and_(
+                                    Bookings.date_from <= date_from,
+                                    Bookings.date_to > date_from,
+                                ),
+                            ),
         ).group_by(Bookings.room_id, Rooms.id).cte("booked")
 
         rooms_left = (select(Rooms.__table__.columns,

@@ -1,21 +1,23 @@
 
 from datetime import timedelta
 import re
+from turtle import delay
 import uuid
 from weakref import ref
 from fastapi import APIRouter, Depends, Request, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import TypeAdapter
 from app.cart.dao import CartDao
-from app.exceptions import CannotAddDataToDatabase, IncorrectEmailOrPasswordException, UserAlreadyExistsException
+from app.exceptions import CannotAddDataToDatabase, IncorrectEmailOrPasswordException, InvalidTokenException, UserAlreadyExistsException
 from app.favourites.dao import FavDao
+from app.tasks.tasks import send_registration_confirmation_email
 from app.users.dao import RefreshSessionDAO, UsersDAO
 from app.users.utils import get_password_hash
 from app.users.dependencies import get_current_active_user, get_current_admin_user, get_current_user
 from app.users.models import Users
 from app.config import settings
 
-from app.users.schemas import SRefreshSessionCreate, SToken, SUser, SUserAuth, SUserBase, SUserDB, SUserReg
+from app.users.schemas import SRefreshSessionCreate, SToken, SUser, SUserAuth, SUserBase, SUserDB, SUserReg, SUserVerify
 from app.users.service import AuthService
 
 router_users = APIRouter(
@@ -47,6 +49,9 @@ async def register_user(user: SUserReg):
         hashed_password=hashed_password).model_dump())
     if not new_user:
         raise CannotAddDataToDatabase
+    send_registration_confirmation_email.delay(new_user.id, 
+                                               #user.email,
+                                               "chepalin@yandex.ru")
     return new_user
 
 @router_auth.post("/login")
@@ -69,14 +74,13 @@ async def login_user(request: Request, response: Response,
         res = await CartDao.from_anon_to_reg(anonimous_id=anonimous_id, user=user)
         res_1 = await FavDao.from_anon_to_reg(anonimous_id=anonimous_id, user=user)
     return token
-#остановился здесь!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 
 @router_auth.post("/logout")
 async def logout_user(
         request: Request, 
         response: Response,
-        user: SUser = Depends(get_current_active_user),
     ):
         response.delete_cookie("booking_access_token")
         response.delete_cookie("booking_refresh_token")
@@ -90,10 +94,13 @@ async def refresh_token(
     request: Request,
     response: Response
 ) -> SToken:
-    new_token = await AuthService.refresh_token(
-        uuid.UUID(request.cookies.get("booking_refresh_token"))
-    )
+    if (brt := request.cookies.get("booking_refresh_token", None)) != None:
 
+        new_token = await AuthService.refresh_token(
+            uuid.UUID(brt)
+        )
+    else:
+        raise InvalidTokenException
     response.set_cookie(
         'booking_access_token',
         new_token.access_token,
@@ -107,6 +114,7 @@ async def refresh_token(
         httponly=True,
     )
     return new_token
+    
 
 @router_users.get("/me")
 async def read_users_me(current_user: Users = Depends(get_current_user)):
@@ -116,4 +124,16 @@ async def read_users_me(current_user: Users = Depends(get_current_user)):
 @router_users.get("/all_users")
 async def read_users_all(current_user: Users = Depends(get_current_admin_user)):
     res = await UsersDAO.find_all()
+
+
+@router_users.get("/verify/{user_id}")
+async def verify_new_user(user_id: uuid.UUID):
+    res = await UsersDAO.update(
+        Users.id==user_id,
+        data=SUserVerify(id=user_id))
+    if res:
+        return 'Ваша регистрация подтверждена'
+    else:
+        return 'Ошибка'
+    
 

@@ -94,6 +94,7 @@
 </style>
 
 <div class="logpanel" id="logpanel">
+    
     <div class="cancel"><i class="fi fi-br-cross" hx-on:click='cancel("logpanel")'></i></div>
     <div class="box">
         <label for="email" class="log_el" id="l_em">Email:</label>
@@ -104,7 +105,11 @@
         <input id="password" class="log" type="text">
     </div>
     <div class="box1"><span id="wrong_credentials" class="text-sm_text-red-400"></span>
-        <button class="log_button" id="log_button" hx-on:click="regUser()">Зарегистрироваться</button>
+        <button class="log_button" id="log_button" 
+        hx-on:click="regUser()"
+        >Зарегистрироваться</button>
     </div>
-
+    
 </div>
+
+<!--  -->

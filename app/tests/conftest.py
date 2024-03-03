@@ -1,5 +1,6 @@
 import asyncio
 from datetime import datetime
+import uuid
 import pytest
 import json
 
@@ -35,6 +36,9 @@ async def prepare_database():
         booking["date_from"] = datetime.strptime(booking["date_from"], "%Y-%m-%d")
         booking["date_to"] = datetime.strptime(booking["date_to"], "%Y-%m-%d")
 
+    for user in users:
+        user["id"] = uuid.UUID(user["id"])
+
     async with async_session_maker() as session:
         add_hotels = insert(Hotels).values(hotels)
         add_rooms = insert(Rooms).values(rooms)
@@ -68,8 +72,8 @@ async def ac():
 @pytest.fixture(scope="session")
 async def authenticated_ac():
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
-        await ac.post("/auth/login", json={
-            "email": "test@test.com", 
+        await ac.post("/auth/login", data={
+            "username": "test@test.com", 
             "password": "test",
         })
         assert ac.cookies["booking_access_token"]

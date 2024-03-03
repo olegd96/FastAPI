@@ -12,7 +12,7 @@ from app.database import async_session_maker
 from app.dao.base import BaseDAO
 from app.exceptions import UserIsNotPresentException
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import Integer, and_, delete, func, insert, select, update, values
+from sqlalchemy import Integer, and_, delete, func, insert, or_, select, update, values
 from sqlalchemy.exc import SQLAlchemyError
 
 from app.users.models import Users
@@ -51,9 +51,16 @@ class CartDao(BaseDAO):
                 .where(
                     and_(
                         Bookings.room_id == room_id,
-                        and_(
-                            Bookings.date_to >= date_to, Bookings.date_from <= date_from
-                        ),
+                        or_(
+                                and_(
+                                    Bookings.date_from >= date_from,
+                                    Bookings.date_from <= date_to,
+                                ),
+                                and_(
+                                    Bookings.date_from <= date_from,
+                                    Bookings.date_to > date_from,
+                                ),
+                            ),
                     )
                 )
                 .cte("booked_rooms")

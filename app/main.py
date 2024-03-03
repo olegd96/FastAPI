@@ -1,9 +1,11 @@
 from contextlib import asynccontextmanager
 import time
+import uuid
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import PlainTextResponse, RedirectResponse
 import sentry_sdk
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
@@ -20,6 +22,7 @@ from app.admin.views import BookingsAdmin, CartAdmin, FavourAdmin, HotelsAdmin, 
 from app.bookings.router import router as router_bookings
 from app.config import settings
 from app.database import engine
+from app.exceptions import RequestAttorneyException
 from app.hotels.router import router as router_hotels
 from app.images.router import router as router_images
 from app.pages.router import router as router_pages
@@ -27,12 +30,13 @@ from app.importer.router import router as router_importer
 from app.prometheus.router import router as prometheus_router
 from app.cart.router import router as router_cart
 from app.favourites.router import router as router_fav
+from app.web_socket.router import router as router_chat
 from app.users.models import Users
 from app.users.router import router_auth, router_users
 from app.loger import logger
 from app.hotels.rooms import router
-from starlette.middleware.sessions import SessionMiddleware
 from app.test_session.session import router as router_session
+
 
 
 @asynccontextmanager
@@ -43,7 +47,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-
+@app.exception_handler(RequestAttorneyException)
+async def attorney_exception_handler(request: Request, exc: RequestAttorneyException):
+    return RedirectResponse("/pages")
 
 app.include_router(router_auth)
 app.include_router(router_users)
@@ -56,6 +62,7 @@ app.include_router(prometheus_router)
 app.include_router(router_cart)
 app.include_router(router_session)
 app.include_router(router_fav)
+app.include_router(router_chat)
 
 
 sentry_sdk.init(
@@ -117,9 +124,8 @@ async def add_process_time_header(request: Request, call_next):
     response = await call_next(request)
     process_time = time.time() - start_time
     logger.info("Request execution time",
-                extra={"process_time": round(process_time, 4)
-                       })
-    response.headers["X-Process-Time"] = str(process_time)
+                extra={"process_time": round(process_time, 4)})
+    response.headers["X-Process-Time"] = str(process_time) 
     return response
 
 

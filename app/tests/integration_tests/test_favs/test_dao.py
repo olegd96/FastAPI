@@ -1,13 +1,13 @@
 from datetime import datetime
 import pytest
-
+import uuid
 from app.favourites.dao import FavDao
 
 @pytest.mark.parametrize("room_id, hotel_id, user_id, anonimous_id, date_from , date_to", [
-    (1, 1, 1, None, "2024-02-20", "2024-02-25"),
-    (2, 1, 1, None, "2024-02-20", "2024-02-25"),
-    (3, 2, 1, None, "2024-02-20", "2024-02-25"),
-    (4, 2, 1, None, "2024-02-20", "2024-02-25"),
+    (1, 1, "3ede3539-f445-44fc-a81a-d036672603b9", None, "2024-02-20", "2024-02-25"),
+    (2, 1, "3ede3539-f445-44fc-a81a-d036672603b9", None, "2024-02-20", "2024-02-25"),
+    (3, 2, "3ede3539-f445-44fc-a81a-d036672603b9", None, "2024-02-20", "2024-02-25"),
+    (4, 2, "3ede3539-f445-44fc-a81a-d036672603b9", None, "2024-02-20", "2024-02-25"),
 ])
 
 async def test_fav_crud(room_id, hotel_id, user_id, anonimous_id, date_from , date_to):
@@ -19,14 +19,14 @@ async def test_fav_crud(room_id, hotel_id, user_id, anonimous_id, date_from , da
     
     assert new_fav['room_id'] == room_id
 
-    fav_list = await FavDao.get_all_fav(user_id=user_id)
+    fav_list = await FavDao.get_all_fav(user_id=uuid.UUID(user_id))
 
     assert len(fav_list) == 1
 
     fav_list_by_date = await FavDao.get_fav_by_date(
         date_from=datetime.strptime(date_from, "%Y-%m-%d"),
         date_to=datetime.strptime(date_to, "%Y-%m-%d"),
-        user_id=user_id
+        user_id=uuid.UUID(user_id)
     )
 
     assert fav_list == fav_list_by_date
@@ -38,6 +38,6 @@ async def test_fav_crud(room_id, hotel_id, user_id, anonimous_id, date_from , da
     
     assert new_fav['room_id'] == room_id
 
-    fav_list = await FavDao.get_all_fav(user_id=user_id)
+    fav_list = await FavDao.get_all_fav(user_id=uuid.UUID(user_id))
 
     assert len(fav_list) == 0

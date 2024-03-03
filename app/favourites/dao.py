@@ -4,7 +4,7 @@ from datetime import date
 import uuid
 from fastapi import Depends
 from pydantic import TypeAdapter
-from sqlalchemy import and_, func, insert, select, delete, update
+from sqlalchemy import and_, func, insert, or_, select, delete, update
 from app.bookings.models import Bookings
 from app.dao.base import BaseDAO
 from app.favourites.models import Favourites
@@ -148,10 +148,16 @@ class FavDao(BaseDAO):
                         ).select_from(Rooms).join(
                          Bookings, Bookings.room_id == Rooms.id   
                         ).where(
-                            and_(
-                                Bookings.date_from <= date_from,
-                                Bookings.date_to >= date_to,
+                            or_(
+                                and_(
+                                    Bookings.date_from >= date_from,
+                                    Bookings.date_from <= date_to,
                                 ),
+                                and_(
+                                    Bookings.date_from <= date_from,
+                                    Bookings.date_to > date_from,
+                                ),
+                            ),
                         ).group_by(Bookings.room_id, Rooms.id).cte("booked")
 
         

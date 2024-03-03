@@ -1,6 +1,6 @@
 from datetime import date
 
-from sqlalchemy import and_, func, select
+from sqlalchemy import and_, func, or_, select
 from app.bookings.models import Bookings
 from app.dao.base import BaseDAO
 from app.hotels.rooms.models import Rooms
@@ -33,8 +33,16 @@ class RoomsDAO(BaseDAO):
                          Bookings, Bookings.room_id == Rooms.id   
                         ).where(
                             and_(Rooms.hotel_id == hotel_id,
-                                Bookings.date_from <= date_from,
-                                Bookings.date_to >= date_to,
+                                or_(
+                                and_(
+                                    Bookings.date_from >= date_from,
+                                    Bookings.date_from <= date_to,
+                                ),
+                                and_(
+                                    Bookings.date_from <= date_from,
+                                    Bookings.date_to > date_from,
+                                ),
+                            ),
                                 ),
                             ).group_by(Bookings.room_id, Rooms.id).cte("booked")
 

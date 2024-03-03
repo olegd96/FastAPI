@@ -154,7 +154,7 @@
                     <input type="checkbox" name={{item.id}} value={{item.room_id}} class="choice" disabled="true">
                     {% endif %}
                     <img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp" }}
-                        onerror="this.src='static/images/simple-booking.jpg';">
+                        onerror="this.src='/static/images/simple-booking.jpg';">
                 </div>
                 {% if item.date_from < date %} <div class="unavailable">В данный момент вариант недоступен
             </div>
@@ -175,7 +175,7 @@
             </ul>
         </div>
 
-        <div class="unbook" hx-delete={{"/cart/anon/" ~ item.id ~ "" }} hx-confirm="Удалить позицию из корзины?"
+        <div class="unbook" hx-delete={{"/cart/anon/" ~ item.id ~ "" }} hx-push-url="false" hx-confirm="Удалить позицию из корзины?"
             hx-on:htmx:after-request="refresh_anon_cart();refresh_anon_nav()"><i class="fi fi-rr-trash"></i></div>
     </div>
     {% endfor %}

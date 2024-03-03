@@ -6,7 +6,7 @@
         border-color: black;
         background-color: rgb(223, 228, 237);
         font-family: 'Montserrat', sans-serif;
-
+        min-width: 1100px;
         padding: 5px;
         align-items: center;
 
@@ -280,7 +280,7 @@
         <div class="room_cart" id="room_cart">
             <div class="hotel_img">
                 <img src={{"/static/images/resized_500_300_" ~ room.hotel.image_id ~ ".webp" }}
-                    onerror="this.src='static/images/simple-booking.jpg';">
+                    onerror="this.src='/static/images/simple-booking.jpg';">
             </div>
             <div class="composition1">
                 <div class="all_descr">

@@ -2,16 +2,20 @@
     margin: 0;
     padding: 0;
     line-height: 150%;
+
 }
 
+body {
+    min-width: 1412px;
+}
 
 .wrapper {
         
     margin-right: 150px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: 'Montserrat', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
     }
 
     .tabs {
@@ -101,6 +105,7 @@
 
 .nav {
     width: 100%;
+    min-width: 1400px;
     position: fixed;
     height: 100px;
     font-family: 'Montserrat', sans-serif;
@@ -161,11 +166,12 @@
     padding: 40px 170px;
     height: 140px;
     font-family: 'Montserrat', sans-serif;
-    
+    position: relative;
     background-color: rgb(6, 39, 99);
     display: flexbox; 
     justify-content: space-between; /*раскидываем логотип и меню по разным краям*/
     align-items: center; /*размещаем по центру*/
+    position: relative;
 }
 
 .main {
@@ -206,6 +212,7 @@ body {
     flex: 1 0 auto; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
     padding: 10px 150px;
     align-items: center;
+    min-width: 800px;
     
     
 }
@@ -215,6 +222,144 @@ body {
   .login_bar {
     margin-top: 120px;
     transition: all 1s ease-out;
+  }
+
+  .service {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    font-size: 13px;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 25px;
+    z-index: 1000;
+    background-color: rgb(223, 228, 237);
+    align-items: center;
+    justify-content: center;
+    top: -80px;
+    right: 30px;
+    position: absolute;
+
+    
+
+
+ 
+  }
+
+  .service:hover {
+    box-shadow: 0px 0px 5px 0px rgb(175, 174, 174);
+  }
+
+  .serv_name {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(223, 228, 237);
+    width: 50px;
+    height: 50px;
+    align-items:flex-end;
+    border-radius: 25px;
+  }
+
+
+
+  .service:hover {
+    background-color: rgb(202, 214, 237);
+  }
+
+
+
+
+
+  .chat {
+    width: 250px;
+    height: 400px;
+    background-color: rgb(223, 228, 237);
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    position: absolute;
+    top:-360px;
+    right: 0px;
+    justify-content: space-between;
+    z-index: 1000;
+    visibility: hidden;
+    box-shadow: 0px 0px 5px 0px rgb(175, 174, 174);
+
+
+
+  }
+
+  .chat_field {
+    height: 300px;
+    width: auto;
+    flex-wrap: auto;
+    background-color: white;
+    overflow-y:auto;
+  }
+
+  .chat_sheet li  {
+    list-style-type: none;
+   
+    
+  }
+
+  .chat_sheet li div {
+    border: none;
+    background-color: rgb(223, 228, 237);
+    border-radius: 4px;
+    width: 100px auto;
+    
+    margin: 10px;
+    padding: 5px;
+    align-items:start;
+    word-wrap: break-word;
+  }
+
+  .chat_input {
+    flex: auto;
+    border: none;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    padding: 3px;
+    
+  }
+
+  .fi-rr-angle-small-down {
+    font-size: 25px;
+    align-self:end;
+    color: #558dce;
+  }
+
+  .fi-rr-angle-small-down:hover {
+    color: rgb(68, 110, 158);
+  }
+
+  .fi-rr-angle-small-down:hover > .chat { 
+    visibility: hidden;
+    opacity: 0;
+    
+  }
+
+  .input_box {
+    margin-top: auto;
+    display:flex;
+    width: 100%;
+ 
+  }
+
+  .button_chat {
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: rgb(203, 211, 225);
+  }
+
+  .button_chat:hover {
+    background-color: rgb(162, 174, 196);
+  }
+
+  .fi-rs-comment-alt {
+    font-size: 30px;
+    color: rgb(68, 110, 158);
   }
 
 

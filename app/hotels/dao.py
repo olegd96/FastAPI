@@ -1,5 +1,5 @@
 from datetime import date
-from sqlalchemy import desc, select, func, and_
+from sqlalchemy import desc, or_, select, func, and_
 from app.bookings.models import Bookings
 from app.dao.base import BaseDAO
 from app.database import async_session_maker
@@ -31,8 +31,16 @@ class HotelsDAO(BaseDAO):
         booked_rooms = (select(Bookings.room_id, func.count(Bookings.room_id).label("rooms_booked"))
         .select_from(Bookings)
         .where(
-            and_(Bookings.date_from <= date_from,
-                 Bookings.date_to >= date_to)
+            or_(
+                and_(
+                    Bookings.date_from >= date_from,
+                    Bookings.date_from <= date_to,
+                ),
+                and_(
+                    Bookings.date_from <= date_from,
+                    Bookings.date_to > date_from,
+                ),
+            ),
         )
         .group_by(Bookings.room_id)
 

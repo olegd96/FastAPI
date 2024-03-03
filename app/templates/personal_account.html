@@ -42,10 +42,15 @@
 
 
 <div class="tab-list" role="tablist">
-	<button hx-get="/pages/personal_account" hx-target="#bookings_list"  hx-swap="innerHTML transition:true"  class="selected" aria-selected="false" >Личные данные</button>
+	<button hx-get="/pages/personal_account" 
+    hx-target="#bookings_list"  
+    hx-swap="innerHTML transition:true"
+    hx-push-url="true" 
+    class="selected" aria-selected="false" >Личные данные</button>
 	<button hx-get="/pages/personal_account_archive" 
     hx-target="#bookings_list" 
-    hx-swap="innerHTML transition:true" 
+    hx-swap="innerHTML transition:true"
+    hx-push-url="true"  
     class="not_selected" 
     aria-selected="false" >Архив бронирований</button>
 </div>

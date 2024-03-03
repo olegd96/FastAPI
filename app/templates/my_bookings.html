@@ -83,7 +83,7 @@
 {% for item in bookings|sort(attribute="id") %}
 <div class="book_cart">
     <div class="pic"><img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp" }}
-            onerror="this.src='static/images/simple-booking.jpg';"></div>
+            onerror="this.src='/static/images/simple-booking.jpg';"></div>
     <div class="descript">
         <ul>
             <li class="cart_item"><label class="cart">Id брони: </label><span>{{item.id}}<span></li>
@@ -99,7 +99,8 @@
         </ul>
     </div>
     <div class="unbook"><button hx-delete={{"/bookings/" ~ item.id ~ "" }} hx-confirm="Отменить бронь?"
-            hx-on:htmx:after-request="refresh_nav(); refresh_my_bookings()">Отменить бронь</button></div>
+            hx-on::after-request="refresh_nav(); refresh_my_bookings()"
+            >Отменить бронь</button></div>
 </div>
 {% endfor %}
 {% else %}

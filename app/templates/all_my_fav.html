@@ -7,7 +7,10 @@
         background-color: rgb(223, 228, 237);
         font-family: 'Montserrat', sans-serif;
         padding: 5px;
-        align-items: center;
+        align-items: flex-start;
+        /* align-items: center; */
+        min-width: 1100px;
+        
     }
 
     .room_cart {
@@ -19,7 +22,8 @@
         border-color: white;
         padding: 5px;
         height: 200px;
-        align-items: center;
+        /* align-items: center; */
+        align-items: flex-start;
     }
 
     .descr {
@@ -229,7 +233,7 @@
         <div class="room_cart" id="room_cart">
             <div class="hotel_img">
                 <img src={{"/static/images/resized_500_300_" ~ room.hotel.image_id ~ ".webp" }}
-                    onerror="this.src='static/images/simple-booking.jpg';">
+                    onerror="this.src='/static/images/simple-booking.jpg';">
             </div>
             <div class="composition1">
                 <div class="all_descr">

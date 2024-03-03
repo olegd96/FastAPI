@@ -107,8 +107,13 @@
         <input id="password" class="log" type="password">
     </div>
     <div class="box1"><span id="wrong_credentials" class="text-sm_text-red-400"></span>
-        <button class="log_button" hx-on:click="loginUser()">Войти</button>
-        <span class="reg" hx-get="/pages/reg_user" hx-target="#login_bar"
-            hx-swap="innerHTML transition:true">Зарегистрироваться</span>
+        <button class="log_button" hx-on:click="loginUser()"
+        >Войти</button>
+        <span class="reg" hx-get="/pages/reg_user" hx-target="#login_bar" hx-push-url="true"
+            hx-swap="innerHTML transition:true" >Зарегистрироваться</span>
     </div>
 </div>
+
+
+
+<!--  -->

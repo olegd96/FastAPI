@@ -1,15 +1,21 @@
+from fastapi.security import OAuth2PasswordRequestForm
 from httpx import AsyncClient
 import pytest
 
-@pytest.mark.parametrize("email, password, status_code", [
-    ("kot@pes.com", "kotopes", 200),
-    ("kot@pes.com", "kot0pes", 409),
-    ("pes@kot.com", "kot0pes", 200),
-    ("abcde", "kjkhk", 422),
+@pytest.mark.parametrize("email, password, fio, status_code", [
+    ("kot@pes.com", "kotopes", "kotopes", 200),
+    ("kot@pes.com", "kot0pes", "kot0pes", 409),
+    ("pes@kot.com", "kot0pes", "kot0pes", 200),
+    ("abcde", "kjkhk", "kjkhk", 422),
 ])
-async def test_register_user(email, password, status_code, ac: AsyncClient):
+async def test_register_user(email, password, fio, status_code, ac: AsyncClient):
     response = await ac.post("auth/register", json=
                   {"email": email,
+                   "fio": fio,
+                   "telephone": " ",
+                   "is_active": True,
+                   "is_verified": False,
+                   "is_administrator": False,
                     "password": password,
                     })
     
@@ -23,10 +29,10 @@ async def test_register_user(email, password, status_code, ac: AsyncClient):
                          ]
                          )
 async def test_login_user(email, password, status_code, ac: AsyncClient):
-    response = await ac.post("auth/login", json={
-        "email": email,
-        "password": password,
-    })
+    response = await ac.post("auth/login", 
+                            data={'username': email,
+                                  'password': password}
+                            )
 
     assert response.status_code == status_code
 

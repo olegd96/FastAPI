@@ -1,10 +1,22 @@
 [
-    {
+    {   
+        "id": "3ede3539-f445-44fc-a81a-d036672603b9",
         "email": "test@test.com",
-        "hashed_password": "$2b$12$ib8N/MddMjSxNs4UOF69c.KuO4CyglQHcNATYpHcKJJn5rbltYNFG"
+        "hashed_password": "$2b$12$ib8N/MddMjSxNs4UOF69c.KuO4CyglQHcNATYpHcKJJn5rbltYNFG",
+        "fio": " ",
+        "telephone": " ",
+        "is_active": true,
+        "is_verified": false,
+        "is_administrator": false
     },
-    {
+    {   
+        "id": "3ede3539-f445-44fc-a81a-d036672603c8",
         "email": "artem@example.com",
-        "hashed_password": "$2b$12$SwAOsDqK7tjnvIcjlTAUvuX6K4xv/zUvqp8Y2oSCtqVv4f/XCB2Bi"
+        "hashed_password": "$2b$12$SwAOsDqK7tjnvIcjlTAUvuX6K4xv/zUvqp8Y2oSCtqVv4f/XCB2Bi",
+        "fio": " ",
+        "telephone": " ",
+        "is_active": true,
+        "is_verified": false,
+        "is_administrator": false
     }
 ]

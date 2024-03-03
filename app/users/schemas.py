@@ -8,6 +8,9 @@ class SUserAuth(BaseModel):
     email: EmailStr
     password: str
 
+class SUserVerify(BaseModel):
+    id: uuid.UUID
+
 class SUserBase(BaseModel):
     email: Optional[EmailStr] = Field(None)
     fio: Optional[str] = Field("")
@@ -15,6 +18,8 @@ class SUserBase(BaseModel):
     is_active: bool = Field(True)
     is_verified: bool = Field(False)
     is_administrator: bool = Field(False)
+
+    model_config=ConfigDict(from_attributes=True)
 
 class SUserReg(SUserBase):
     email: EmailStr

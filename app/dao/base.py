@@ -19,7 +19,7 @@ class BaseDAO:
         async with async_session_maker() as session:
             query = select(cls.models).filter_by(id=model_id)
             result = await session.execute(query)
-            return result.mappings().one_or_none()
+            return result.scalars().one_or_none()
 
     @classmethod
     async def find_one_or_none(cls, **filter_by):
@@ -42,7 +42,9 @@ class BaseDAO:
                 query = insert(cls.models).values(**data).returning(cls.models.id)
                 result = await session.execute(query)
                 await session.commit()
-                return result.mappings().first()
+                res = result.mappings().first()
+                print(res)
+                return res
         except (SQLAlchemyError, Exception) as e:
             if isinstance(e, SQLAlchemyError):
                 msg = "Database Exc: Cannot insert data into table"

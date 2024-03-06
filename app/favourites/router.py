@@ -3,6 +3,7 @@
 import uuid
 from fastapi import APIRouter, Depends, Response, Request
 from pydantic import TypeAdapter
+from app.exceptions import CannotCheckFav
 
 from app.favourites.dao import FavDao
 from app.favourites.schemas import  SFavList, SFavNew, SFav
@@ -21,6 +22,8 @@ async def check_fav(
     user: Users = Depends(get_current_user),
     ):
     res = await FavDao.check_fav_hotel_room(room_id=room.id, hotel_id=room.h_id, user_id=user.id)
+    if not res:
+        raise CannotCheckFav
     return res
 
 @router.get("")
@@ -40,6 +43,8 @@ async def check_fav_anon(
         anonimous_id = str(uuid.uuid4())
         response.set_cookie("cart", anonimous_id, httponly=True)
     res = await FavDao.check_fav_hotel_room(room_id=room.id, hotel_id=room.h_id, anonimous_id=anonimous_id)
+    if not res:
+        raise CannotCheckFav
     return res
 
 @router.get("/anon")

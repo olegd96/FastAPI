@@ -3,6 +3,7 @@ from datetime import date
 from sqlalchemy import and_, func, or_, select
 from app.bookings.models import Bookings
 from app.dao.base import BaseDAO
+from app.exceptions import DateFromCannotBeAfterDateTo
 from app.hotels.rooms.models import Rooms
 from app.database import async_session_maker
 
@@ -25,7 +26,9 @@ class RoomsDAO(BaseDAO):
         WHERE hotel_id = 1 and name not in (SELECT name from booked)
 
         """
-
+        if date_from > date_to:
+            raise DateFromCannotBeAfterDateTo
+        
         booked = select(Rooms.__table__.columns,
                         (Rooms.price * (date_to - date_from).days).label("total_cost"),
                         (Rooms.quantity - func.count(Bookings.room_id)).label("rooms_left"),

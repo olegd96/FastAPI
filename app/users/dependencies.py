@@ -3,11 +3,13 @@ from typing import Optional
 import uuid
 from fastapi import Depends, HTTPException, Request, status
 from jose import jwt, JWTError
+from pydantic import TypeAdapter
 
 from app.config import settings
 from app.exceptions import IncorrectTokenFormatException, TokenAbsentException, TokenExpiredException, UserIsNotPresentException
 from app.users.dao import UsersDAO
 from app.users.models import Users
+from app.users.schemas import SUser
 from app.users.utils import OAuth2PasswordBearerWithCookie
 
 oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/auth/login")
@@ -35,7 +37,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> Optional[User
         raise UserIsNotPresentException
     user = await UsersDAO.find_one_or_none(id=uuid.UUID(user_id))
     if not user:
-        raise UserIsNotPresentException
+        raise UserIsNotPresentException 
     return user
 
 async def get_current_active_user(current_user: Users = Depends(get_current_user)) -> Users:

@@ -8,7 +8,7 @@ from fastapi.templating import Jinja2Templates
 from app.bookings.dao import BookingDAO
 from app.bookings.schemas import SBookingInfo
 from app.cart.dao import CartDao
-from app.exceptions import IncorrectTokenFormatException, TokenExpiredException, UserIsNotPresentException
+from app.exceptions import CannotBookHotelForLongPeriod, DateFromCannotBeAfterDateTo, IncorrectTokenFormatException, TokenExpiredException, UserIsNotPresentException
 from app.favourites.dao import FavDao
 from app.hotels.dao import HotelsDAO
 from app.hotels.rooms.dao import RoomsDAO
@@ -31,7 +31,7 @@ templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/clear", response_class=HTMLResponse)
 async def clear_page(request: Request):
-    return templates.TemplateResponse("clear.html", {"request": request})
+    return templates.TemplateResponse("experiments.html", {"request": request})
 
 @router.get("", response_class=HTMLResponse)
 async def start_page(
@@ -95,6 +95,10 @@ async def get_hotels_by_loc_date(request: Request,
     location: str, date_from: date, date_to: date,
     valid = Depends(check_valid_request),
     ):
+    if date_from > date_to:
+        raise DateFromCannotBeAfterDateTo
+    if (date_to - date_from).days > 31:
+        raise CannotBookHotelForLongPeriod
     res = await HotelsDAO.find_all(location, date_from, date_to)
     return templates.TemplateResponse("hotels_by_loc_and_time.html", {"request": request, "hotels": res})
 
@@ -123,6 +127,10 @@ async def get_rooms_by__date(
     date_to: date,
     valid = Depends(check_valid_request),
     ):
+    if date_from > date_to:
+        raise DateFromCannotBeAfterDateTo
+    if (date_to - date_from).days > 31:
+        raise CannotBookHotelForLongPeriod
     fav = []
     if (user_id := request.cookies.get("user_id")):
         fav = await FavDao.find_all(user_id=uuid.UUID(user_id))
@@ -177,7 +185,6 @@ async def get_anon_fav(
     response: Response,
     valid = Depends(check_valid_request),
 ):
-    #check_valid_request(request=request)
     if not (anonimous_id := request.cookies.get("cart")):
         anonimous_id = str(uuid.uuid4())
         response.set_cookie("cart", anonimous_id, httponly=True)
@@ -192,7 +199,11 @@ async def get_fav_by_date(
     date_to: date,
     valid = Depends(check_valid_request),
     user: Users = Depends(get_current_user),
-):
+):  
+    if date_from > date_to:
+        raise DateFromCannotBeAfterDateTo
+    if (date_to - date_from).days > 31:
+        raise CannotBookHotelForLongPeriod 
     res = await FavDao.get_fav_by_date(date_from, date_to, user_id=user.id)
     return templates.TemplateResponse("all_my_fav_by_date.html", {"request": request, "rooms": res})
 
@@ -204,6 +215,10 @@ async def get_anon_fav_by_date(
     date_to: date,
     valid = Depends(check_valid_request),
 ):
+    if date_from > date_to:
+        raise DateFromCannotBeAfterDateTo
+    if (date_to - date_from).days > 31:
+        raise CannotBookHotelForLongPeriod
     if not (anonimous_id := request.cookies.get("cart")):
         anonimous_id = str(uuid.uuid4())
         response.set_cookie("cart", anonimous_id, httponly=True)
@@ -238,6 +253,10 @@ async def personal_account_by_date(
     valid = Depends(check_valid_request),
     user: Users = Depends(get_current_user),
 ):  
+    if date_from > date_to:
+        raise DateFromCannotBeAfterDateTo
+    if (date_to - date_from).days > 31:
+        raise CannotBookHotelForLongPeriod
     past_bookings_by_date = await BookingDAO.find_all_past_bookings_by_date(
         user=user, 
         date_from=date_from,

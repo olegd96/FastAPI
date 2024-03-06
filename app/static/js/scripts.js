@@ -164,7 +164,7 @@ async function refresh_nav() {
                 (response.text())
                 .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });}
             else {
-                fetch('auth/refresh', {method: 'POST'})
+                fetch('/auth/refresh', {method: 'POST'})
                 .then(response => {
                     if (response.status === 200) {
                         fetch('/pages/bookings', {headers: { 'myHeader': 'true' }})

@@ -7,7 +7,7 @@ from app.bookings.schemas import SNewBooking
 from app.cart.schemas import SCart, SCartInfo
 from app.cart.dao import CartDao
 from app.users.dependencies import get_current_user
-from app.exceptions import CannotAddToCart
+from app.exceptions import CannotAddToCart, CartBookMiss
 from app.users.models import Users
 import uuid
 
@@ -63,6 +63,8 @@ async def delete_book_from_cart(
     user: Users = Depends(get_current_user)
 ):
     res = await CartDao.delete(booking_id=booking_id, user_id=user.id)
+    if not res:
+        raise CartBookMiss
     return res
 
 @router.delete("/anon/{booking_id}")
@@ -72,4 +74,6 @@ async def delete_book_from_anon_cart(
 ):
     anonimous_id = request.cookies.get("cart")
     res = await CartDao.delete(booking_id=booking_id, anonimous_id=anonimous_id)
+    if not res:
+        raise CartBookMiss
     return res

@@ -43,7 +43,6 @@ class BaseDAO:
                 result = await session.execute(query)
                 await session.commit()
                 res = result.mappings().first()
-                print(res)
                 return res
         except (SQLAlchemyError, Exception) as e:
             if isinstance(e, SQLAlchemyError):

@@ -73,3 +73,15 @@ class InvalidTokenException(BookingException):
 class RequestAttorneyException(BookingException):
     status_code=status.HTTP_405_METHOD_NOT_ALLOWED
     detail="Невалидный запрос"
+
+class BookingMiss(BookingException):
+    status_code=status.HTTP_400_BAD_REQUEST
+    detail="Бронирование с данным номером отсутствует"
+
+class CartBookMiss(BookingException):
+    status_code=status.HTTP_400_BAD_REQUEST
+    detail="Позиция с данным номером отсутствует в корзине"
+
+class CannotCheckFav(BookingException):
+    status_code=status.HTTP_400_BAD_REQUEST
+    detail="Операция с избранным недоступна"

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="htmx-config" content='{"refreshOnHistoryMiss":"true"}'>
     <link rel="stylesheet" href="{{ url_for('static', path='css/menu.css') }}">
+    <!-- <link href="{{ url_for('static', path='/css/main.css') }}" rel="stylesheet"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
@@ -32,12 +33,26 @@
         document.addEventListener('htmx:responseError', function(event){
             if (event.detail.xhr.status === 401){
                 /* Notify the user of a 404 Not Found response */
-                fetch("/auth/refresh", {method: "POST"});
-                const eventType = event.detail.requestConfig.triggeringEvent.type;
-                setTimeout(function(){
-                htmx.trigger(event.detail.elt, eventType)
-                }, 1000);        
+                fetch("/auth/refresh", {method: "POST"})
+                .then (response => {
+                    if (response.status === 200) {
+                        const eventType = event.detail.requestConfig.triggeringEvent.type;
+                        setTimeout(function(){
+                        htmx.trigger(event.detail.elt, eventType)
+                        }, 1000);
+                    } else {
+                        alert('Войдите в систему');
+                    }
+                } 
+                )            
+            } else if (event.detail.xhr.status === 422) {
+                alert('Проверьте корректность данных')
             }
+            else {
+                let res = JSON.parse(event.detail.xhr.responseText)
+                alert(res.detail);
+            }
+
         })
         
         document.addEventListener('htmx:configRequest', function(event) {
@@ -49,8 +64,9 @@
     <title>ONBOOK</title>
 </head>
 
-<body id="main" hx-on::load="refresh_nav()">
-    <div id="nav_box" >
+<body id="main" >
+    <div id="nav_box">
+        <div class="inisible" hx-post="/auth/refresh" hx-swap="none" hx-trigger="load" hx-on::after-request="refresh_nav()"></div>
         <nav id="nav" class="nav">
             <span class="logo" hx-get="/pages/banners" 
             hx-swap="innerHTML transition:true"
@@ -96,7 +112,7 @@
                 ></i></span></div>
             <div class="chat" id="chat">
                 <i class="fi fi-rr-angle-small-down" onclick="hiddenChat()"></i>
-                <div class="chat_field" >
+                <div class="chat_field" id="history">
                 <ul class="chat_sheet" id="chat_field"></ul>
             </div>
                 <form id="form" onsubmit="sendMessage(event)"> 
@@ -137,6 +153,9 @@
             mes_content.appendChild(content)
             message.appendChild(mes_content)
             messages.appendChild(message)
+            var chat = document.getElementById('history')
+            chat.scrollTop = chat.scrollHeight
+            
         };
         function sendMessage(event) {
             var input = document.getElementById("chat_message")

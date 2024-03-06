@@ -10,7 +10,7 @@ from fastapi_versioning import version
 from app.bookings.dao import BookingDAO
 from app.bookings.models import Bookings
 from app.bookings.schemas import SBooking, SBookingInfo, SBookingWithRoom, SNewBooking
-from app.exceptions import RoomCannotBeBooked
+from app.exceptions import BookingMiss, RoomCannotBeBooked
 from app.hotels.rooms.schemas import SRoomWithHotel
 from app.tasks.tasks import send_booking_confirmation_email
 from app.users.dependencies import get_current_user
@@ -53,6 +53,8 @@ async def delete_booking(
     user: Users = Depends(get_current_user),
 ):
     res = await BookingDAO.delete(booking_id=booking_id, user_id=user.id)
+    if not res:
+        raise BookingMiss
     return res
 
 

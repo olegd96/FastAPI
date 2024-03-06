@@ -261,7 +261,7 @@ class BookingDAO(BaseDAO):
                            )
                     .order_by(desc("book_count"))
                     .group_by(Bookings.room_id)
-                    .limit(3)
+                    .limit(6)
                     ).cte("bookings")
 
         hotels = (select(Rooms)

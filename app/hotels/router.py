@@ -23,7 +23,7 @@ router = APIRouter(
 @cache(expire=150)
 async def get_location(
     location: str,
-):
+) -> List:
     res = await HotelsDAO.find_location(location=location)
     return res
 
@@ -41,7 +41,7 @@ async def get_hotels_by_location_and_time(location: str,
     return await HotelsDAO.find_all(
         location=location, date_from=date_from, date_to=date_to)
 
-@router.get("/id/{hotel_id}", include_in_schema=True)
+@router.get("/id/{hotel_id}")
 @cache(expire=150)
 async def get_hotel_by_id(
     hotel_id: int) -> Optional[SHotels]:

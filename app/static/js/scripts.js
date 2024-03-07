@@ -1,4 +1,4 @@
-
+"use strict";
 async function add_booking(room_id, hotel_id, block_id) {
     const url = "/bookings";
     const date_from = document.getElementById("date_from").value;
@@ -307,7 +307,7 @@ function sleep (time) {
 
 
 //переписан
-function book_all_checked() {
+async function book_all_checked() {
     var choice = []
     var choice_list = document.getElementsByClassName('choice');
     for (var i = 0; i < choice_list.length; i++) {
@@ -321,7 +321,7 @@ function book_all_checked() {
     for (let i = 0; i < choice.length; i++) {
 
 
-        fetch(url, {
+        await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -365,14 +365,15 @@ function book_all_checked() {
                     })
             } else {
                 url_1 = "/cart/" + choice[i][3];
-                fetch(url_1, { method: 'DELETE' });
-
+                fetch(url_1, { method: 'DELETE' })
+                .then(response => {
+                    if (response.status === 200) {
                 let myDiv = document.getElementById('bookings_list');
                 fetch('/pages/cart', {headers: { 'myHeader': 'true' }})
                     .then(response => response.text())
                     .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
-                refresh_nav();
-
+                refresh_nav();}
+            })
 
             }
         });

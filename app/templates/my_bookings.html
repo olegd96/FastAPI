@@ -23,7 +23,7 @@
         font-family: 'Montserrat', sans-serif;
     }
 
-    button {
+    .del {
         background-color: rgb(187, 212, 241);
         border: 0;
         box-shadow: none;
@@ -33,7 +33,7 @@
 
     }
 
-    button:hover {
+    .del:hover {
         background-color: rgb(202, 214, 237);
     }
 
@@ -98,7 +98,7 @@
             <li class="cart_item"><label class="cart">Стоимость: </label><span>{{item.total_cost}}</span></li>
         </ul>
     </div>
-    <div class="unbook"><button hx-delete={{"/bookings/" ~ item.id ~ "" }} hx-confirm="Отменить бронь?"
+    <div class="unbook"><button class="del" hx-delete={{"/bookings/" ~ item.id ~ "" }} hx-confirm="Отменить бронь?"
             hx-on::after-request="refresh_nav(); refresh_my_bookings()"
             >Отменить бронь</button></div>
 </div>

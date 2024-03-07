@@ -1,7 +1,6 @@
 
 from datetime import timedelta
 import re
-from turtle import delay
 from typing import List
 import uuid
 from weakref import ref
@@ -12,7 +11,7 @@ from app.cart.dao import CartDao
 from app.exceptions import CannotAddDataToDatabase, IncorrectEmailOrPasswordException, InvalidTokenException, UserAlreadyExistsException
 from app.favourites.dao import FavDao
 from app.tasks.tasks import send_registration_confirmation_email
-from app.users.dao import RefreshSessionDAO, UsersDAO
+from app.users.dao import  UsersDAO
 from app.users.utils import get_password_hash
 from app.users.dependencies import get_current_active_user, get_current_admin_user, get_current_user
 from app.users.models import Users
@@ -139,3 +138,7 @@ async def verify_new_user(user_id: uuid.UUID):
         return 'Ваша регистрация подтверждена'
     else:
         return 'Ошибка'
+    
+
+
+

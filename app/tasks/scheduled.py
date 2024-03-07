@@ -7,10 +7,10 @@ from app.loger import logger
 import smtplib
 import asyncio
 
+from app.users.service import AuthService
+
 async def notice(days: int): 
     bookings = await BookingDAO.find_all_nearest_bookings(days)
-
-    
 
     msgs = []
     if bookings:
@@ -32,9 +32,20 @@ async def notice(days: int):
                 server.send_message(msg_content)
         logger.info("Successfully sent reminding messages")
 
+
 @celery.task(name="notice_one_day")
 def periodic_task_1():
     asyncio.run(notice(1))
+
+
+@celery.task(name="notice_three_days")
+def periodic_task_2():
+    asyncio.run(notice(3))
+
+
+@celery.task(name="delete_old_token")
+def periodic_task_3():
+    asyncio.run(AuthService.delete_old_refresh_token())
     
 
 

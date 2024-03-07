@@ -4,6 +4,7 @@ from typing import Optional
 
 from fastapi import HTTPException, status
 from jose import jwt
+from sqlalchemy import extract, func
 
 from app.users.utils import verify_password
 from app.users.schemas import SRefreshSessionUpdate, SToken, SRefreshSessionCreate
@@ -32,6 +33,7 @@ class AuthService:
     @classmethod
     async def refresh_token(cls, token: uuid.UUID) -> SToken:
             refresh_session = await RefreshSessionDAO.find_one_or_none(refresh_token=token)
+            print(refresh_session)
             if refresh_session is None:
                 raise InvalidTokenException
             if datetime.now(timezone.utc) >= refresh_session.created_at + timedelta(seconds=refresh_session.expires_in):
@@ -85,5 +87,13 @@ class AuthService:
 
 
     @classmethod
-    def _create_refresh_token(cls) -> str:
+    def _create_refresh_token(cls) -> uuid.UUID:
         return uuid.uuid4()
+    
+
+    @classmethod
+    async def delete_old_refresh_token(cls):
+        res = await RefreshSessionDAO.delete_old()
+
+           
+        

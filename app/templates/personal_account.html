@@ -27,6 +27,7 @@
     }
 
     .tab-content {
+        display: flexbox;
         border-top: 3px solid;
         border-color: rgb(223, 228, 237);
         font-family: 'Montserrat', sans-serif;
@@ -36,6 +37,29 @@
 
     .content {
         margin-left: 15px;
+    }
+
+    .edit {
+        display:flex;
+        justify-content: center;
+        background-color: rgb(187, 212, 241);
+        border: 0;
+        box-shadow: none;
+        padding: 5px 20px;
+        color: rgb(85, 85, 107);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 20px;
+        width: 120px;
+        height: 30px;
+        
+    }
+
+    .edit:hover {
+        background-color: rgb(202, 214, 237);
+    }
+
+    .pers_data {
+        margin-bottom: 10px;
     }
     
 </style>
@@ -56,5 +80,8 @@
 </div>
 
 <div id="tab-content" role="tabpanel" class="tab-content">
-	<label class="">Email:   </label><span class="content">{{user}}</span>
+	<div class="pers_data"><label class="">Email:   </label><span class="content">{{user.email}}</span></div>
+    <div class="pers_data"><label class="">Ф.И.О:   </label><span class="content">{{user.fio}}</span></div>
+    <div class="pers_data"><label class="">Тел.:   </label><span class="content">{{user.telephone}}</span></div>
+    <div class="edit"><i class="fi fi-rr-pencil"></i></div>
 </div>

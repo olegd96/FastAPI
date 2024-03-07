@@ -1,12 +1,17 @@
 
+from datetime import datetime, timedelta
 from pydantic import TypeAdapter
+from pytz import timezone
+import pytz
 from app.dao.base import BaseDAO
 from app.users.models import RefreshSessionModel, Users
 from app.database import async_session_maker
-from sqlalchemy import select
+from sqlalchemy import Cast, Date, DateTime, Integer, Time, TypeDecorator, cast, func, select, delete
 from sqlalchemy.orm import load_only
+from app.database import settings
 
 from app.users.schemas import SUser
+
 
 class UsersDAO(BaseDAO):
    models = Users
@@ -39,6 +44,16 @@ class UsersDAO(BaseDAO):
 
 class RefreshSessionDAO(BaseDAO):
    models = RefreshSessionModel
+
+   @classmethod
+   async def delete_old(cls):
+      async with async_session_maker() as session:
+         query = (delete(cls.models)
+                  .where(cls.models.created_at + func.make_interval(0, 0, 0, 0, 0, 0, cls.models.expires_in) <= func.current_timestamp(timezone='utc')
+                  ))                
+         res = await session.execute(query)
+
+
 
 
                

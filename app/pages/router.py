@@ -231,7 +231,7 @@ async def personal_account(
     valid = Depends(check_valid_request),
     user: Users = Depends(get_current_user),
 ):
-    return templates.TemplateResponse("personal_account.html", {"request": request, "user": user.email})
+    return templates.TemplateResponse("personal_account.html", {"request": request, "user": user})
 
 
 @router.get("/personal_account_archive", response_class=HTMLResponse)

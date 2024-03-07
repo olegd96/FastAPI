@@ -14,8 +14,18 @@ celery = Celery(
 
 celery.conf.beat_schedule = {
     "app_periodic_tasks": {
-        "task": "notice_one_day",
+        "task": "notice_one_day", 
         #"schedule": 60,
         "schedule": schedules.crontab(minute="37", hour="19"),
-    }
+    },
+
+    "app_periodic_tasks_1": {
+        "task": "notice_three_days",
+        "schedule": schedules.crontab(minute="37", hour="20")
+    },
+
+    "app_periodic_tasks_2": {
+        "task": "delete_old_token",
+        "schedule": schedules.crontab(minute="00", hour="23")
+    },
 }

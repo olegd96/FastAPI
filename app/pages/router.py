@@ -31,7 +31,7 @@ templates = Jinja2Templates(directory="app/templates")
 
 @router.get("/clear", response_class=HTMLResponse)
 async def clear_page(request: Request):
-    return templates.TemplateResponse("experiments.html", {"request": request})
+    return templates.TemplateResponse("exp.html", {"request": request})
 
 @router.get("", response_class=HTMLResponse)
 async def start_page(
@@ -283,3 +283,18 @@ async def get_most_popular(
 
     popular_hotels = await BookingDAO.get_most_popular_location()
     return templates.TemplateResponse("popular.html", {"request": request, "rooms_hotels": popular_hotels})
+
+
+@router.get("/editor", response_class=HTMLResponse)
+async def get_editor(
+    request: Request,
+    user: Users = Depends(get_current_user)
+):
+    return templates.TemplateResponse("edit_personal.html", {"request": request, "user": user})
+
+@router.get("/edit_pass", response_class=HTMLResponse)
+async def get_edit_pass(
+    request: Request,
+    user: Users = Depends(get_current_user)
+):
+    return templates.TemplateResponse("change_password.html", {"request": request})

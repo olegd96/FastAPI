@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', path='/css/app.css') }}" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="2xl:w-64 2xl:h-80 bg-red-700 md:m-14 flex-col justify-between">
+        <div class="w-8 h-4 bg-slate-500"></div>
+        <h1 class="bg-red-700 text text-5xl">Hello</h1>
+        <div class="w-20 h-8 bg-slate-400 m-7 hover:bg-orange-200"></div>
+        <div class="w-6 h-3 bg-slate-400 m-3"></div>
+        <div class="w-60 h-16 bg-slate-400 m-3  rounded-lg  hover:bg-orange-600 relative">
+            <div class="w-16 h-5 bg-gray-900 m-3 absolute left-60 top-4"></div>
+        </div>
+        <label for="value" class="text-2xl">Values</label><input id="value" type="text" class="w-96 text-2xl">
+        <!-- <img src="/static/images/1.jpg" class="object-cover w-80 h-80"> -->
+        
+    </div>
+    <div class="collapse bg-base-200">
+        <input type="radio" name="my-accordion-1" checked="checked" /> 
+        <div class="collapse-title text-xl font-medium">
+          Click to open this one and close others
+        </div>
+        <div class="collapse-content"> 
+          <p>hello</p>
+        </div>
+      </div>
+      <div class="collapse bg-base-200">
+        <input type="radio" name="my-accordion-1" /> 
+        <div class="collapse-title text-xl font-medium">
+          Click to open this one and close others
+        </div>
+        <div class="collapse-content"> 
+          <p>hello</p>
+        </div>
+      </div>
+      <div class="collapse bg-base-200">
+        <input type="radio" name="my-accordion-1" /> 
+        <div class="collapse-title text-xl font-medium">
+          Click to open this one and close others
+        </div>
+        <div class="collapse-content"> 
+          <p>hello</p>
+        </div>
+      </div>
+      <details class="dropdown">
+        <summary class="m-1 btn">open or close</summary>
+        <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+          <li><a>Item 1</a></li>
+          <li><a>Item 2</a></li>
+        </ul>
+      </details>
+      <div class="card rounded-none w-96 bg-base-100 shadow-xl m-10 md:flex-row">
+        <figure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" /></figure>
+        <div class="card-body" >
+          <h2 class="card-title">Shoes!</h2>
+          <p>If a dog chews shoes whose shoes does he choose?</p>
+          <div class="rating">
+            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked/>
+            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+            <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+          </div>
+          <div class="card-actions justify-end">
+            <button class="btn btn-primary hover:bg-orange-600">Buy Now</button>
+          </div>
+        </div>
+      </div>
+      <div role="alert" class="alert alert-error">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span>Error! Task failed successfully.</span>
+      </div>
+      
+</body>
+</html>

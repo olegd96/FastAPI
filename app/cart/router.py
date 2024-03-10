@@ -57,6 +57,11 @@ async def get_books_from_cart(
     bookings = await CartDao.find_all_with_images(user_id=user.id)
     return bookings
 
+# @router.delete("/clear_cart")
+# async def clear(days: int):
+#     res = await CartDao.delete_old_book_from_cart(days)
+#     return {'message': "successfully cleaning"}
+
 @router.delete("/{booking_id}")
 async def delete_book_from_cart(
     booking_id: int,

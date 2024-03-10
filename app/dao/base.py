@@ -57,10 +57,21 @@ class BaseDAO:
 
     @classmethod
     async def delete(cls, **filter_by):
-        async with async_session_maker() as session:
-            query = delete(cls.models).filter_by(**filter_by)
-            await session.execute(query)
-            await session.commit()
+        try:
+            async with async_session_maker() as session:
+                query = delete(cls.models).filter_by(**filter_by)
+                await session.execute(query)
+                await session.commit()
+        except (SQLAlchemyError, Exception) as e:
+            if isinstance(e, SQLAlchemyError):
+                msg = "Database Exc: Cannot delete data from table"
+            elif isinstance(e, Exception):
+                msg = "Unknown Exc: Cannot delete data from table"
+
+            logger.error(msg, extra={"table": cls.models.__tablename__}, exc_info=True)
+            return None
+
+
 
     @classmethod
     async def add_bulk(cls, *data):

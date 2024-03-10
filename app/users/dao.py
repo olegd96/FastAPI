@@ -1,16 +1,13 @@
-
-from datetime import datetime, timedelta
-from pydantic import TypeAdapter
-from pytz import timezone
-import pytz
 from app.dao.base import BaseDAO
 from app.users.models import RefreshSessionModel, Users
 from app.database import async_session_maker
-from sqlalchemy import Cast, Date, DateTime, Integer, Time, TypeDecorator, cast, func, select, delete
+from sqlalchemy import Cast, Date, DateTime, Integer, Time, TypeDecorator, cast, distinct, func, select, delete
 from sqlalchemy.orm import load_only
+from sqlalchemy.exc import SQLAlchemyError
 from app.database import settings
 
 from app.users.schemas import SUser
+from app.loger import logger
 
 
 class UsersDAO(BaseDAO):
@@ -47,11 +44,22 @@ class RefreshSessionDAO(BaseDAO):
 
    @classmethod
    async def delete_old(cls):
-      async with async_session_maker() as session:
-         query = (delete(cls.models)
-                  .where(cls.models.created_at + func.make_interval(0, 0, 0, 0, 0, 0, cls.models.expires_in) <= func.current_timestamp(timezone='utc')
-                  ))                
-         res = await session.execute(query)
+      try:
+         async with async_session_maker() as session:
+            stmt = (delete(cls.models)
+                     .where(cls.models.created_at + func.make_interval(0, 0, 0, 0, 0, 0, cls.models.expires_in) <= func.current_timestamp(timezone='utc')
+                     ))                
+            res = await session.execute(stmt)
+            await session.commit()
+      except (SQLAlchemyError, Exception) as e:
+            if isinstance(e, SQLAlchemyError):
+                msg = "Database Exc: Cannot delete data from table"
+            elif isinstance(e, Exception):
+                msg = "Unknown Exc: Cannot delete data from table"
+
+            logger.error(msg, extra={"table": cls.models.__tablename__}, exc_info=True)
+            return None
+      
 
 
 

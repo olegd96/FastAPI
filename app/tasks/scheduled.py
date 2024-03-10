@@ -1,4 +1,5 @@
 import celery
+from app.cart.dao import CartDao
 from app.tasks.celery import celery
 from app.bookings.dao import BookingDAO
 from app.tasks.email_templates import create_booking_notice_template
@@ -32,6 +33,16 @@ async def notice(days: int):
                 server.send_message(msg_content)
         logger.info("Successfully sent reminding messages")
 
+async def del_old_tokens():
+    logger.debug("delete_tokens=")
+    res = await AuthService.delete_old_refresh_token()
+    logger.info("Successfully delete old tokens")
+
+async def del_book_from_cart(days):
+    logger.debug("delete_old_book=")
+    res = await CartDao.delete_old_book_from_cart(days)
+    logger.info("Successfully delete from cart")
+
 
 @celery.task(name="notice_one_day")
 def periodic_task_1():
@@ -45,7 +56,12 @@ def periodic_task_2():
 
 @celery.task(name="delete_old_token")
 def periodic_task_3():
-    asyncio.run(AuthService.delete_old_refresh_token())
+    asyncio.run(del_old_tokens())
+
+
+@celery.task(name="delete_old_book_from_cart")
+def periodic_task_4():
+    asyncio.run(del_book_from_cart(180))
     
 
 

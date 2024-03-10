@@ -1,14 +1,16 @@
 
 from datetime import timedelta
+from email.policy import EmailPolicy
 import re
 from typing import List
 import uuid
 from weakref import ref
 from fastapi import APIRouter, Depends, Request, Response
+from fastapi.responses import PlainTextResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import TypeAdapter
 from app.cart.dao import CartDao
-from app.exceptions import CannotAddDataToDatabase, IncorrectEmailOrPasswordException, InvalidTokenException, UserAlreadyExistsException
+from app.exceptions import CannotAddDataToDatabase, IncorrectCurrentPasswordException, IncorrectEmailOrPasswordException, InvalidTokenException, PasswordNotConfirm, UserAlreadyExistsException
 from app.favourites.dao import FavDao
 from app.tasks.tasks import send_registration_confirmation_email
 from app.users.dao import  UsersDAO
@@ -17,7 +19,7 @@ from app.users.dependencies import get_current_active_user, get_current_admin_us
 from app.users.models import Users
 from app.config import settings
 
-from app.users.schemas import SRefreshSessionCreate, SToken, SUser, SUserAuth, SUserBase, SUserDB, SUserReg, SUserVerify
+from app.users.schemas import SRefreshSessionCreate, SToken, SUser, SUserAuth, SUserBase, SUserDB, SUserReAuth, SUserReg, SUserUpdate, SUserVerify
 from app.users.service import AuthService
 
 router_users = APIRouter(
@@ -139,6 +141,35 @@ async def verify_new_user(user_id: uuid.UUID):
     else:
         return 'Ошибка'
     
+@router_users.post("/update_personal_data")
+async def update_personal_data(
+    user_data: SUserUpdate,
+    user: Users = Depends(get_current_user),
+):
+    user_update = await UsersDAO.update(
+        Users.id == user.id,
+        data=user_data)
+    
+
+
+@router_auth.post("/change_pass")
+async def change_password(
+    user_data: SUserReAuth,
+    current_user: Users = Depends(get_current_user)
+):
+    user = await AuthService.authenticate_user(current_user.email, user_data.password)
+    if not user:
+        raise IncorrectCurrentPasswordException
+    if user_data.new_password != user_data.new_pass_re:
+        raise PasswordNotConfirm
+    user_update = await UsersDAO.update(Users.id==current_user.id,
+                                data={"hashed_password": get_password_hash(user_data.new_password)})
+    if user_update:
+        return {"message": "Пароль сменен"}
+    return {"message": "Ошибка"}
+
+
+ 
 
 
 

@@ -1,4 +1,4 @@
-from turtle import st
+import email
 from typing import List, Optional
 import uuid
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
@@ -7,6 +7,11 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 class SUserAuth(BaseModel):
     email: EmailStr
     password: str
+
+class SUserReAuth(BaseModel):
+    password: str
+    new_password: str
+    new_pass_re: str
 
 class SUserVerify(BaseModel):
     id: uuid.UUID
@@ -60,3 +65,7 @@ class SToken(BaseModel):
     refresh_token: uuid.UUID
     token_type: str
 
+class SUserUpdate(BaseModel):
+    email: EmailStr
+    fio: str
+    telephone: str

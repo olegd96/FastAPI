@@ -212,5 +212,32 @@ class CartDao(BaseDAO):
                 "anon_id": anonimous_id,
             }
             logger.error(msg, extra=extra, exc_info=True)
+
+    
+    @classmethod
+    async def delete_old_book_from_cart(cls, days: int):
+        stmt = (delete(Carts)
+                .where(
+                    and_(
+                        Carts.deleted == True,
+                        func.current_timestamp(timezone='utc') - Carts.created >= func.make_interval(0, 0, 0, days, 0, 0, 0)
+                    )
+                )
+                )
+        try:
+            async with async_session_maker() as session:
+                result = await session.execute(stmt)
+                await session.commit()
+        except (SQLAlchemyError, Exception) as e:
+            if isinstance(e, SQLAlchemyError):
+                msg = "Database Exc"
+            elif isinstance(e, Exception):
+                msg = "Unknown Exc"
+            msg += ": Cannot delete data from cart"
+            extra = {
+                "operation": "clean cart from old data"
+            }
+            logger.error(msg, extra=extra, exc_info=True)
+            
     
     

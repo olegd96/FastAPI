@@ -42,6 +42,7 @@
     .edit {
         display:flex;
         justify-content: center;
+        align-items: center;
         background-color: rgb(187, 212, 241);
         border: 0;
         box-shadow: none;
@@ -61,6 +62,32 @@
     .pers_data {
         margin-bottom: 10px;
     }
+
+    .ed_bl {
+        margin-top: 10px;
+    }
+
+    .edit_pass {
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(187, 212, 241);
+        border: 0;
+        box-shadow: none;
+        padding: 5px 20px;
+        color: rgb(85, 85, 107);
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        width: 140px;
+        height: 30px;
+        
+    }
+
+    .button_block {
+        display: flex;
+        gap: 10px;
+    }
+    
     
 </style>
 
@@ -70,18 +97,26 @@
     hx-target="#bookings_list"  
     hx-swap="innerHTML transition:true"
     hx-push-url="true" 
-    class="selected" aria-selected="false" >Личные данные</button>
+    class="selected"  >Личные данные</button>
 	<button hx-get="/pages/personal_account_archive" 
     hx-target="#bookings_list" 
     hx-swap="innerHTML transition:true"
     hx-push-url="true"  
     class="not_selected" 
-    aria-selected="false" >Архив бронирований</button>
+     >Архив бронирований</button>
 </div>
 
 <div id="tab-content" role="tabpanel" class="tab-content">
 	<div class="pers_data"><label class="">Email:   </label><span class="content">{{user.email}}</span></div>
     <div class="pers_data"><label class="">Ф.И.О:   </label><span class="content">{{user.fio}}</span></div>
     <div class="pers_data"><label class="">Тел.:   </label><span class="content">{{user.telephone}}</span></div>
-    <div class="edit"><i class="fi fi-rr-pencil"></i></div>
+    <div class="button_block">
+    <div class="edit" hx-get="/pages/editor" hx-target="#editor_block"
+    hx-swap="innerHTML transition:true"
+    ><i class="fi fi-rr-pencil"></i></div>
+    <div class="edit_pass" hx-get="/pages/edit_pass" hx-target="#editor_block"
+    hx-swap="innerHTML transition:true"
+    >Сменить пароль</div>
+    </div>
+    <div class="ed_bl" id="editor_block"></div>
 </div>

@@ -18,7 +18,7 @@ async function add_booking(room_id, hotel_id, block_id) {
 
             alert("Номер добавлен в корзину");
 
-            var url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+            let url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
             fetch('/pages/bookings', {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
                 .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
@@ -46,7 +46,7 @@ async function add_booking(room_id, hotel_id, block_id) {
 
                     alert("Номер добавлен в корзину");
 
-                    var url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+                    let url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
                     fetch('pages/bookings', {headers: { 'myHeader': 'true' }})
                         .then(response => response.text())
                         .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
@@ -68,6 +68,26 @@ async function add_booking(room_id, hotel_id, block_id) {
 function cancel(val) {
     let obj = document.getElementById(val);
     obj.style.display = "none";
+}
+
+function verify_password() {
+    let password = document.getElementById("new_pass")
+    let re_password = document.getElementById("new_pass_re")
+    let done = document.getElementById("done")
+    if (password.value != re_password.value) {
+        re_password.style.background = "#FFE3E3";
+        done.style.visibility = "hidden";
+    } else {
+        re_password.style.background = "#EFFCF6";
+        password.style.background = "#EFFCF6";
+        done.style.visibility = "visible";
+    }
+}
+
+function view_message() {
+    let stat = document.getElementById("status")
+    let message = JSON.parse(stat.textContent)
+    stat.textContent = message["message"]
 }
 
 
@@ -158,7 +178,7 @@ async function regUser() {
 //переписано
 async function refresh_nav() {
     let myDiv = document.getElementById('nav_box');
-    fetch('/pages/bookings', {headers: { 'myHeader': 'true' }})
+    await fetch('/pages/bookings', {headers: { 'myHeader': 'true' }})
         .then(response => {
             if (response.status === 200) {            
                 (response.text())
@@ -181,7 +201,15 @@ async function refresh_nav() {
 
 async function refresh_anon_nav() {
     let myDiv = document.getElementById('nav_box');
-    fetch('/pages/anon_bookings', {headers: { 'myHeader': 'true' }})
+    await fetch('/pages/anon_bookings', {headers: { 'myHeader': 'true' }})
+        .then(response => response.text())
+        .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
+}
+
+
+async function refresh_account() {
+    let myDiv = document.getElementById('bookings_list');
+    await fetch('/pages/personal_account', {headers: { 'myHeader': 'true' }})
         .then(response => response.text())
         .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
 }
@@ -189,7 +217,7 @@ async function refresh_anon_nav() {
 //переписано
 async function refresh_my_bookings() {
     let myDiv = document.getElementById('bookings_list');
-    fetch('/pages/my_bookings', {headers: { 'myHeader': 'true' }})
+    await fetch('/pages/my_bookings', {headers: { 'myHeader': 'true' }})
     .then(response => {
         if (response.status === 200) {            
     (response.text())
@@ -200,7 +228,7 @@ async function refresh_my_bookings() {
 //переписано
 async function refresh_my_cart() {
     let myDiv = document.getElementById('bookings_list');
-    fetch('/pages/cart', {headers: { 'myHeader': 'true' }})
+    await fetch('/pages/cart', {headers: { 'myHeader': 'true' }})
     .then(response => {
         if (response.status === 200) {            
     (response.text())
@@ -212,7 +240,7 @@ async function refresh_panel() {
     let myDiv = document.getElementById('anon_cart');
     let myDiv_1 = document.getElementById('bookings_list');
     if (myDiv != null) {
-        fetch('/pages/cart', {headers: { 'myHeader': 'true' }})
+        await fetch('/pages/cart', {headers: { 'myHeader': 'true' }})
             .then(response => response.text())
             .then(data => { myDiv.innerHTML = data, htmx.process(myDiv_1); });
     }
@@ -220,7 +248,7 @@ async function refresh_panel() {
 
 async function refresh_anon_cart() {
     let myDiv = document.getElementById('bookings_list');
-    fetch('/pages/cart/anon', {headers: { 'myHeader': 'true' }})
+    await fetch('/pages/cart/anon', {headers: { 'myHeader': 'true' }})
         .then(response => response.text())
         .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
 }
@@ -317,7 +345,7 @@ async function book_all_checked() {
             choice.push(strng);
         }
     }
-    url = "/bookings";
+    let url = "/bookings";
     for (let i = 0; i < choice.length; i++) {
 
 
@@ -364,7 +392,7 @@ async function book_all_checked() {
                         }
                     })
             } else {
-                url_1 = "/cart/" + choice[i][3];
+                let url_1 = "/cart/" + choice[i][3];
                 fetch(url_1, { method: 'DELETE' })
                 .then(response => {
                     if (response.status === 200) {

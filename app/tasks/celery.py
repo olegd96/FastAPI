@@ -28,4 +28,9 @@ celery.conf.beat_schedule = {
         "task": "delete_old_token",
         "schedule": schedules.crontab(minute="00", hour="23")
     },
+
+    "app_periodic_tasks_3": {
+        "task": "delete_old_book_from_cart",
+        "schedule": schedules.crontab(minute="00", hour="23", day_of_month="1")
+    },
 }

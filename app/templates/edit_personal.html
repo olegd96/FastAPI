@@ -1,0 +1,69 @@
+<style>
+
+.edit_personal {
+        
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 17px;
+    background-color: rgb(223, 228, 237);
+    width: 400px;
+    height: 170px;
+    display: flexbox;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.edit_data {
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    
+}
+
+.editor_inp {
+    width: 300px;
+    border-style: none;
+    font-size: 17px;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+.done_btn {
+    height: 40px;
+    width: 90px;
+    background-color: rgb(187, 212, 241);
+    margin: 10px;
+    margin-right: 5px;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    font-size: 18px;
+    
+    
+}
+
+.done_btn:hover {
+    background-color: rgb(202, 214, 237);
+}
+
+.done {
+    display:flex;
+    justify-content: flex-end;
+}
+
+</style>
+<div class="edit_personal" id="edit_personal">
+    <form onsubmit="none">
+    <div class="edit_data"><label class="" for="email">Email:</label><input id="email" class="editor_inp" type="email" name="email" value={{user.email}}></div>
+    <div class="edit_data"><label class="" for="fio">Ф.И.О.:   </label><input id="fio" class="editor_inp" type="text" name="fio" value="{{user.fio}}"></div>
+    <div class="edit_data"><label class="" for="tel">Тел.:   </label><input id="tel" class="editor_inp" type="tel" name="telephone" value={{user.telephone}}></div>
+    <div class="done">
+        <div class="done_btn" id="done" hx-headers="{'Content-Type': 'application/json'}"
+        hx-ext='json-enc' hx-post="/auth/update_personal_data" hx-swap="none" hx-on::after-request="refresh_account()"><i class="fi fi-br-check" ></i></div>
+        <div class="done_btn" hx-on:click="cancel('edit_personal')"><i class="fi fi-br-cross"></i></div>
+    </div>
+</form>
+</div>
+</div>
+

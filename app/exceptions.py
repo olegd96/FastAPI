@@ -19,6 +19,9 @@ class IncorrectEmailOrPasswordException(BookingException):
     status_code=status.HTTP_401_UNAUTHORIZED
     detail="Неверная почта или пароль"
 
+class IncorrectCurrentPasswordException(BookingException):
+    status_code=status.HTTP_409_CONFLICT
+    detail="Неверный текущий пароль"
 
 
 class TokenExpiredException(BookingException):
@@ -85,3 +88,7 @@ class CartBookMiss(BookingException):
 class CannotCheckFav(BookingException):
     status_code=status.HTTP_400_BAD_REQUEST
     detail="Операция с избранным недоступна"
+
+class PasswordNotConfirm(BookingException):
+    status_code=status.HTTP_409_CONFLICT
+    detail="Поля нового пароля не совпадают"

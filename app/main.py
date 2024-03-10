@@ -104,8 +104,6 @@ instrumentator.instrument(app).expose(app)
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
-#app.add_middleware(SessionMiddleware, secret_key="cart")
-
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 admin.add_view(UsersAdmin)
 admin.add_view(BookingsAdmin)

@@ -31,7 +31,7 @@
         font-family: 'Montserrat', sans-serif;
     }
 
-    button {
+    .onbk {
         background-color: rgb(187, 212, 241);
         border: 0;
         box-shadow: none;
@@ -41,7 +41,7 @@
 
     }
 
-    button:hover {
+    .onbk:hover {
         background-color: rgb(202, 214, 237);
     }
 
@@ -179,7 +179,7 @@
             hx-on:htmx:after-request="refresh_anon_cart();refresh_anon_nav()"><i class="fi fi-rr-trash"></i></div>
     </div>
     {% endfor %}
-    <div class="order_booking"><button hx-get="/pages/login" hx-target="#login_bar"
+    <div class="order_booking"><button class="onbk" hx-get="/pages/login" hx-target="#login_bar"
             hx-on:click="alert('Войдите или зарегистрируйтесь')" hx-swap="innerHTML transition:true">Оформить бронирование</button></div>
     {% else %}
     <div class="notice">Пустая корзина</div>

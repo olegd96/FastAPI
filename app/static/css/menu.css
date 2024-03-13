@@ -9,6 +9,7 @@ body {
     min-width: 1412px;
 }
 
+
 .wrapper {
         
     margin-right: 150px;
@@ -238,11 +239,6 @@ body {
     top: -80px;
     right: 30px;
     position: absolute;
-
-    
-
-
- 
   }
 
   .service:hover {
@@ -366,6 +362,169 @@ body {
   .invisible {
     display: none;
   }
+
+  .dial {
+    border: none;
+  padding: 0;
+    align-items: center;
+    width: 400px;
+    height: 220px;
+    border: none;
+    background-color: rgb(234, 235, 238);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    display: none;
+    top: 300px;
+    left:calc(50% - 200px);
+    color: rgb(71, 98, 130);
+    opacity: 0;
+  }
+
+  .dial.is-visible {
+    display: block;
+    animation: fadeInFromNone 0.3s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  
+  .dial.is-hidden {
+    animation: fadeOutFromBlock 0.3s ease-in-out;
+    /* display: none; */
+  }
+
+  .dial::backdrop {
+    background-color: rgb(179, 170, 170);
+    opacity: 0.65;
+  }
+
+  .dial_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dial_button {
+    position: absolute;
+    top:150px;
+    left: 35px;
+    width: 155px;
+    height: 40px;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    background-color: rgb(146, 170, 197);
+    color: white;
+  }
+
+  .dial_button:hover {
+    background-color: rgb(68, 110, 158);
+  }
+
+  .dial_button1 {
+    position: absolute;
+    top:150px;
+    left: 215px;
+    width: 155px;
+    height: 40px;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    background-color: rgb(146, 170, 197);
+    color: white;
+  }
+
+  .dial_button1:hover {
+    background-color: rgb(68, 110, 158);
+  }
+
+  .dial_mess {
+    margin-top: 70px;
+  }
+
+  .popup {
+    position: fixed;
+    width: 500px;
+    height: 50px;
+    border: none;
+    background-color: rgb(147, 158, 184);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    display: none;
+    top: 90%;
+    left:calc(50% - 200px);
+    color: white;
+    padding: none;
+    opacity: 0;
+  }
+
+
+  .popup::backdrop {
+    opacity: 0;
+  }
+
+  .popup_box {
+    margin: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .popup_button {
+    /* position:absolute;
+    top: 2px;
+    left: 2px; */
+    height: 24px;
+    width: 24px;
+    border: white solid;
+    border-radius: 24px;
+    background-color: rgb(147, 158, 184);
+    color: white;
+    font-size: 12px;
+    padding-top: 3px;
+  }
+
+  .popup_mess {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 94%;
+  }
+
+
+  .popup.is-visible {
+    display: block;
+    animation: fadeInFromNone 0.3s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  
+  .popup.is-hidden {
+    animation: fadeOutFromBlock 0.3s ease-in-out;
+    /* display: none; */
+  }
+  
+  
+  @keyframes fadeInFromNone {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeOutFromBlock {
+    0% {
+      opacity: 1;
+    }
+  
+    100% {
+      opacity: 0;
+    }
+  }
+
+
+  
+
+
 
 
 

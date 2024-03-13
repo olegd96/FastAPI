@@ -1,4 +1,51 @@
 "use strict";
+// document.addEventListener("htmx:confirm", function(e) {
+//     e.preventDefault()
+//     showMdAlrt(`${e.detail.question}`)
+//   })
+
+document.addEventListener('htmx:responseError', function(event){
+    if (event.detail.xhr.status === 401){
+        /* Notify the user of a 404 Not Found response */
+        fetch("/auth/refresh", {method: "POST"})
+        .then (response => {
+            if (response.status === 200) {
+                const eventType = event.detail.requestConfig.triggeringEvent.type;
+                setTimeout(function(){
+                htmx.trigger(event.detail.elt, eventType)
+                }, 1000);
+            } 
+            else {
+                // dialog.style.display = "block";
+                // message.textContent = "Войдите в систему";
+                // dialog.showModal();
+                showPopUp("Войдите в систему");
+            }
+        } 
+        )            
+    } else if (event.detail.xhr.status === 422) {
+            // dialog.style.display = "block";
+            //     message.textContent = "Проверьте корректность данных";
+            //     dialog.showModal();
+            showPopUp("Проверьте корректность данных");
+    }
+    else {
+        let res = JSON.parse(event.detail.xhr.responseText)
+        // dialog.style.display = "block";
+        // message.textContent = res.detail;
+        // dialog.showModal();
+        showPopUp(res.detail);
+    }
+
+})
+
+
+
+document.addEventListener('htmx:configRequest', function(event) {
+    event.detail.headers['myHeader'] = 'true'
+}
+)
+
 async function add_booking(room_id, hotel_id, block_id) {
     const url = "/bookings";
     const date_from = document.getElementById("date_from").value;
@@ -18,7 +65,7 @@ async function add_booking(room_id, hotel_id, block_id) {
 
             alert("Номер добавлен в корзину");
 
-            let url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+            const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
             fetch('/pages/bookings', {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
                 .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
@@ -46,7 +93,7 @@ async function add_booking(room_id, hotel_id, block_id) {
 
                     alert("Номер добавлен в корзину");
 
-                    let url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+                    const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
                     fetch('pages/bookings', {headers: { 'myHeader': 'true' }})
                         .then(response => response.text())
                         .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
@@ -67,7 +114,8 @@ async function add_booking(room_id, hotel_id, block_id) {
 
 function cancel(val) {
     let obj = document.getElementById(val);
-    obj.style.display = "none";
+    if (obj) {
+    obj.style.display = "none"};
 }
 
 function verify_password() {
@@ -111,14 +159,12 @@ async function loginUser() {
         body: formBody
     }).then(response => {
         if (response.status === 200) {
-            //window.location.href = "/pages/bookings"
-            var url = "/pages/bookings";
+            const url = "/pages/bookings";
             fetch(url, {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
                 .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
             cancel("logpanel");
             refresh_panel();
-
         } else {
             wrongCredentialsSpan.textContent = "Неверный email или пароль";
         }
@@ -271,8 +317,8 @@ async function add_cart(room_id, hotel_id, block_id) {
         }),
     }).then(response => {
         if (response.status === 201) {
-            alert("Номер добавлен в корзину");
-
+            // alert("Номер добавлен в корзину");
+            showPopUp("Номер добавлен в корзину");
             refresh_nav();
         }
         else if (response.status === 401) {
@@ -289,8 +335,8 @@ async function add_cart(room_id, hotel_id, block_id) {
                         }),
                     }).then(response => {
                         if (response.status === 201) {
-                            alert("Номер добавлен в корзину");
-                
+                            // alert("Номер добавлен в корзину");
+                            showPopUp("Номер добавлен в корзину");
                             refresh_nav();
                         }})} //this
                         else if (response.status === 401) {
@@ -306,21 +352,25 @@ async function add_cart(room_id, hotel_id, block_id) {
                                 }),
                             }).then(response => {
                                 if (response.status === 201) {
-                                    alert("Номер добавлен в корзину");
+                                    // alert("Номер добавлен в корзину");
+                                    showPopUp("Номер добавлен в корзину");
                                     refresh_anon_nav();
                                 }
                                 else if (response.status === 422) {
-                                    alert("Выберите даты бронирования");
+                                    // alert("Выберите даты бронирования");
+                                    showPopUp("Выберите даты бронирования");
                                 }
                                 else if (response.status === 401) {
-                                    alert("Войдите или зарегистрируйтесь");
+                                    // alert("Войдите или зарегистрируйтесь");
+                                    showPopUp("Войдите или зарегистрируйтесь");
                                 }
                             });
                         }                   
                     })
                 }
                 else if (response.status === 422) {
-                    alert("Выберите даты бронирования");               
+                    // alert("Выберите даты бронирования");
+                    showPopUp("Выберите даты бронирования");              
         }
         
         }       
@@ -336,9 +386,9 @@ function sleep (time) {
 
 //переписан
 async function book_all_checked() {
-    var choice = []
-    var choice_list = document.getElementsByClassName('choice');
-    for (var i = 0; i < choice_list.length; i++) {
+    let choice = []
+    let choice_list = document.getElementsByClassName('choice');
+    for (let i = 0; i < choice_list.length; i++) {
         if (choice_list[i].checked) {
             const strng = choice_list[i].value.split('/');
             strng.push(choice_list[i].name)
@@ -372,10 +422,11 @@ async function book_all_checked() {
                                 }),
                             }).then(response => {
                                 if (response.status != 200) {
-                                    alert("Ошибка бронирования");
+                                    // alert("Ошибка бронирования");
+                                    showPopUp("Ошибка бронирования");
 
                                 } else {
-                                    url_1 = "/cart/" + choice[i][3];
+                                    const url_1 = "/cart/" + choice[i][3];
                                     fetch(url_1, { method: 'DELETE' });
                                         
 
@@ -392,7 +443,7 @@ async function book_all_checked() {
                         }
                     })
             } else {
-                let url_1 = "/cart/" + choice[i][3];
+                const url_1 = "/cart/" + choice[i][3];
                 fetch(url_1, { method: 'DELETE' })
                 .then(response => {
                     if (response.status === 200) {
@@ -428,7 +479,7 @@ async function add_fav(room_id, hotel_id, block_id) {
         }),
     }).then(response => {
         if (response.status === 201) {
-            var url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+            const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
             fetch(url_1, {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
                 .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1) });
@@ -447,7 +498,7 @@ async function add_fav(room_id, hotel_id, block_id) {
                         }),
                     }).then(response => {
                         if (response.status === 201) {
-                            var url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+                            const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
                             fetch(url_1, {headers: { 'myHeader': 'true' }})
                                 .then(response => response.text())
                                 .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1) });
@@ -464,7 +515,7 @@ async function add_fav(room_id, hotel_id, block_id) {
                         }),
                     }).then(response => {
                         if (response.status === 201) {
-                            var url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+                            const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
                             fetch(url_1, {headers: { 'myHeader': 'true' }})
                                 .then(response => response.text())
                                 .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
@@ -475,7 +526,8 @@ async function add_fav(room_id, hotel_id, block_id) {
                 })    
         } 
         else if (response.status === 409) {
-            alert(response.statusText);
+            // alert(response.statusText);
+            showPopUp(response.statusText);
         }
     })
 }
@@ -495,7 +547,7 @@ async function add_fav_from_cart(room_id, hotel_id) {
         }),
     }).then(response => {
         if (response.status === 201) {
-            var url_1 = '/pages/cart';
+            const url_1 = '/pages/cart';
             fetch(url_1, {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
                 .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1) });
@@ -514,7 +566,7 @@ async function add_fav_from_cart(room_id, hotel_id) {
                         }),
                     }).then(response => {
                         if (response.status === 201) {
-                            var url_1 = '/pages/cart';
+                            const url_1 = '/pages/cart';
                             fetch(url_1, {headers: { 'myHeader': 'true' }})
                                 .then(response => response.text())
                                 .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1) });
@@ -531,7 +583,7 @@ async function add_fav_from_cart(room_id, hotel_id) {
                         }),
                     }).then(response => {
                         if (response.status === 201) {
-                            var url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+                            const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
                             fetch(url_1, {headers: { 'myHeader': 'true' }})
                                 .then(response => response.text())
                                 .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
@@ -541,7 +593,8 @@ async function add_fav_from_cart(room_id, hotel_id) {
                     } 
             })
         } else if (response.status === 409) {
-            alert(response.statusText);
+            // alert(response.statusText);
+            showPopUp(response.statusText);
         }
     })
 }
@@ -605,7 +658,7 @@ async function add_fav_single(room_id, hotel_id) {
                             }),
                         }).then(response => {
                             if (response.status === 201) {
-                                var url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+                                const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
                                 fetch(url_1, {headers: { 'myHeader': 'true' }})
                                     .then(response => response.text())
                                     .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
@@ -617,7 +670,8 @@ async function add_fav_single(room_id, hotel_id) {
                 });
         }
         else if (response.status === 409) {
-            alert(response.statusText);
+            // alert(response.statusText);
+            showPopUp(response.statusText);
         }
 
     })

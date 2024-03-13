@@ -16,51 +16,23 @@
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-    <!-- For Version 1 -->
-
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <script src="{{ url_for('static', path='js/scripts.js') }}"></script>
-    <script src="https://unpkg.com/htmx.org/dist/ext/class-tools.js"></script>
-    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.10"
+    <script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
+    <script src="{{ url_for('static', path='js/json-enc.js') }}"></script>
+    <script src="{{ url_for('static', path='js/class-tools.js') }}"></script>
+    <!-- <script src="https://unpkg.com/htmx.org/dist/ext/class-tools.js"></script> -->
+    <!-- <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script> -->
+    <!-- <script src="https://unpkg.com/htmx.org@1.9.10"
         integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
-        crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script>
-    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
-    <script>
-        document.addEventListener('htmx:responseError', function(event){
-            if (event.detail.xhr.status === 401){
-                /* Notify the user of a 404 Not Found response */
-                fetch("/auth/refresh", {method: "POST"})
-                .then (response => {
-                    if (response.status === 200) {
-                        const eventType = event.detail.requestConfig.triggeringEvent.type;
-                        setTimeout(function(){
-                        htmx.trigger(event.detail.elt, eventType)
-                        }, 1000);
-                    } 
-                    else {
-                        alert('Войдите в систему');
-                    }
-                } 
-                )            
-            } else if (event.detail.xhr.status === 422) {
-                alert('Проверьте корректность данных')
-            }
-            else {
-                let res = JSON.parse(event.detail.xhr.responseText)
-                alert(res.detail);
-            }
+        crossorigin="anonymous"></script> -->
+    <!-- <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script> -->
+    <!-- <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script> -->
 
-        })
-        
-        document.addEventListener('htmx:configRequest', function(event) {
-            event.detail.headers['myHeader'] = 'true'
-        }
-        )
-    </script>
+    
+    
 
     <title>ONBOOK</title>
 </head>
@@ -104,7 +76,7 @@
 
     <div id="login_bar" class="login_bar"></div>
     <div id="bookings_list" class="bookings_list" hx-swap="outerHTML transition:true"><span></span></div>
-   
+    
     <footer class="footer">
         <div class="service" >
             <div class="serv_name" onclick="showChat()"><span class="sp"><i
@@ -135,26 +107,48 @@
                 <div class="text">Simple booking</div>
             </div>
             <div class="footer__right">
-                <div class="contact">Как с нами связаться</div>
-                <div class="phone">+7 (800)800-20-20</div>
-                <div class="address">Екатеринбург, ул.Московская, д.3</div>
+                <div class="contact">Как с нами связаться:</div>
+                <div class="phone"><label></label>+7 (800) 800-20-20</label></div>
+                <div class="address"><label>Екатеринбург, ул.Московская, д.3</label></div>
             </div>
         </div>
         <div class="footer__bottom">ONBOOK All rights reserved.</div>
     </footer>
+  
+    <dialog class="dial" id="dial">
+        <div class="dial_box">
+        <form method="dialog">
+        <button autofocus value="true" class="dial_button">Ok</button>
+        <button class="dial_button1" value="false">Отмена</button>
+        </form>
+        <div class="dial_mess"><p  id="dial_mess"></p></div>
+        </div>
+    </dialog>
+
+ 
+    <dialog class="popup" id="popup">
+        <div class="popup_box">
+            <button  class="popup_button"><i
+                class=
+                "fi fi-br-cross"
+                ></i></button>
+            <div class="popup_mess"><p  id="popup_mess"></p></div>
+        </div>
+    </dialog>
+
     <script>
-        var client_id = Date.now()
-        
-        var ws = new WebSocket(`ws://localhost:8000/chat/ws/${client_id}`);
+        client_id = Date.now()
+        ws = new WebSocket(`ws://localhost:8000/chat/ws/${client_id}`);
+
         ws.onmessage = function(event) {
-            var messages = document.getElementById('chat_field')
-            var message = document.createElement('li')
-            var mes_content = document.createElement('div')
-            var content = document.createTextNode(event.data)
+            let messages = document.getElementById('chat_field')
+            let message = document.createElement('li')
+            let mes_content = document.createElement('div')
+            let content = document.createTextNode(event.data)
             mes_content.appendChild(content)
             message.appendChild(mes_content)
             messages.appendChild(message)
-            var chat = document.getElementById('history')
+            let chat = document.getElementById('history')
             chat.scrollTop = chat.scrollHeight
             
         };
@@ -164,8 +158,154 @@
             input.value = ''
             event.preventDefault()
         }
+        popup = document.getElementById("popup");
+        popup_box = document.querySelector(".popup_box");
+        popup_msgs = document.getElementById("popup_mess");
+        popup_button = document.querySelector(".popup_button");
+        dlg = document.getElementById("dial");
+        clsBtn = document.querySelector(".dial_button");
+        clsBtnNo = document.querySelector(".dial_button1");
+        msgs = document.getElementById("dial_mess");
+        // msg.textContent = "";
+        function showMdAlrt(msg) {
+            toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
+            msgs.textContent = msg;
+            dlg.showModal();
+            // window.history.pushState(null, null, document.location);
+            show = true;
+            
+        }
 
- 
+        
+        function toggleTwoClasses(element, first, second, timeOfAnimation) {
+            if (!element.classList.contains(first)) {
+                element.classList.add(first);
+                element.classList.remove(second);
+            } else {
+                element.classList.add(second);
+                window.setTimeout(function() {
+                element.classList.remove(first);
+                element.style.display = "";
+                }, timeOfAnimation);
+            }
+            }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.code === "Escape" && dlg.classList.contains("is-visible")) {
+                toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
+                dlg.close();
+                dlg.style.display = "";
+
+                 
+            }
+            });
+
+        function showPopUp(msg) {
+            toggleTwoClasses(popup, "is-visible", "is-hidden", 500);
+            popup.showModal();
+            popup_msgs.textContent = msg;
+            // window.history.pushState(null, null, document.location);
+            show = true;
+        }
+
+        // handleModalClick = ({ currentTarget, target }) => {
+        //     const isClickedOnBackdrop = target === currentTarget;
+        //     if (isClickedOnBackdrop) {
+        //         toggleTwoClasses(popup, "is-visible", "is-hidden", 1000);
+        //         popup.close();
+        //         popup.style.display = "";
+        //         // popup.style.display = "";
+        //         // history.back();
+        //         // show = false;
+        //  }
+        // }
+
+        handleModalClick = (event) => {
+            const modalRect = popup.getBoundingClientRect();
+
+            if (
+                event.clientX < modalRect.left ||
+                event.clientX > modalRect.right ||
+                event.clientY < modalRect.top ||
+                event.clientY > modalRect.bottom
+            ) {
+                toggleTwoClasses(popup, "is-visible", "is-hidden", 300);
+                popup.close();
+                popup.style.display = "";
+                // history.back();
+                show = false;
+
+            }
+            };
+
+        popup.addEventListener("click", handleModalClick);
+
+        popup_button.addEventListener("click", () => {
+            toggleTwoClasses(popup, "is-visible", "is-hidden", 500);
+            popup.close();
+            popup.style.display = "";
+            // history.back();
+            show = false;
+            });
+
+        addEventListener('popstate', function(e) {
+            if (show) {
+                popup.close();
+                popup.style.display = "";
+                dlg.close();
+                dlg.style.display = "";
+                dlg.classList.add("is-hidden");
+                dlg.classList.remove("is-visible");
+                popup.classList.add("is-hidden");
+                popup.classList.remove("is-visible");
+            
+                // history.back();
+                show = false;
+            }
+            })
+
+        clsBtn.addEventListener("click", () => {
+            toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
+            
+            
+            // history.back();
+            show = false;
+            //dlg.close();
+            });
+
+        clsBtnNo.addEventListener("click", () => {
+            toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
+            
+            
+            // history.back();
+            show = false;
+            // dlg.close(); 
+            });
+
+        document.getElementById('bookings_list').addEventListener('htmx:confirm', function(evt) {
+            if (evt.target.className === "unbook" || evt.target.className === "del"){
+                evt.preventDefault();
+                showMdAlrt(`${evt.detail.question}`);
+                dlg.addEventListener("close", lstnr = () => {   
+                    if (dlg.returnValue == "true") evt.detail.issueRequest(true);
+                    dlg.removeEventListener("close", lstnr); 
+                    })
+               
+            }})
+            
+        window.onLoad = function(){
+            let dlg = undefined;
+            let clsBtn = undefined; 
+            let clsBtnNo = undefined; 
+            let msgs = undefined;
+            let popup = undefined;
+            let popup_box = undefined;
+            let popup_msgs = undefined;
+            let popup_button = undefined;
+            const handleModalClick = undefined;
+            
+        };
+        
     </script>
 </body>
 

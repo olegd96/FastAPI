@@ -98,7 +98,7 @@
         <div class="tabs">
             <input type="radio" name="tabs" checked id="tab1">
             <label class="nav_lab" for="tab1" hx-get="/pages/search" hx-target="#bookings_list"
-                hx-swap="innerHTML transition:true" hx-push-url="true">Поиск отелей</label>
+                hx-swap="innerHTML transition:true" hx-push-url="true" >Поиск отелей</label>
             <input type="radio" name="tabs" checked id="tab2">
             <label class="nav_lab" for="tab2" hx-get="/pages/anon_fav"  hx-target="#bookings_list"
             hx-push-url="true" hx-swap="innerHTML transition:true" >
@@ -108,7 +108,7 @@
             </label>
             <input type="radio" name="tabs" checked id="tab3">
             <label class="nav_lab" for="tab3" hx-get="/pages/cart/anon" hx-target="#bookings_list"
-            hx-push-url="true" hx-swap="innerHTML transition:true" >
+            hx-push-url="true" hx-swap="innerHTML transition:true">
                 <div>
                     <i class="fi fi-rr-shopping-cart" id="cart"></i><sup class="sup">{{cart_count}}</sup>
                 </div>

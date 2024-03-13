@@ -31,7 +31,7 @@
         font-family: 'Montserrat', sans-serif;
     }
 
-    button {
+    .onbk {
         background-color: rgb(187, 212, 241);
         border: 0;
         box-shadow: none;
@@ -41,7 +41,7 @@
 
     }
 
-    button:hover {
+    .onbk:hover {
         background-color: rgb(202, 214, 237);
     }
 
@@ -138,21 +138,13 @@
     }
 </style>
 
-<script>
-    function disables(name) {
-        var el = document.getElementById(name);
-        el.background = 'white';
-        // document.querySelector("#demoA fieldset").disabled = false;
-        return false;
-    }
-
-</script>
 
 
 
 
 
 
+<div id="bookkk">
 {% if bookings %}
 {% for item in bookings|sort(attribute="id") %}
 {% if item.date_from >= date %}
@@ -203,8 +195,17 @@
     </div>
 </div>
 {% endfor %}
-<div class="order_booking"><button hx-on:click="book_all_checked();refresh_nav()"
+<div class="order_booking"><button class="onbk" hx-on:click="book_all_checked();refresh_nav()"
         hx-swap="innerHTML transition:true">Оформить бронирование</button></div>
 {% else %}
 <div class="notice">Пустая корзина</div>
 {% endif %}
+</div>
+<script>
+    function disables(name) {
+        var el = document.getElementById(name);
+        el.background = 'white';
+        // document.querySelector("#demoA fieldset").disabled = false;
+        return false;
+    }
+</script>

@@ -78,7 +78,7 @@
 
 
 
-
+<div class="bookkk">
 {% if bookings %}
 {% for item in bookings|sort(attribute="id") %}
 <div class="book_cart">
@@ -98,7 +98,8 @@
             <li class="cart_item"><label class="cart">Стоимость: </label><span>{{item.total_cost}}</span></li>
         </ul>
     </div>
-    <div class="unbook"><button class="del" hx-delete={{"/bookings/" ~ item.id ~ "" }} hx-confirm="Отменить бронь?"
+    <div class="unbook"><button class="del" id="del" hx-delete={{"/bookings/" ~ item.id ~ "" }} 
+            hx-confirm="Отменить бронь?"
             hx-on::after-request="refresh_nav(); refresh_my_bookings()"
             >Отменить бронь</button></div>
 </div>
@@ -106,3 +107,14 @@
 {% else %}
 <div class="notice">У вас нет активных бронирований</div>
 {% endif %}
+</div>
+<!-- <script>
+    
+    document.querySelector('.bookkk').addEventListener('htmx:confirm', function(evt) {
+        evt.preventDefault();
+        showMdAlrt(`${evt.detail.question}`)
+        .then(function(result) {
+            if (result == true) evt.detail.issueRequest(true);
+        }) 
+    });
+</script> -->

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <script src="https://unpkg.com/htmx.org@1.9.10"
+        integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+    <title>Document</title>
+    <style>
+        #chat_room p {
+            border: solid 1px;
+            border-radius: 5px;
+            width:120px;
+            height: auto;
+            margin-left: 20px;
+            word-wrap:break-word;
+            padding:5px;
+            box-shadow: 0 0 2px gray;
+            background-color: aliceblue;
+            
+        }
+
+        #chat_room h4 {
+            border: solid 1px;
+            border-radius: 5px;
+            width:120px;
+            height: auto;
+            margin-right: 20px;
+            word-wrap: break-word;
+            font-weight: lighter;
+            padding:5px;
+            text-align: right;
+            box-shadow: 0 0 2px gray;
+            background-color:bisque;
+        }
+    </style>
+</head>
+<body>
+    <div hx-ext="ws" ws-connect="/chat/wsock/1">
+        <div id="chat_room">
+            
+        </div>
+        <form id="form" ws-send="">
+            <input name="chat_message">
+        </form>
+        <!-- <div id="notifications" hx-swap-oob="beforeend">
+            New message received
+        </div> -->
+    </div>
+    <!-- <script>
+        let myDiv = document.getElementById('chat_room');
+        document.body.addEventListener("htmx:wsBeforeMessage", (data) => {
+            myDiv.innerHTML = data.detail.message;
+        })
+
+    </script> -->
+</body>
+</html>

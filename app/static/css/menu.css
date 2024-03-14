@@ -236,9 +236,9 @@ body {
     background-color: rgb(223, 228, 237);
     align-items: center;
     justify-content: center;
-    top: -80px;
-    right: 30px;
-    position: absolute;
+    top: 90%;
+    right: 2%;
+    position: fixed;
   }
 
   .service:hover {

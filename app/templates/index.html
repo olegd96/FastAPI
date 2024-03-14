@@ -23,6 +23,7 @@
     <script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
     <script src="{{ url_for('static', path='js/json-enc.js') }}"></script>
     <script src="{{ url_for('static', path='js/class-tools.js') }}"></script>
+    <script src="{{ url_for('static', path='js/ws.js') }}"></script>
     <!-- <script src="https://unpkg.com/htmx.org/dist/ext/class-tools.js"></script> -->
     <!-- <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script> -->
     <!-- <script src="https://unpkg.com/htmx.org@1.9.10"
@@ -35,6 +36,37 @@
     
 
     <title>ONBOOK</title>
+    <style>
+        #history p {
+            border: solid 1px;
+            border-radius: 5px;
+            width:120px;
+            height: auto;
+            margin: 5px;
+            margin-left: auto;
+            word-wrap:break-word;
+            padding:5px;
+            box-shadow: 0 0 2px gray;
+            background-color: aliceblue;
+            
+        }
+
+        #history h4 {
+            border: solid 1px;
+            border-radius: 5px;
+            width:120px;
+            height: auto;
+            margin: 5px;
+            margin-right: auto;
+            word-wrap: break-word;
+            font-weight: lighter;
+            padding:5px;
+            text-align: right;
+            box-shadow: 0 0 2px gray;
+            background-color:bisque;
+            
+        }
+    </style>
 </head>
 
 <body id="main" >
@@ -77,30 +109,24 @@
     <div id="login_bar" class="login_bar"></div>
     <div id="bookings_list" class="bookings_list" hx-swap="outerHTML transition:true"><span></span></div>
     
-    <footer class="footer">
-        <div class="service" >
+    
+        <div class="service" hx-ext="ws" ws-connect="/chat/wsock/1">
             <div class="serv_name" onclick="showChat()"><span class="sp"><i
                 class=
                 "fi fi-rs-comment-alt"
                 ></i></span></div>
             <div class="chat" id="chat">
                 <i class="fi fi-rr-angle-small-down" onclick="hiddenChat()"></i>
-                <div class="chat_field" id="history">
-                <ul class="chat_sheet" id="chat_field"></ul>
+                <div class="chat_field" id="history">  
             </div>
-                <form id="form" onsubmit="sendMessage(event)"> 
-                    
+                <form id="form" ws-send=""> 
                 <div class="input_box">
-                
                 <input class="chat_input" type="text" id="chat_message" name="chat_message">
-            
                 <button class="button_chat" type="submit"><i class="fi fi-rr-arrow-right" ></i></button>
-            
             </div></form>
-    
             </div>
-        
         </div>
+        <footer class="footer">
         <div class="footer__top">
             <div class="footer__left">
                 <div class="logo_1">ONBOOK</div>
@@ -137,27 +163,27 @@
     </dialog>
 
     <script>
-        client_id = Date.now()
-        ws = new WebSocket(`ws://localhost:8000/chat/ws/${client_id}`);
+        // client_id = Date.now()
+        // ws = new WebSocket(`ws://localhost:8000/chat/ws/${client_id}`);
 
-        ws.onmessage = function(event) {
-            let messages = document.getElementById('chat_field')
-            let message = document.createElement('li')
-            let mes_content = document.createElement('div')
-            let content = document.createTextNode(event.data)
-            mes_content.appendChild(content)
-            message.appendChild(mes_content)
-            messages.appendChild(message)
-            let chat = document.getElementById('history')
-            chat.scrollTop = chat.scrollHeight
+        // ws.onmessage = function(event) {
+        //     let messages = document.getElementById('chat_field')
+        //     let message = document.createElement('li')
+        //     let mes_content = document.createElement('div')
+        //     let content = document.createTextNode(event.data)
+        //     mes_content.appendChild(content)
+        //     message.appendChild(mes_content)
+        //     messages.appendChild(message)
+        //     let chat = document.getElementById('history')
+        //     chat.scrollTop = chat.scrollHeight
             
-        };
-        function sendMessage(event) {
-            var input = document.getElementById("chat_message")
-            ws.send(input.value)
-            input.value = ''
-            event.preventDefault()
-        }
+        // };
+        // function sendMessage(event) {
+        //     var input = document.getElementById("chat_message")
+        //     ws.send(input.value)
+        //     input.value = ''
+        //     event.preventDefault()
+        // }
         popup = document.getElementById("popup");
         popup_box = document.querySelector(".popup_box");
         popup_msgs = document.getElementById("popup_mess");

@@ -1,4 +1,5 @@
 
+import time
 from fastapi import  WebSocket, WebSocketDisconnect, APIRouter
 
 
@@ -21,6 +22,9 @@ class ConnectionManager:
 
     async def send_personal_message(self, message: str, websocket: WebSocket):
         await websocket.send_text(message)
+
+    async def send_personal_message_json(self, message, websocket: WebSocket):
+        await websocket.send_json(message)
 
     async def broadcast(self, message: str):
         for connection in self.active_connections:
@@ -48,3 +52,30 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.broadcast(f"Client #{client_id} left the chat")
+
+
+@router.websocket("/wsock/{client_id}")
+async def websocket_endpoint_1(websocket: WebSocket, client_id: int):
+    await manager.connect(websocket)
+    # await manager.send_personal_message(start_message, websocket)
+    try:
+        while True:
+            data = await websocket.receive_json()
+            content = """
+                <div hx-swap-oob="beforeend:#history">
+                <p>Вы: {message}</p>
+                </div>
+            """
+            content1 = """
+                <div hx-swap-oob="beforeend:#history">
+                <h4>Консультант: {message}</h4>
+                </div>
+            """
+            await manager.broadcast(content.format( message=data["chat_message"]))
+            await manager.broadcast(content1.format( message=data["chat_message"]))
+            # answer = messages.get(data, 'Выберите пункт из предложенных')
+            # await manager.send_personal_message(answer, websocket)
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
+        await manager.broadcast(f"Client #{client_id} left the chat")
+

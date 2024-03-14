@@ -298,3 +298,9 @@ async def get_edit_pass(
     user: Users = Depends(get_current_user)
 ):
     return templates.TemplateResponse("change_password.html", {"request": request})
+
+@router.get("/chat", response_class=HTMLResponse)
+async def get_chat(
+    request: Request,
+):
+    return templates.TemplateResponse("ws.html", {"request": request})

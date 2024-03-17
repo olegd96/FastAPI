@@ -686,19 +686,47 @@ function setLoc(loc) {
 
 function showChat() {
     let myDiv = document.getElementById("chat");
+   
+    toggleTwoClasses(myDiv, "is-visible", "is-hidden", 300);
     myDiv.style.visibility = "visible";
-    
 }
 
 function hiddenChat() {
     let myDiv = document.getElementById("chat");
-    myDiv.style.visibility = "hidden";
+    
+    toggleTwoClasses(myDiv, "is-visible", "is-hidden", 300);
+    window.setTimeout(function() {
+        myDiv.style.visibility = "hidden";
+        }, 200);
     
 }
 
+// function toggleTwoClasses(element, first, second, timeOfAnimation) {
+//     if (!element.classList.contains(first)) {
+//         element.classList.add(first);
+//         element.classList.remove(second);
+//     } else {
+//         element.classList.add(second);
+//         window.setTimeout(function() {
+//         element.classList.remove(first);
+//         element.style.display = "";
+//         }, timeOfAnimation);
+//     }
+//     }
 
+function toggleTwoClasses(element, first, second, timeOfAnimation) {
+    if (!element.classList.contains(first)) {
+        element.classList.add(first);
+        element.classList.remove(second);
 
-
+    } else {
+        element.classList.add(second);
+        window.setTimeout(function() {
+        element.classList.remove(first);
+        element.style.display = "";
+        }, timeOfAnimation);
+    }
+    }
 
 
 window.onclick = function (event) {

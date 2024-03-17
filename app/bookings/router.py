@@ -42,7 +42,7 @@ async def add_booking(
     if not booking:
         raise RoomCannotBeBooked
     booking = TypeAdapter(SNewBooking).validate_python(booking).model_dump()
-    send_booking_confirmation_email.delay(booking, "chepalin@yandex.ru")
+    send_booking_confirmation_email.delay(booking, user.email)
     return booking
 
 

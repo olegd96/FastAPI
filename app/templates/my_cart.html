@@ -63,7 +63,7 @@
 
     }
 
-    img {
+    .img_cart {
 
         object-fit: cover;
         width: 100%;
@@ -160,7 +160,7 @@
                 {% else %}
                 <input type="checkbox" name={{item.id}} value={{item.room_id}} class="choice" disabled="true">
                 {% endif %}
-                <img src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp" }}
+                <img class="img_cart" src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp" }}
                     onerror="this.src='/static/images/simple-booking.jpg';">
             </div>
             {% if item.date_from < date %} <div class="unavailable">В данный момент вариант недоступен

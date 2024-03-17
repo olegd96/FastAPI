@@ -6,11 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="htmx-config" content='{"refreshOnHistoryMiss":"true"}'>
     <link rel="stylesheet" href="{{ url_for('static', path='css/menu.css') }}">
-    <!-- <link href="{{ url_for('static', path='/css/app.css') }}" rel="stylesheet"> -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}">
+    <link rel="stylesheet" type = "text/css" href="{{ url_for('static', path='font/stylesheet.css') }}">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-straight/css/uicons-regular-straight.css'>
     <link rel='stylesheet'
@@ -18,55 +17,14 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-straight/css/uicons-solid-straight.css'>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    
     <script src="{{ url_for('static', path='js/scripts.js') }}"></script>
     <script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
     <script src="{{ url_for('static', path='js/json-enc.js') }}"></script>
     <script src="{{ url_for('static', path='js/class-tools.js') }}"></script>
     <script src="{{ url_for('static', path='js/ws.js') }}"></script>
-    <!-- <script src="https://unpkg.com/htmx.org/dist/ext/class-tools.js"></script> -->
-    <!-- <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script> -->
-    <!-- <script src="https://unpkg.com/htmx.org@1.9.10"
-        integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
-        crossorigin="anonymous"></script> -->
-    <!-- <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script> -->
-    <!-- <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script> -->
-
-    
-    
-
     <title>ONBOOK</title>
-    <style>
-        #history p {
-            border: solid 1px;
-            border-radius: 5px;
-            width:120px;
-            height: auto;
-            margin: 5px;
-            margin-left: auto;
-            word-wrap:break-word;
-            padding:5px;
-            box-shadow: 0 0 2px gray;
-            background-color: aliceblue;
-            
-        }
-
-        #history h4 {
-            border: solid 1px;
-            border-radius: 5px;
-            width:120px;
-            height: auto;
-            margin: 5px;
-            margin-right: auto;
-            word-wrap: break-word;
-            font-weight: lighter;
-            padding:5px;
-            text-align: right;
-            box-shadow: 0 0 2px gray;
-            background-color:bisque;
-            
-        }
-    </style>
+    
 </head>
 
 <body id="main" >
@@ -110,18 +68,28 @@
     <div id="bookings_list" class="bookings_list" hx-swap="outerHTML transition:true"><span></span></div>
     
     
-        <div class="service" hx-ext="ws" ws-connect="/chat/wsock/1">
-            <div class="serv_name" onclick="showChat()"><span class="sp"><i
+        <div class="service" hx-ext="ws" ws-connect={{"/chat/ws/" ~ ids }}>
+            <div class="serv_name" onclick="showChat()"><div class="sp"><i
                 class=
                 "fi fi-rs-comment-alt"
-                ></i></span></div>
+                ></i></div></div>
             <div class="chat" id="chat">
+                <div class="head_chat">
+                <div class="av">
+                <div class="tw-avatar tw-online">
+                    <div class="tw-w-16 tw-rounded-full">
+                      <img src='/static/images/simple-booking.jpg' />
+                    </div>
+                  </div>
+                </div>
+                <div>
                 <i class="fi fi-rr-angle-small-down" onclick="hiddenChat()"></i>
-                <div class="chat_field" id="history">  
+            </div></div>
+                <div class="chat_field" id="history" >  
             </div>
-                <form id="form" ws-send=""> 
+                <form id="form" ws-send="" hx-on:submit="clearInput()"> 
                 <div class="input_box">
-                <input class="chat_input" type="text" id="chat_message" name="chat_message">
+                <input class="chat_input"  id="chat_message" name="chat_message">
                 <button class="button_chat" type="submit"><i class="fi fi-rr-arrow-right" ></i></button>
             </div></form>
             </div>
@@ -178,12 +146,10 @@
         //     chat.scrollTop = chat.scrollHeight
             
         // };
-        // function sendMessage(event) {
-        //     var input = document.getElementById("chat_message")
-        //     ws.send(input.value)
-        //     input.value = ''
-        //     event.preventDefault()
-        // }
+        function clearInput() {
+            var input = document.getElementById("chat_message");
+            input.value = '';
+        }
         popup = document.getElementById("popup");
         popup_box = document.querySelector(".popup_box");
         popup_msgs = document.getElementById("popup_mess");
@@ -203,18 +169,7 @@
         }
 
         
-        function toggleTwoClasses(element, first, second, timeOfAnimation) {
-            if (!element.classList.contains(first)) {
-                element.classList.add(first);
-                element.classList.remove(second);
-            } else {
-                element.classList.add(second);
-                window.setTimeout(function() {
-                element.classList.remove(first);
-                element.style.display = "";
-                }, timeOfAnimation);
-            }
-            }
+        
         
         document.addEventListener('keydown', (e) => {
             if (e.code === "Escape" && dlg.classList.contains("is-visible")) {
@@ -318,6 +273,14 @@
                     })
                
             }})
+
+            let par = document.getElementById("history");
+        document.body.addEventListener("htmx:wsBeforeMessage", (data) => {  
+            par.insertAdjacentHTML('beforeend', data.detail.message);
+            par.scrollTop = par.scrollHeight;
+        })
+
+        
             
         window.onLoad = function(){
             let dlg = undefined;

@@ -36,13 +36,16 @@ async def clear_page(request: Request):
 @router.get("", response_class=HTMLResponse)
 async def start_page(
     request: Request,
+    response: Response,
     ):
     len_cart = 0
     len_fav = 0
-    if (anonimous_id := request.cookies.get("cart")):   
-        len_cart = len(await CartDao.find_all_with_images(anonimous_id=anonimous_id))
-        len_fav = len(await FavDao.find_all(anonimous_id=anonimous_id))
-    return templates.TemplateResponse("index.html", {"request": request, "cart_count": len_cart, "fav_count": len_fav})
+    if not (anonimous_id := request.cookies.get("cart")):
+            anonimous_id = str(uuid.uuid4())
+            response.set_cookie("cart", anonimous_id, httponly=True)
+    len_cart = len(await CartDao.find_all_with_images(anonimous_id=anonimous_id))
+    len_fav = len(await FavDao.find_all(anonimous_id=anonimous_id))
+    return templates.TemplateResponse("index.html", {"request": request, "cart_count": len_cart, "fav_count": len_fav, "ids":anonimous_id})
 
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request, valid = Depends(check_valid_request)):

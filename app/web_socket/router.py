@@ -1,5 +1,7 @@
 
+from datetime import datetime
 import time
+import uuid
 from fastapi import  WebSocket, WebSocketDisconnect, APIRouter
 
 
@@ -35,47 +37,41 @@ manager = ConnectionManager()
 
 
 @router.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
+async def websocket_endpoint(websocket: WebSocket, client_id: str):
     messages = {'1': "Для регистрации выберите пункт меню 'Войти', затем в открывшемся окне пункт 'Зарегистрироваться'",
                 '2': "Чтобы забронировать отель, найдите через пункт меню 'Поиск' интересующий отель и номера, добавьте в корзину. Перейдите в корзину, выберите желаемые позиции и нажмите кнопку 'Забронировать'",
                 '3': "Вы можете отменить бронирование через пункт меню 'Мои бронирования'"}
-    start_message = """Привет, я - демо-бот\r\n Я могу сообщить как пользоваться сервисом\r\n 
-    Выбери нужный пункт:\r\n 1 - Регистрация в сервисе\n 2 - Бронирование отеля\r\n 3 - Отмена бронирования"""
+    start_message = """Привет, я - демо-бот<br> Я могу сообщить как пользоваться сервисом<br>
+    Выбери нужный пункт:<br> 1 - Регистрация в сервисе<br> 2 - Бронирование отеля<br> 3 - Отмена бронирования"""
+    content = """
+            <div class="tw-chat tw-chat-start" style="margin:4px;">
+            <div class="tw-chat-header">
+            Вы
+            <time class="tw-text-xs tw-opacity-50">{time}</time>
+            </div>
+                <div class="tw-chat-bubble" >{message}</div>
+              </div>
+            """
+    content1 = """
+        <div class="tw-chat tw-chat-end" style="margin:4px;">
+        <div class="tw-chat-header">
+        Консультант
+        <time class="tw-text-xs tw-opacity-50">{time}</time>
+        </div>
+        <div class="tw-chat-bubble" style="background-color:#dbeafe;color:black;"> {message}</div>
+        </div>
+        
+    """
     await manager.connect(websocket)
-    await manager.send_personal_message(start_message, websocket)
-    try:
-        while True:
-            data = await websocket.receive_text()
-            await manager.send_personal_message(data, websocket)
-            answer = messages.get(data, 'Выберите пункт из предложенных')
-            await manager.send_personal_message(answer, websocket)
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
-        await manager.broadcast(f"Client #{client_id} left the chat")
-
-
-@router.websocket("/wsock/{client_id}")
-async def websocket_endpoint_1(websocket: WebSocket, client_id: int):
-    await manager.connect(websocket)
-    # await manager.send_personal_message(start_message, websocket)
+    await manager.send_personal_message(content1.format(message=start_message, time=datetime.strftime(datetime.now(), "%d.%m %H:%M")), websocket)
     try:
         while True:
             data = await websocket.receive_json()
-            content = """
-                <div hx-swap-oob="beforeend:#history">
-                <p>Вы: {message}</p>
-                </div>
-            """
-            content1 = """
-                <div hx-swap-oob="beforeend:#history">
-                <h4>Консультант: {message}</h4>
-                </div>
-            """
-            await manager.broadcast(content.format( message=data["chat_message"]))
-            await manager.broadcast(content1.format( message=data["chat_message"]))
-            # answer = messages.get(data, 'Выберите пункт из предложенных')
-            # await manager.send_personal_message(answer, websocket)
+            await manager.send_personal_message(content.format( message=data["chat_message"], time=datetime.strftime(datetime.now(), "%d.%m %H:%M")), websocket)
+            await manager.send_personal_message(content1.format( message=messages.get(data["chat_message"], "Выберите пункт из предложенных"), time=datetime.strftime(datetime.now(), "%d.%m %H:%M")), websocket)
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.broadcast(f"Client #{client_id} left the chat")
+
+
 

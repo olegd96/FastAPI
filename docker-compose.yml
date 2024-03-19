@@ -1,5 +1,16 @@
 version: '3.7'
 services:
+  nginx:
+    build:
+        context: .
+        dockerfile: "Dockerfile.nginx"
+    container_name: booking_nginx
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - booking
+
   db:
     image: postgres:15
     container_name: booking_db
@@ -26,8 +37,8 @@ services:
       - redis
     command: ["/booking/docker/app.sh"]
     #command: sh -c "alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000"
-    ports:
-      - 7777:8000
+    # ports:
+    #   - 7777:8000
 
   celery:
     image: booking_celery
@@ -63,27 +74,27 @@ services:
       - .env-non-dev
     depends_on:
       - redis
-    ports:
-    - 5555:5555
+    # ports:
+    # - 5555:5555
 
-  prometheus:
-    image: prom/prometheus:v2.43.0
-    container_name: prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheusdata:/prometheus
-    restart: unless-stopped
-    ports:
-      - 9090:9090
+  # prometheus:
+  #   image: prom/prometheus:v2.43.0
+  #   container_name: prometheus
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - prometheusdata:/prometheus
+  #   restart: unless-stopped
+  #   ports:
+  #     - 9090:9090
 
-  grafana:
-    image: grafana/grafana:9.4.7
-    container_name: grafana
-    volumes:
-      - grafanadata:/var/lib/grafana
-    restart: unless-stopped
-    ports:
-      - 3000:3000
+  # grafana:
+  #   image: grafana/grafana:9.4.7
+  #   container_name: grafana
+  #   volumes:
+  #     - grafanadata:/var/lib/grafana
+  #   restart: unless-stopped
+  #   ports:
+  #     - 3000:3000
       
 volumes:
   postgresdata:

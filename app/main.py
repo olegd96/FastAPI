@@ -102,7 +102,7 @@ instrumentator = Instrumentator(
 
 instrumentator.instrument(app).expose(app)
 
-app.mount("/static", StaticFiles(directory="app/static"), "static")
+app.mount("/static", StaticFiles(directory="./app/static"), "static")
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 admin.add_view(UsersAdmin)

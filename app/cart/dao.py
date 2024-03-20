@@ -8,7 +8,7 @@ from app.cart.models import Carts
 from app.bookings.models import Bookings
 from app.hotels.rooms.models import Rooms
 from app.hotels.models import Hotels
-from app.database import async_session_maker
+from app.database import async_session_maker, async_session_taskmaker
 from app.dao.base import BaseDAO
 from app.exceptions import UserIsNotPresentException
 from sqlalchemy.orm import Mapped, mapped_column
@@ -225,7 +225,7 @@ class CartDao(BaseDAO):
                 )
                 )
         try:
-            async with async_session_maker() as session:
+            async with async_session_taskmaker() as session:
                 result = await session.execute(stmt)
                 await session.commit()
         except (SQLAlchemyError, Exception) as e:

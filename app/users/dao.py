@@ -1,6 +1,6 @@
 from app.dao.base import BaseDAO
 from app.users.models import RefreshSessionModel, Users
-from app.database import async_session_maker
+from app.database import async_session_maker, async_session_taskmaker
 from sqlalchemy import Cast, Date, DateTime, Integer, Time, TypeDecorator, cast, distinct, func, select, delete
 from sqlalchemy.orm import load_only
 from sqlalchemy.exc import SQLAlchemyError
@@ -45,7 +45,7 @@ class RefreshSessionDAO(BaseDAO):
    @classmethod
    async def delete_old(cls):
       try:
-         async with async_session_maker() as session:
+         async with async_session_taskmaker() as session:
             stmt = (delete(cls.models)
                      .where(cls.models.created_at + func.make_interval(0, 0, 0, 0, 0, 0, cls.models.expires_in) <= func.current_timestamp(timezone='utc')
                      ))                

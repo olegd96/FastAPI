@@ -33,7 +33,7 @@ templates = Jinja2Templates(directory="app/templates")
 async def clear_page(request: Request):
     return templates.TemplateResponse("exp.html", {"request": request})
 
-@router.get("", response_class=HTMLResponse)
+@router.get("/", response_class=HTMLResponse)
 async def start_page(
     request: Request,
     response: Response,

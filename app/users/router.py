@@ -148,7 +148,7 @@ async def update_personal_data(
 ):
     user_update = await UsersDAO.update(
         Users.id == user.id,
-        data=user_data)
+        data=user_data) 
     
 
 

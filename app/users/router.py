@@ -34,7 +34,7 @@ router_auth = APIRouter(
 
 
 @router_auth.post("/register")
-async def register_user(user: SUserReg) -> uuid.UUID:
+async def register_user(user: SUserReg):
     existing_user = await UsersDAO.find_one_or_none(email=user.email)
     if existing_user:
         raise UserAlreadyExistsException
@@ -51,8 +51,8 @@ async def register_user(user: SUserReg) -> uuid.UUID:
     if not new_user:
         raise CannotAddDataToDatabase
     send_registration_confirmation_email.delay(new_user.id,
-                                               # user.email,
-                                               "chepalin@yandex.ru")
+                                               user.email,
+                                               )
     return new_user
 
 
@@ -135,7 +135,7 @@ async def read_users_all(
 async def verify_new_user(user_id: uuid.UUID):
     res = await UsersDAO.update(
         Users.id == user_id,
-        data=SUserVerify(id=user_id))
+        data=SUserVerify(is_verified=True))
     if res:
         return 'Ваша регистрация подтверждена'
     else:

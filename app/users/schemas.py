@@ -14,7 +14,7 @@ class SUserReAuth(BaseModel):
     new_pass_re: str
 
 class SUserVerify(BaseModel):
-    id: uuid.UUID
+    is_verified: bool
 
 class SUserBase(BaseModel):
     email: Optional[EmailStr] = Field(None)

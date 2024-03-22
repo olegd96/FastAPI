@@ -10,7 +10,7 @@ from fastapi.responses import PlainTextResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import TypeAdapter
 from app.cart.dao import CartDao
-from app.exceptions import CannotAddDataToDatabase, IncorrectCurrentPasswordException, IncorrectEmailOrPasswordException, InvalidTokenException, PasswordNotConfirm, UserAlreadyExistsException
+from app.exceptions import CannotAddDataToDatabase, IncorrectCurrentPasswordException, IncorrectEmailOrPasswordException, InvalidTokenException, PasswordNotConfirm, UnverifiedEmailException, UserAlreadyExistsException
 from app.favourites.dao import FavDao
 from app.tasks.tasks import send_registration_confirmation_email
 from app.users.dao import  UsersDAO
@@ -62,6 +62,8 @@ async def login_user(request: Request, response: Response,
     user = await AuthService.authenticate_user(credentials.username, credentials.password)
     if not user:
         raise IncorrectEmailOrPasswordException
+    if not user.is_verified:
+        raise UnverifiedEmailException
     token = await AuthService.create_token(user.id)
     response.set_cookie("booking_access_token",
                         token.access_token,

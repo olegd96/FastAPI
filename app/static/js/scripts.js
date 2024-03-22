@@ -157,20 +157,21 @@ async function loginUser() {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
         body: formBody
-    }).then(response => {
-        if (response.status === 200) {
+    }).then(response => response.json())
+    .then(res => {
+        if ("access_token" in res) {
             const url = "/pages/bookings";
             fetch(url, {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
                 .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
             cancel("logpanel");
             refresh_panel();
-        } else {
-            wrongCredentialsSpan.textContent = "Неверный email или пароль";
+        } 
+        else {
+            wrongCredentialsSpan.textContent = res.detail;
         }
     });
 }
-
 
 async function logoutUser() {
     const url = "/auth/logout";
@@ -206,7 +207,7 @@ async function regUser() {
             body: JSON.stringify({ email: email, password: password }),
         }).then(response => {
             if (response.status === 200) {
-                wrongCredentialsSpan.textContent = "Вы зарегистрированы. Войдите в систему.";
+                wrongCredentialsSpan.textContent = "Вы зарегистрированы. Подтвердите email.";
                 button.style.display = "none";
                 email_pole.style.display = "none";
                 password_pole.style.display = "none";

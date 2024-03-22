@@ -37,7 +37,7 @@ def send_booking_confirmation_email(
     msg_content = create_booking_confirmation_templates(booking, email_to)
     with smtplib.SMTP_SSL(settings.SMTP_HOST, settings.SMTP_PORT) as server:
         server.login(settings.SMTP_USER, settings.SMTP_PASS)
-        server.send_message(msg_content)
+        server.send_message(msg_content) 
 
 @celery.task
 def send_registration_confirmation_email(
@@ -47,4 +47,4 @@ def send_registration_confirmation_email(
     msg_content = create_registration_confirmation_templates(user_id, email_to)
     with smtplib.SMTP_SSL(settings.SMTP_HOST, settings.SMTP_PORT) as server:
         server.login(settings.SMTP_USER, settings.SMTP_PASS)
-        server.send_message(msg_content)    
+        server.send_message(msg_content)     

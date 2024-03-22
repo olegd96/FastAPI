@@ -562,23 +562,42 @@ html {
   right: 7%
 }
 
-.tw-m-1 {
-  margin: 0.25rem
-}
-
-.tw-mb-1 {
-  margin-bottom: 0.25rem
-}
-
-.tw-w-24 {
-  width: 6rem
+.tw-flex {
+  display: flex
 }
 
 .tw-w-16 {
   width: 4rem
 }
 
+.tw-basis-48 {
+  flex-basis: 12rem
+}
+
+.tw-flex-col {
+  flex-direction: column
+}
+
+.tw-justify-center {
+  justify-content: center
+}
+
 .tw-rounded-full {
   border-radius: 9999px
+}
+
+.tw-bg-slate-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity))
+}
+
+.tw-p-6 {
+  padding: 1.5rem
+}
+
+@media (min-width: 768px) {
+  .md\:tw-flex-row {
+    flex-direction: row
+  }
 }
 

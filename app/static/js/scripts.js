@@ -118,6 +118,7 @@ function cancel(val) {
     obj.style.display = "none"};
 }
 
+
 function verify_password() {
     let password = document.getElementById("new_pass")
     let re_password = document.getElementById("new_pass_re")
@@ -739,3 +740,7 @@ window.onclick = function (event) {
 
     }
 }
+
+
+
+

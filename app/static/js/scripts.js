@@ -6,7 +6,6 @@
 
 document.addEventListener('htmx:responseError', function(event){
     if (event.detail.xhr.status === 401){
-        /* Notify the user of a 404 Not Found response */
         fetch("/auth/refresh", {method: "POST"})
         .then (response => {
             if (response.status === 200) {
@@ -164,7 +163,7 @@ async function loginUser() {
             const url = "/pages/bookings";
             fetch(url, {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
-                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
+                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv);booking_menu_scr(); });
             cancel("logpanel");
             refresh_panel();
         } 
@@ -230,7 +229,8 @@ async function refresh_nav() {
         .then(response => {
             if (response.status === 200) {            
                 (response.text())
-                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });}
+                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); booking_menu_scr();});}
+                
             else {
                 fetch('/auth/refresh', {method: 'POST'})
                 .then(response => {
@@ -239,7 +239,7 @@ async function refresh_nav() {
                         .then(response => {
                             if (response.status === 200) {            
                                 (response.text())
-                                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });}                   
+                                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv);booking_menu_scr(); });}                   
                 })
             }})
 }
@@ -251,7 +251,7 @@ async function refresh_anon_nav() {
     let myDiv = document.getElementById('nav_box');
     await fetch('/pages/anon_bookings', {headers: { 'myHeader': 'true' }})
         .then(response => response.text())
-        .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
+        .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); booking_menu_scr();});
 }
 
 
@@ -739,6 +739,25 @@ window.onclick = function (event) {
     else {
 
     }
+}
+
+function booking_menu_scr() {
+    let brgr = document.querySelector('.burger');
+    let wrapper = document.querySelector('.wrapper');
+    let nav_lab = document.getElementsByClassName('nav_lab');
+    brgr.addEventListener('click', () => {
+        wrapper.classList.toggle('wrapper_show');
+        brgr.classList.toggle('burger-close');
+    })
+
+    for (let i = 0; i < nav_lab.length; i++) {
+
+
+        nav_lab[i].addEventListener('click', () => {
+            brgr.classList.toggle('burger-close');
+            wrapper.classList.toggle('wrapper_show');
+        })
+    };
 }
 
 

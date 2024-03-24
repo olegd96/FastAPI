@@ -270,7 +270,7 @@
     </div>
     <div id="past_book">
     {% if past_book %}
-    {% for book in past_book|sort(attribute="book.date_from") %}
+    {% for book in past_book %}
     <div class="room_cart">
         <div class="hotel_img">
             <img src={{"/static/images/resized_500_300_" ~ book.room.image_id ~ ".webp" }}
@@ -278,7 +278,7 @@
         </div>
         <div class="composition1">
             <div class="all_descr">
-                <div class="descr" hx-get={{"pages/hotel/id/" ~ book.room.hotel_id}} hx-trigger="load"></div>
+                <div class="descr" hx-get={{"/pages/hotel/id/" ~ book.room.hotel_id}} hx-trigger="load"></div>
                 <div class="descr">                    
                     <h4>{{book.room.name}}</h4>
                     <div>{{book.room.description}}</div>

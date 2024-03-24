@@ -89,6 +89,131 @@
     .sup {
         margin: 3px;
     }
+
+    .burger {
+  display: none;
+  width: 20px;
+  height: 14px;
+  cursor: pointer;
+  position: absolute;
+  top: 26px;
+  right: 30px;
+  z-index: 6;
+}
+
+.burger-close span:first-child {
+  /* top: 6px;
+  transform: rotate(45deg); повернули на 45 градусов */
+  opacity: 0; /*скрыли среднюю полоску*/
+   
+}
+.burger-close span:nth-child(2) {
+  transform: rotate(45deg); /*повернули на 45 градусов */
+}
+
+.burger-close span:nth-child(3) {
+  transform: rotate(-45deg); /*повернули на 45 градусов */
+}
+
+.burger-close span:last-child {
+  /* top: 6px;
+  transform: rotate(-45deg); повернули на 45 градусов */
+  opacity: 0; /*скрыли среднюю полоску*/
+}
+
+.burger span {
+  background: #fff;
+  height: 2px;
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+
+.burger span:first-child {
+  top: 0;
+}
+
+.burger span:nth-child(2) {
+  top: 6px;
+}
+
+.burger span:nth-child(3) {
+  top: 6px;
+}
+
+.burger span:last-child {
+  top: 12px;
+}
+
+@media screen and (max-width:872px) {
+  .burger {
+    display: block;
+    position: fixed;
+  }
+  .wrapper {
+    display: none;
+    margin-right: 0px;
+    opacity: 1;
+  }
+
+  .wrapper.wrapper_show {
+    display: flex;
+    animation: fadeInFromNone 0.3s ease-in-out;
+  }
+
+  .nav {
+    height: 70px;
+  }
+
+  .glider {
+    left: 45px;
+    width: 130px;
+  }
+
+  .nav_lab {
+    margin: 5px;
+  }
+
+  #tab1:checked ~ .glider {
+    transform: translateY(-10px);
+  }
+  
+  #tab2:checked ~ .glider {
+    transform: translateY(38px);
+    /* width: 40px; */
+    width: 130px;
+  }
+  
+  #tab3:checked ~ .glider {
+    transform: translateY(88px);
+    /* width: 40px; */
+    width: 130px;
+  }
+  
+  #tab4:checked ~ .glider {
+    transform: translateY(138px);
+    /* width: 90px; */
+    width: 130px;
+  }
+
+
+  .tabs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: #2d619c; */
+    width: 200px;
+    top: 150px;
+    right: 5px;
+  }
+
+
+
+  .logo {
+    margin-left: 25px;
+    font-size: 30px;
+  }
+}
 </style>
 
 

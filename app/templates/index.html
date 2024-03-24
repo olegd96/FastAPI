@@ -87,6 +87,7 @@
             <span></span>
             <span></span>
         </nav>
+
     </div>
 
     <div id="login_bar" class="login_bar"></div>
@@ -320,26 +321,19 @@
             let popup_msgs = undefined;
             let popup_button = undefined;
             const handleModalClick = undefined;
-
         };
 
-        let brgr = document.querySelector('.burger');
-        let wrapper = document.querySelector('.wrapper');
-        let nav_lab = document.getElementsByClassName('nav_lab');
+        // let brgr = document.querySelector('.burger');
+        // let wrapper = document.querySelector('.wrapper');
+        // let nav_lab = document.getElementsByClassName('nav_lab');
+        document.addEventListener("DOMContentLoaded", booking_menu_scr());
 
-        brgr.addEventListener('click', () => {
-        wrapper.classList.toggle('wrapper_show');
-        brgr.classList.toggle('burger-close');
-        })
 
-        for (let i = 0; i < nav_lab.length; i++) {
-            
+
+    // nav_box.addEventListener('DOMContentLoaded', () => {
         
-        nav_lab[i].addEventListener('click', () => {
-            brgr.classList.toggle('burger-close');
-            wrapper.classList.toggle('wrapper_show');
-        })
-    };
+    //     booking_menu_scr();
+    
 
     </script>
 </body>

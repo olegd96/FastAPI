@@ -186,6 +186,8 @@
         clsBtn = document.querySelector(".dial_button");
         clsBtnNo = document.querySelector(".dial_button1");
         msgs = document.getElementById("dial_mess");
+
+
         // msg.textContent = "";
         function showMdAlrt(msg) {
             toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
@@ -193,41 +195,51 @@
             dlg.showModal();
             // window.history.pushState(null, null, document.location);
             show = true;
-
         }
-
-
-
 
         document.addEventListener('keydown', (e) => {
             if (e.code === "Escape" && dlg.classList.contains("is-visible")) {
                 toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
                 dlg.close();
                 dlg.style.display = "";
-
-
             }
         });
 
         function showPopUp(msg) {
+            popup = document.getElementById("popup");
+            popup_msgs = document.getElementById("popup_mess");
+            popup_button = document.querySelector(".popup_button");
+            popup_button.addEventListener("click", () => {
+                toggleTwoClasses(popup, "is-visible", "is-hidden", 500);
+                popup.close();
+                popup.style.display = "";
+                // history.back();
+                show = false;
+            });
+            handleModalClick = (event) => {
+                    const modalRect = popup.getBoundingClientRect();
+                    if (
+                        event.clientX < modalRect.left ||
+                        event.clientX > modalRect.right ||
+                        event.clientY < modalRect.top ||
+                        event.clientY > modalRect.bottom
+                    ) {
+                        toggleTwoClasses(popup, "is-visible", "is-hidden", 300);
+                        popup.close();
+                        popup.style.display = "";
+                        // history.back();
+                        show = false;
+
+                    }
+                };
+
+            popup.addEventListener("click", handleModalClick);
             toggleTwoClasses(popup, "is-visible", "is-hidden", 500);
             popup.showModal();
             popup_msgs.textContent = msg;
             // window.history.pushState(null, null, document.location);
             show = true;
         }
-
-        // handleModalClick = ({ currentTarget, target }) => {
-        //     const isClickedOnBackdrop = target === currentTarget;
-        //     if (isClickedOnBackdrop) {
-        //         toggleTwoClasses(popup, "is-visible", "is-hidden", 1000);
-        //         popup.close();
-        //         popup.style.display = "";
-        //         // popup.style.display = "";
-        //         // history.back();
-        //         // show = false;
-        //  }
-        // }
 
         handleModalClick = (event) => {
             const modalRect = popup.getBoundingClientRect();
@@ -243,7 +255,6 @@
                 popup.style.display = "";
                 // history.back();
                 show = false;
-
             }
         };
 
@@ -267,16 +278,13 @@
                 dlg.classList.remove("is-visible");
                 popup.classList.add("is-hidden");
                 popup.classList.remove("is-visible");
-
                 // history.back();
                 show = false;
             }
-        })
+            })
 
         clsBtn.addEventListener("click", () => {
             toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
-
-
             // history.back();
             show = false;
             //dlg.close();
@@ -284,8 +292,6 @@
 
         clsBtnNo.addEventListener("click", () => {
             toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
-
-
             // history.back();
             show = false;
             // dlg.close(); 
@@ -312,6 +318,7 @@
 
 
         window.onLoad = function () {
+            let show = false;
             let dlg = undefined;
             let clsBtn = undefined;
             let clsBtnNo = undefined;

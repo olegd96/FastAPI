@@ -180,7 +180,7 @@ async function logoutUser() {
         method: 'POST',
     }).then(response => {
         if (response.status === 200) {
-            window.location.href = "/pages"
+            window.location.href = "/pages";
         }
     });
 }
@@ -250,8 +250,12 @@ async function refresh_nav() {
 async function refresh_anon_nav() {
     let myDiv = document.getElementById('nav_box');
     await fetch('/pages/anon_bookings', {headers: { 'myHeader': 'true' }})
-        .then(response => response.text())
-        .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); booking_menu_scr();});
+        .then(response => {
+            if (response.status === 200) {
+            (response.text())
+            .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); booking_menu_scr();});
+        }   
+    })
 }
 
 
@@ -290,7 +294,7 @@ async function refresh_panel() {
     if (myDiv != null) {
         await fetch('/pages/cart', {headers: { 'myHeader': 'true' }})
             .then(response => response.text())
-            .then(data => { myDiv.innerHTML = data, htmx.process(myDiv_1); });
+            .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
     }
 }
 

@@ -6,11 +6,16 @@
         background-color: rgb(223, 228, 237);
         justify-content: space-between;
         margin: 5px auto;
-        display: flex;
-        align-items: flex-start;
+        
         font-family: 'Montserrat', sans-serif;
-
+        width:940px;
     }
+
+    .info {
+        margin-right: 50px;
+    }
+
+    
 
     .book_cart:disabled {
         pointer-events: none;
@@ -25,11 +30,10 @@
 
     }
 
-
-    label {
-
-        font-family: 'Montserrat', sans-serif;
-    }
+    .descript label {
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+        }
 
     .onbk {
         background-color: rgb(187, 212, 241);
@@ -46,9 +50,10 @@
     }
 
     .cart_item {
-        width: 300px;
+        width: 250px;
         font-family: 'Montserrat', sans-serif;
         margin: 2px;
+        display: block;
     }
 
     .pic {
@@ -65,7 +70,7 @@
 
     img {
 
-        object-fit: cover;
+        object-fit: scale-down;
         width: 100%;
         height: 100%;
         margin-left: 5px;
@@ -92,13 +97,17 @@
     }
 
     .unbook {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
         padding: 15px;
         font-size: 20px;
+        color: rgb(86, 142, 206);
 
     }
 
     .unbook:hover {
-        color: crimson;
+        color: rgb(68, 110, 158);
     }
 
     .order_booking {
@@ -117,8 +126,132 @@
         display: flexbox;
     }
 
+    .content_like_trash {
+        width: 320px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        
+        }
+
     #login_bar {
         margin-top: 120px;
+    }
+
+
+
+    @media screen and (min-width:680px) and (max-width:1300px){
+        .book_cart {
+            flex-direction: row;
+            justify-content: space-between;
+            max-width:660px;
+            font-size: 10px;
+        }
+
+        .unavailable {
+            font-size: 12px;
+            padding-left: 50px;
+        }
+
+        /* .pic img {
+            width:70%;
+            height:70%;
+            object-fit: scale-down;
+        } */
+
+        .pic {
+            width: 200px;
+            height: 150px;
+        }
+
+        /* .descript {
+            max-width: 230px;
+        } */
+
+        .content_like_trash {
+            width: 320px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .unbook {
+            align-items: start;
+        }
+
+        .descript li {
+            width: 190px;
+            margin-right: 15px;
+            margin-left: 15px;
+            display: block;
+        }
+
+        .descript label {
+            font-weight: bold;
+        }
+
+        .cart_item {
+            width: 200px;
+            display: block;
+        }
+
+        /* .room_like , .unbook{
+            padding-top: 10px;
+        } */
+
+        
+    }
+
+    @media screen and (max-width:680px) {
+        .book_cart {
+            flex-direction: column;
+            width:320px;
+            font-size: 10px;
+        }
+
+        .unavailable {
+            font-size: 12px;
+            padding-left: 25px;
+        }
+
+        .pic  {
+            width:50%;
+            height:50%;
+        }
+
+        .descript {
+            max-width: 230px;
+        }
+
+        .descript li {
+            width: 190px;
+            margin-right: 15px;
+            margin-left: 15px;
+            display: block;
+        }
+
+        .descript label {
+            font-weight: bold;
+        }
+
+        .room_like , .unbook{
+            padding-top: 10px;
+        }
+
+        .content_like_trash {
+            width: 320px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+
+
+        .info {
+            border-bottom: rgb(86, 142, 206);
+            border-bottom-style: solid;
+            width:100%;
+        }
     }
 </style>
 
@@ -129,8 +262,6 @@
         // document.querySelector("#demoA fieldset").disabled = false;
         return false;
     }
-
-
 </script>
 
 
@@ -160,6 +291,7 @@
             </div>
             {% endif %}
         </div>
+        <div class="content_like_trash">
         <div class="descript">
             <ul>
                 <li class="cart_item"><label class="cart">Id брони: </label><span>{{item.id}}<span></li>
@@ -178,6 +310,7 @@
         <div class="unbook" hx-delete={{"/cart/anon/" ~ item.id ~ "" }} hx-push-url="false" hx-confirm="Удалить позицию из корзины?"
             hx-on:htmx:after-request="refresh_anon_cart();refresh_anon_nav()"><i class="fi fi-rr-trash"></i></div>
     </div>
+</div>
     {% endfor %}
     <div class="order_booking"><button class="onbk" hx-get="/pages/login" hx-target="#login_bar"
             hx-on:click="alert('Войдите или зарегистрируйтесь')" hx-swap="innerHTML transition:true">Оформить бронирование</button></div>

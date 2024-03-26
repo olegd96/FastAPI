@@ -2,7 +2,7 @@
     .bookings_list {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
     }
     .tab-list {
@@ -341,6 +341,7 @@
             flex-direction: row;
             justify-content: flex-start;
             align-items: flex-start;
+            
         }
 
         .datebox {
@@ -407,7 +408,8 @@
 
         .bookings_list {
             
-            padding: 5px 20px;
+            padding-left: 20px;
+            padding-right: 20px;
             
 
         }
@@ -432,7 +434,7 @@
             <div class="datebox">
             <label class="search" for="date_from">ЗАЕЗД:</label>
             <input type="date" class="search_date" name="date_from" id="date_from" 
-            hx-get="pages/personal_account_archive_by_date" 
+            hx-get="/pages/personal_account_archive_by_date" 
             hx-include="#date_from, #date_to" 
             hx-target="#past_book" 
             hx-swap="innerHTML transition:true">
@@ -440,7 +442,7 @@
             <div class="datebox">
             <label class="search" for="date_to">ВЫЕЗД:</label>
             <input type="date" class="search_date" name="date_to" id="date_to" 
-            hx-get="pages/personal_account_archive_by_date" 
+            hx-get="/pages/personal_account_archive_by_date" 
             hx-include="#date_from, #date_to" 
             hx-target="#past_book" 
             hx-swap="innerHTML transition:true">

@@ -218,7 +218,8 @@
 
 
 <nav id="nav" class="nav">
-    <span class="logo">ONBOOK</span>
+    <span class="logo"  hx-get="/pages/banners" hx-swap="innerHTML transition:true"
+    hx-target="#bookings_list">ONBOOK</span>
     <div class="wrapper">
         <div class="tabs">
             <input type="radio" name="tabs" checked id="tab1">

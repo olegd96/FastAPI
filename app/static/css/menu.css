@@ -553,6 +553,7 @@ body {
 
 .popup_mess {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 94%;
@@ -683,6 +684,18 @@ body {
   .bookings_list {
     padding: 5px 20px;
 
+  }
+
+  .popup {
+    width: 300px;
+    height: 70px;
+    left: calc(50% - 150px);
+  }
+
+  .popup_mess p{
+    
+    text-align: center;
+    
   }
 
 }

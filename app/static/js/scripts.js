@@ -609,7 +609,9 @@ async function add_fav_from_cart(room_id, hotel_id) {
 // переписан
 async function add_fav_single(room_id, hotel_id) {
     const url = "/fav";
-    let myDiv = document.getElementById(room_id);
+    let myDivs = [];
+    myDivs = document.querySelectorAll(`[id="${room_id}"]`);
+    console.log(myDivs.length)
     let myDiv_1 = document.getElementById("bookings_list");
     await fetch(url, {
         method: 'POST',
@@ -620,12 +622,13 @@ async function add_fav_single(room_id, hotel_id) {
         }),
     }).then(response => {
         if (response.status === 201) {
-            if (myDiv.className === "fi fi-ss-heart") {
-                myDiv.className = "fi fi-rs-heart";
+            for (let i = 0; i<myDivs.length; i++){
+            if (myDivs[i].className === "fi fi-ss-heart") {
+                myDivs[i].className = "fi fi-rs-heart";
             }
             else {
-                myDiv.className = "fi fi-ss-heart";
-            }
+                myDivs[i].className = "fi fi-ss-heart";
+            }}
             refresh_nav();
         }
         else if (response.status === 401) {
@@ -644,12 +647,13 @@ async function add_fav_single(room_id, hotel_id) {
                             }),
                         }).then(response => {
                             if (response.status === 201) {
-                                if (myDiv.className === "fi fi-ss-heart") {
-                                    myDiv.className = "fi fi-rs-heart";
-                                }
-                                else {
-                                    myDiv.className = "fi fi-ss-heart";
-                                }
+                                for (let i = 0; i<myDivs.length; i++){
+                                    if (myDivs[i].className === "fi fi-ss-heart") {
+                                        myDivs[i].className = "fi fi-rs-heart";
+                                    }
+                                    else {
+                                        myDivs[i].className = "fi fi-ss-heart";
+                                    }}
                                 refresh_nav();
                             }
                         })
@@ -664,10 +668,13 @@ async function add_fav_single(room_id, hotel_id) {
                             }),
                         }).then(response => {
                             if (response.status === 201) {
-                                const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
-                                fetch(url_1, {headers: { 'myHeader': 'true' }})
-                                    .then(response => response.text())
-                                    .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
+                                for (let i = 0; i<myDivs.length; i++){
+                                    if (myDivs[i].className === "fi fi-ss-heart") {
+                                        myDivs[i].className = "fi fi-rs-heart";
+                                    }
+                                    else {
+                                        myDivs[i].className = "fi fi-ss-heart";
+                                    }}
                                 refresh_anon_nav();
                             }
                         });

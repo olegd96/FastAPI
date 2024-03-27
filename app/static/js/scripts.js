@@ -611,7 +611,6 @@ async function add_fav_single(room_id, hotel_id) {
     const url = "/fav";
     let myDivs = [];
     myDivs = document.querySelectorAll(`[id="${room_id}"]`);
-    console.log(myDivs.length)
     let myDiv_1 = document.getElementById("bookings_list");
     await fetch(url, {
         method: 'POST',

@@ -6,42 +6,38 @@
         border-color: black;
         background-color: rgb(223, 228, 237);
         font-family: 'Montserrat', sans-serif;
-        min-width: 1100px;
+        max-width: 1400px;
         padding: 5px;
-        align-items: center;
-
-
-
-
-
+        align-items: flex-start;
     }
+    
+    .bookings_list {
+            display:flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 5px 20px;
+            align-items: center;
+
+        }
 
     .room_cart {
         display: flex;
-
         justify-content: space-between;
-        border-color:
-
-
-            black;
+        border-color:black;
         background-color: rgb(236, 238, 243);
         font-family: 'Montserrat', sans-serif;
         border-bottom: 2px solid;
-
+        align-items: flex-start;
         border-color: white;
         padding: 5px;
         height: 200px;
-
-
-
-        align-items: center;
     }
 
     .descr {
         display: flexbox;
         justify-content: first baseline;
         max-width: 400px;
-
+        margin-right: 20px;
     }
 
     .descr1 {
@@ -57,17 +53,24 @@
         font-size: 14px;
     }
 
+    .text_descr {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
     .serv {
         width: 300px;
         font-family: 'Montserrat', sans-serif;
         margin-left: 15px;
         padding-left: 30px;
-        margin-right: 20px;
+        /* margin-right: 20px; */
 
     }
 
     .serv1 {
-        width: 200px;
+        width: 300px;
         font-family: 'Montserrat', sans-serif;
         margin-left: 15px;
         padding-left: 30px;
@@ -81,11 +84,7 @@
         margin: 10px auto;
         justify-content: space-between;
         width: 100%;
-
-
     }
-
-
 
     img {
         object-fit: cover;
@@ -167,7 +166,8 @@
     .button_box {
         display: flex;
         flex-direction: column;
-
+        margin-right: 5px;
+        margin-left:30px;
         height: 190px;
     }
 
@@ -187,8 +187,6 @@
     .search_el {
         display: flex;
         font-family: 'Montserrat', sans-serif;
-
-       
         margin: auto;
         justify-content: space-between;
         align-items: center;
@@ -201,7 +199,6 @@
 
     .search {
         font-size: 15px;
-
         font-family: 'Montserrat', sans-serif;
         color: rgb(85, 85, 107);
         border: none;
@@ -219,13 +216,7 @@
 
     }
 
-
-
-
-
-
     .search_button {
-
         background-color: rgb(86, 142, 206);
         border: 0;
         box-shadow: none;
@@ -242,13 +233,151 @@
     }
 
     .inner_box_search {
+        display:flex;
+        flex-direction: row;
         background-color: rgb(223, 228, 237);
         padding: 25px;
 
 
     }
 
+    .datebox {
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin:5px;
+    }
 
+    @media screen and (max-width:672px) {
+        .datebox {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .inner_box_search {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .search_date {
+            width: 200px;
+        }
+        
+        .composition1 {
+            display: flexbox;
+            flex-direction: column;
+            font-size: 10px;
+        }
+        .search_el {
+            flex-direction: column;
+        }
+        .room_cart {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            font-size: 10px;
+            height:auto;
+        }
+        .all_descr {
+            flex-direction: row;
+            font-size: 10px;
+            height:auto;
+        }
+        .descr, .descr1{
+            width: 200px;
+        }
+        .hotel_img {
+            width: 50%;
+            height: 50%;
+        }
+        .button_box {
+            margin: 5px;
+            width: 120px;
+            height: 70px;
+        }
+        .cart {
+            font-size: 10px;
+        }
+        .text_descr {
+            margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+    }
+
+    @media screen and (min-width:673px) and (max-width:1400px){
+        .datebox {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .inner_box_search {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .search_date {
+            width: 200px;
+        }
+        
+        .composition1 {
+            display: flexbox;
+            flex-direction: column;
+            font-size: 10px;
+        }
+        .search_el {
+            flex-direction: column;
+            
+        }
+
+        .rooms_cart {
+            max-width:780px;
+        }
+
+        .room_cart {
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            font-size: 10px;
+            height:auto;
+        }
+        .all_descr {
+            flex-direction: row;
+            font-size: 10px;
+            height:auto;
+        }
+        .descr, .descr1{
+            width: 200px;
+        }
+        .hotel_img {
+            width: 50%;
+            height: 50%;
+        }
+        .button_box {
+            margin: 5px;
+            width: 120px;
+            height: 70px;
+        }
+        .cart {
+            font-size: 10px;
+        }
+        .text_descr {
+            margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .bookings_list {
+            display:flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 5px 20px;
+            align-items: center;
+
+        }
+    }
 
 
 </style>
@@ -261,18 +390,22 @@
         </div>
         <div class="search_el">
             <div class="inner_box_search">
+                <div class="datebox">
                 <label class="search" for="date_from">ЗАЕЗД:</label>
                 <input type="date" class="search_date" name="date_from" id="date_from" 
                 hx-get="/pages/anon_fav_by_date" 
                 hx-include="#date_from, #date_to" 
                 hx-target="#rooms" 
                 hx-swap="innerHTML transition:true">
+                </div>
+                <div class="datebox">
                 <label class="search" for="date_to">ВЫЕЗД:</label>
                 <input type="date" class="search_date" name="date_to" id="date_to" 
                 hx-get="/pages/anon_fav_by_date" 
                 hx-include="#date_from, #date_to" 
                 hx-target="#rooms" 
                 hx-swap="innerHTML transition:true">
+                </div>
             </div>
         </div>
         <div class="rooms" id="rooms">
@@ -284,6 +417,7 @@
             </div>
             <div class="composition1">
                 <div class="all_descr">
+                    <div class="text_descr">
                     <div class="descr">
                         <h3>{{room.hotel.name}}</h3>
             <div>{{room.hotel.location}}</div>
@@ -297,11 +431,7 @@
                 </div>
             </div>
             <div>Номеров: {{room.hotel.rooms_quantity}}</div>          
-                        <!-- <div><input id="room_id" value={{room.id}}></div> -->
                     </div>
-
-
-                    
                     <div class="descr1">
                         <h4>{{room.room.name}}</h4>
                         <div>{{room.room.description}}</div>
@@ -313,6 +443,7 @@
                             {% endfor %}
                         </div>
                     </div>
+                </div>
                     <div class="button_box">
                         <button class="cart" hx-on:click={{"add_cart(" ~ room.room.id ~ "," ~ room.hotel.id
                             ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>Добавить в корзину</button>

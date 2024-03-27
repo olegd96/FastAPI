@@ -11,6 +11,7 @@
         padding: 5px;
         height: 200px;
         width: 98%;
+        max-width: 1400px;
 
 
         align-items: center;
@@ -29,11 +30,17 @@
         flex-direction: row;
         width: 100%;
         font-size: 14px;
+        justify-content: space-between;
 
 
     }
 
-
+    .text_descr {
+        display:flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
 
 
 
@@ -100,10 +107,11 @@
 
     .hotel_paragraph {
         display: flex;
-        flex: auto;
+        flex-direction: column;
+        align-items: center;
         padding: 2px;
         background-color: rgb(223, 228, 237);
-        margin-top: 5px;
+        margin-top: 3px;
     }
 
 
@@ -150,7 +158,121 @@
         height: 120px;
     }
 
+    @media screen and (max-width:680px) {
+        .hotel_cart {
+            display:flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: auto;
+            margin-left:0px;
+        }
 
+        /* .hotel_paragraph {
+            padding: none;
+            justify-content: flex-start;
+            align-items: flex-start;
+        } */
+        .descr, .serv {
+            font-size: 10px;
+        }
+        .serv {
+            width: 100px;
+        }
+        .hotels_discover {
+            font-size: 10px;
+            min-width: 80px;;
+            padding: 5px 10px;
+        }
+        .hotel_img {
+            width: 50%;
+            height:50%;
+            object-fit: scale-down;
+        }
+        .composition {
+            border-top-color: rgb(86, 142, 206);
+            border-top-style: solid;
+            display:flex;
+            flex-direction: row;
+            margin: 0px;
+            padding-top:15px;
+            
+        }
+
+        .bookings_list {
+            padding: 5px 20px;
+
+        }
+
+        .text_descr{
+            flex-direction: column;
+        }
+        
+    }
+
+    @media screen and (min-width:680px) and (max-width:1000px){
+        .hotel_cart {
+            display:flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: auto;
+            
+            margin-left:0px;
+        }
+
+        .hotel_paragraph {
+            padding: none;
+            justify-content: flex-start;
+            align-items: flex-start;
+            
+        }
+        .descr, .serv {
+            font-size: 10px;
+        }
+        .hotels_discover {
+            font-size: 10px;
+            width: 80px;
+            padding: 5px 10px;
+        }
+        .hotel_img {
+            width: 50%;
+            height:50%;
+            object-fit: scale-down;
+        }
+
+    
+        .composition {
+            display:flex;
+            flex-direction: row;
+            margin: 0px;
+            padding-top:15px;
+            
+        }
+
+        .text_descr {
+            flex-direction: column;
+            
+        }
+
+        .descr {
+            width: 280px;
+        }
+
+        .all_descr {
+            justify-content: space-between;
+        }
+        
+        .bookings_list {
+            padding: 5px 20px;
+
+        }
+        
+    }
+
+    
+
+   
 </style>
 
 <div>
@@ -161,6 +283,7 @@
                     onerror="src='/static/images/simple-booking.jpg';"></div>
             <div class="composition">
                 <div class="all_descr">
+                    <div class="text_descr">
                     <div class="descr">
                         <h3>{{hotel.name}}</h3>
                         <div>{{hotel.location}}</div>
@@ -173,6 +296,7 @@
                         </ul>
                         {% endfor %}
                     </div>
+                </div>
                     <div class="button_box">
                         <button class="hotels_discover" hx-get={{"/pages/hotels/" ~ hotel.id ~ "/rooms" }}
                             hx-include="#date_from, #date_to" hx-target={{"#rooms_cart" ~ hotel.id }}

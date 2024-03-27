@@ -9,6 +9,7 @@
         display: flex;
         align-items: flex-start;
         font-family: 'Montserrat', sans-serif;
+        width:940px;
     }
 
     .descript {
@@ -74,6 +75,61 @@
         width: fit-content;
         margin: auto;
     }
+
+
+
+    @media screen and (min-width:680px) and (max-width:1300px){
+        .book_cart {
+            font-size: 12px;
+            width: auto;
+            max-width: 780px;
+        }
+        .book_cart ul {
+            margin-left: 10px;
+        }
+        .pic {
+            object-fit: scale-down;
+            margin: 10px;
+        }
+
+        .book_cart img {
+            object-fit: scale-down;
+        }
+
+
+
+        .del {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .bookings_list {
+            padding: 5px 20px;
+
+        }
+    }
+
+    @media screen and (max-width:680px) {
+        .book_cart {
+            flex-direction: column;
+            font-size: 10px;
+            width: 320px;
+        }
+        .book_cart ul {
+            margin-left: 10px;
+        }
+        .pic {
+            width: 150px;
+            height: 100px;
+            margin: 10px;
+        }
+
+        .del {
+            padding: 5px 10px;
+            font-size: 10px;
+            margin-left: 200px;
+        }
+    }
 </style>
 
 
@@ -108,13 +164,3 @@
 <div class="notice">У вас нет активных бронирований</div>
 {% endif %}
 </div>
-<!-- <script>
-    
-    document.querySelector('.bookkk').addEventListener('htmx:confirm', function(evt) {
-        evt.preventDefault();
-        showMdAlrt(`${evt.detail.question}`)
-        .then(function(result) {
-            if (result == true) evt.detail.issueRequest(true);
-        }) 
-    });
-</script> -->

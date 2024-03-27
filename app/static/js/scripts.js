@@ -6,7 +6,6 @@
 
 document.addEventListener('htmx:responseError', function(event){
     if (event.detail.xhr.status === 401){
-        /* Notify the user of a 404 Not Found response */
         fetch("/auth/refresh", {method: "POST"})
         .then (response => {
             if (response.status === 200) {
@@ -118,6 +117,7 @@ function cancel(val) {
     obj.style.display = "none"};
 }
 
+
 function verify_password() {
     let password = document.getElementById("new_pass")
     let re_password = document.getElementById("new_pass_re")
@@ -163,7 +163,7 @@ async function loginUser() {
             const url = "/pages/bookings";
             fetch(url, {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
-                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
+                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv);booking_menu_scr(); });
             cancel("logpanel");
             refresh_panel();
         } 
@@ -180,7 +180,7 @@ async function logoutUser() {
         method: 'POST',
     }).then(response => {
         if (response.status === 200) {
-            window.location.href = "/pages"
+            window.location.href = "/pages";
         }
     });
 }
@@ -229,7 +229,8 @@ async function refresh_nav() {
         .then(response => {
             if (response.status === 200) {            
                 (response.text())
-                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });}
+                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); booking_menu_scr();});}
+                
             else {
                 fetch('/auth/refresh', {method: 'POST'})
                 .then(response => {
@@ -238,7 +239,7 @@ async function refresh_nav() {
                         .then(response => {
                             if (response.status === 200) {            
                                 (response.text())
-                                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });}                   
+                                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv);booking_menu_scr(); });}                   
                 })
             }})
 }
@@ -249,8 +250,12 @@ async function refresh_nav() {
 async function refresh_anon_nav() {
     let myDiv = document.getElementById('nav_box');
     await fetch('/pages/anon_bookings', {headers: { 'myHeader': 'true' }})
-        .then(response => response.text())
-        .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
+        .then(response => {
+            if (response.status === 200) {
+            (response.text())
+            .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); booking_menu_scr();});
+        }   
+    })
 }
 
 
@@ -289,7 +294,7 @@ async function refresh_panel() {
     if (myDiv != null) {
         await fetch('/pages/cart', {headers: { 'myHeader': 'true' }})
             .then(response => response.text())
-            .then(data => { myDiv.innerHTML = data, htmx.process(myDiv_1); });
+            .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
     }
 }
 
@@ -604,7 +609,9 @@ async function add_fav_from_cart(room_id, hotel_id) {
 // переписан
 async function add_fav_single(room_id, hotel_id) {
     const url = "/fav";
-    let myDiv = document.getElementById(room_id);
+    let myDivs = [];
+    myDivs = document.querySelectorAll(`[id="${room_id}"]`);
+    console.log(myDivs.length)
     let myDiv_1 = document.getElementById("bookings_list");
     await fetch(url, {
         method: 'POST',
@@ -615,12 +622,13 @@ async function add_fav_single(room_id, hotel_id) {
         }),
     }).then(response => {
         if (response.status === 201) {
-            if (myDiv.className === "fi fi-ss-heart") {
-                myDiv.className = "fi fi-rs-heart";
+            for (let i = 0; i<myDivs.length; i++){
+            if (myDivs[i].className === "fi fi-ss-heart") {
+                myDivs[i].className = "fi fi-rs-heart";
             }
             else {
-                myDiv.className = "fi fi-ss-heart";
-            }
+                myDivs[i].className = "fi fi-ss-heart";
+            }}
             refresh_nav();
         }
         else if (response.status === 401) {
@@ -639,12 +647,13 @@ async function add_fav_single(room_id, hotel_id) {
                             }),
                         }).then(response => {
                             if (response.status === 201) {
-                                if (myDiv.className === "fi fi-ss-heart") {
-                                    myDiv.className = "fi fi-rs-heart";
-                                }
-                                else {
-                                    myDiv.className = "fi fi-ss-heart";
-                                }
+                                for (let i = 0; i<myDivs.length; i++){
+                                    if (myDivs[i].className === "fi fi-ss-heart") {
+                                        myDivs[i].className = "fi fi-rs-heart";
+                                    }
+                                    else {
+                                        myDivs[i].className = "fi fi-ss-heart";
+                                    }}
                                 refresh_nav();
                             }
                         })
@@ -659,10 +668,13 @@ async function add_fav_single(room_id, hotel_id) {
                             }),
                         }).then(response => {
                             if (response.status === 201) {
-                                const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
-                                fetch(url_1, {headers: { 'myHeader': 'true' }})
-                                    .then(response => response.text())
-                                    .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
+                                for (let i = 0; i<myDivs.length; i++){
+                                    if (myDivs[i].className === "fi fi-ss-heart") {
+                                        myDivs[i].className = "fi fi-rs-heart";
+                                    }
+                                    else {
+                                        myDivs[i].className = "fi fi-ss-heart";
+                                    }}
                                 refresh_anon_nav();
                             }
                         });
@@ -739,3 +751,26 @@ window.onclick = function (event) {
 
     }
 }
+
+function booking_menu_scr() {
+    let brgr = document.querySelector('.burger');
+    let wrapper = document.querySelector('.wrapper');
+    let nav_lab = document.getElementsByClassName('nav_lab');
+    brgr.addEventListener('click', () => {
+        wrapper.classList.toggle('wrapper_show');
+        brgr.classList.toggle('burger-close');
+    })
+
+    for (let i = 0; i < nav_lab.length; i++) {
+
+
+        nav_lab[i].addEventListener('click', () => {
+            brgr.classList.toggle('burger-close');
+            wrapper.classList.toggle('wrapper_show');
+        })
+    };
+}
+
+
+
+

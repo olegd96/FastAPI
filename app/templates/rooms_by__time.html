@@ -3,7 +3,7 @@
         display: flexbox;
         flex-direction: column;
         
-        justify-content: space-between;
+        justify-content: flex-start;
         border-color: black;
         background-color: rgb(223, 228, 237);
         font-family: 'Montserrat', sans-serif;
@@ -53,6 +53,13 @@
         margin-left: 15px;
         padding-left: 30px;
 
+    }
+
+    .text_descr {
+        display:flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
     }
 
     .composition1 {
@@ -158,6 +165,130 @@
     #room_id {
         visibility: hidden;
     }
+
+    @media screen and (max-width:680px) {
+        .room_cart {
+            display:flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            
+            height:auto;
+            margin-left:0px;
+        }
+
+        .hotel_paragraph {
+            padding: none;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .descr, .serv {
+            font-size: 10px;
+        }
+
+        .serv {
+            width: 100px;
+        }
+        .cart {
+            font-size: 10px;
+            width: 80px;
+            padding: 5px 10px;
+        }
+        .hotel_img {
+            width: 50%;
+            height:50%;
+            object-fit: scale-down;
+        }
+        
+        .rooms_label label {
+            font-size: 14px;
+        }
+
+        .hotel_rooms {
+            padding: 5px;
+        }
+
+        .rooms_head {
+            height: 55px;
+        }
+        .composition1 {
+            height:auto;
+        }
+        .clear_box {
+            height: 90px;
+        }
+        .button_box {
+            height:120px;
+        }
+
+
+    }
+
+    @media screen and (min-width:680px) and (max-width:1000px){
+        .room_cart {
+            display:flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            
+            height:auto;
+            margin-left:0px;
+        }
+
+        .hotel_paragraph {
+            padding: none;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .descr, .serv {
+            font-size: 10px;
+        }
+
+        .text_descr {
+            flex-direction: column;
+            
+        }
+
+        .cart {
+            font-size: 10px;
+            width: 80px;
+            padding: 5px 10px;
+        }
+        .hotel_img {
+            width: 50%;
+            height:50%;
+            object-fit: scale-down;
+        }
+        
+        .rooms_label label {
+            font-size: 14px;
+        }
+
+        .hotel_rooms {
+            padding: 5px;
+        }
+
+        .rooms_head {
+            height: 55px;
+        }
+        .composition {
+            border-top-color: rgb(86, 142, 206);
+            border-top-style: solid;
+            display:flex;
+            flex-direction: row;
+            margin: 0px;
+            padding-top:15px;
+            
+        }
+        .clear_box {
+            height: 90px;
+        }
+        .button_box {
+            height:120px;
+        }
+
+
+    }
 </style>
 
 
@@ -176,6 +307,7 @@
             </div>
             <div class="composition1">
                 <div class="all_descr">
+                    <div class="text_descr">
                     <div class="descr">
                         <h4>{{room.name}}</h4>
                         <div>{{room.description}}</div>
@@ -193,6 +325,7 @@
                             {% endfor %}
                         </div>
                     </div>
+                </div>
                     <div class="button_box">
                         <button class="cart" hx-on:click={{"add_cart(" ~ room.id ~ "," ~ room.hotel_id
                             ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>Добавить в корзину</button>

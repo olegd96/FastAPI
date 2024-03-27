@@ -4,9 +4,9 @@
   line-height: 150%;
 }
 
-body {
+/* body {
   min-width: 1412px;
-}
+} */
 
 .wrapper {
   margin-right: 150px;
@@ -14,7 +14,10 @@ body {
   justify-content: center;
   align-items: center;
   font-family: "Montserrat", sans-serif;
+  
 }
+
+
 
 .tabs {
   background: rgb(6, 39, 99);
@@ -97,7 +100,7 @@ input[type="radio"] {
 
 .nav {
   width: 100%;
-  min-width: 1400px;
+  /* min-width: 1400px; */
   position: fixed;
   height: 100px;
   font-family: "Montserrat", sans-serif;
@@ -125,10 +128,9 @@ input[type="radio"] {
 
 .nav_box {
   display: flex;
-  width: 100%;
+  width: 100% auto;
   margin-bottom: 10px;
   z-index: 5;
-
   top: 0;
 }
 
@@ -150,8 +152,67 @@ input[type="radio"] {
   color: rgb(114, 173, 240);
 }
 
+
+.burger {
+  display: none;
+  width: 20px;
+  height: 14px;
+  cursor: pointer;
+  position: absolute;
+  top: 26px;
+  right: 30px;
+  z-index: 6;
+}
+
+.burger-close span:first-child {
+  /* top: 6px;
+  transform: rotate(45deg); повернули на 45 градусов */
+  opacity: 0; /*скрыли среднюю полоску*/
+   
+}
+.burger-close span:nth-child(2) {
+  transform: rotate(45deg); /*повернули на 45 градусов */
+}
+
+.burger-close span:nth-child(3) {
+  transform: rotate(-45deg); /*повернули на 45 градусов */
+}
+
+.burger-close span:last-child {
+  /* top: 6px;
+  transform: rotate(-45deg); повернули на 45 градусов */
+  opacity: 0; /*скрыли среднюю полоску*/
+}
+
+.burger span {
+  background: #fff;
+  height: 2px;
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+
+.burger span:first-child {
+  top: 0;
+}
+
+.burger span:nth-child(2) {
+  top: 6px;
+}
+
+.burger span:nth-child(3) {
+  top: 6px;
+}
+
+.burger span:last-child {
+  top: 12px;
+}
+
+
+
+
 .footer {
-  flex-shrink: 0;
+  /* flex-shrink: 0; */
   padding: 40px 170px;
   height: 140px;
   font-family: "Montserrat", sans-serif;
@@ -160,7 +221,6 @@ input[type="radio"] {
   display: flexbox;
   justify-content: space-between; /*раскидываем логотип и меню по разным краям*/
   align-items: center; /*размещаем по центру*/
-  position: relative;
 }
 
 .main {
@@ -191,6 +251,7 @@ input[type="radio"] {
   padding: 10px 0px;
 }
 
+
 html,
 body {
   height: 100%;
@@ -204,7 +265,7 @@ body {
   flex: 1 0 auto; /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
   padding: 10px 150px;
   align-items: center;
-  min-width: 800px;
+  /* min-width: 800px; */
 }
 
 .login_bar {
@@ -492,6 +553,7 @@ body {
 
 .popup_mess {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 94%;
@@ -525,4 +587,115 @@ body {
   100% {
     opacity: 0;
   }
+}
+
+@media screen and (max-width:875px) {
+  .burger {
+    display: block;
+    position: fixed;
+  }
+  .wrapper {
+    display: none;
+    margin-right: 0px;
+    opacity: 1;
+  }
+
+  .wrapper.wrapper_show {
+    display: flex;
+    animation: fadeInFromNone 0.3s ease-in-out;
+  }
+
+  .nav {
+    height: 70px;
+  }
+
+  .glider {
+    left: 45px;
+    width: 130px;
+  }
+
+  .nav_lab {
+    margin: 5px;
+  }
+
+  #tab1:checked ~ .glider {
+    transform: translateY(-10px);
+  }
+  
+  #tab2:checked ~ .glider {
+    transform: translateY(38px);
+    /* width: 40px; */
+    width: 130px;
+  }
+  
+  #tab3:checked ~ .glider {
+    transform: translateY(88px);
+    /* width: 40px; */
+    width: 130px;
+  }
+  
+  #tab4:checked ~ .glider {
+    transform: translateY(138px);
+    /* width: 90px; */
+    width: 130px;
+  }
+
+
+  .tabs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: #2d619c; */
+    width: 200px;
+    top: 150px;
+    right: 5px;
+  }
+
+
+
+  .logo {
+    font-size: 30px;
+    margin-left: 25px;
+  }
+
+  .footer {
+    padding: 10px 25px;
+    height: 60px;
+    font-size: 12px;
+    border-style: none;
+  }
+
+  .footer__top {
+    border-bottom: none;
+  }
+
+  .footer__bottom {
+    display: none;
+  }
+
+  .footer__right {
+    font-size: 8px;
+  }
+
+  .logo_1 {
+    font-size: 20px;
+  }
+
+  .bookings_list {
+    padding: 5px 20px;
+
+  }
+
+  .popup {
+    width: 300px;
+    height: 70px;
+    left: calc(50% - 150px);
+  }
+
+  .popup_mess p{
+    
+    text-align: center;
+    
+  }
+
 }

@@ -1,9 +1,15 @@
 <style>
+    .book_hotels{
+      display:flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
     .search_el {
-        display: flex;
+        /* display: flex; */
         font-family: 'Montserrat', sans-serif;
         margin: auto;
-        justify-content: space-between;
+        /* justify-content: space-between; */
         align-items: center;
         background-color: rgb(223, 228, 237);
     }
@@ -14,7 +20,7 @@
         color: rgb(85, 85, 107);
         border: none;
         padding: 10px;
-        margin-left: 10px;
+        /* margin-left: 10px; */
     }
 
     .search_date, .dropbtn {
@@ -23,15 +29,15 @@
         color: rgb(85, 85, 107);
         border: none;
         padding: 10px;
-        margin-left: 10px;
+        /* margin-left: 10px; */
     }
 
-    .search_panel {
+    /* .search_panel {
         width: 100%;
         display: flexbox;
         flex-direction: column;
         justify-content: center;
-    }
+    } */
 
     .book_hotels,
     .rooms {
@@ -61,7 +67,7 @@
 
     .inner_box_search {
         background-color: rgb(223, 228, 237);
-        padding: 25px;
+        /* padding: 25px; */
     }
 
     .dropdown {
@@ -77,6 +83,129 @@
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 4;
 }
+
+
+@media screen and (min-width: 450px) {
+  .search_el {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+  }
+
+  .inner_box_search {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .search {
+    margin: 2px auto;
+    align-self: flex-start;
+  }
+
+  .search_date {
+    margin: 2px auto;
+    width: 190px;
+  }
+
+  .dropbtn {
+    width: 210px;
+    margin-left: 0px;
+  }
+
+  .search_button {
+    margin: 15px auto;
+  }
+
+  .contnr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (min-width: 700px) and (max-width: 1400px) {
+  .search_el {
+    display: flex;
+    flex-direction: row;
+    width: 600px;
+  }
+
+  .inner_box_search {
+    display: flexbox;
+    flex-direction: column;
+    align-items:flex-start;
+    padding: 10px;
+  }
+
+  .search {
+    margin: 0px;   
+  }
+
+  .search_date {
+    margin: 0px;
+    width: 190px;
+  }
+
+  .dropbtn {
+    width: 210px;
+    margin-left: 0px;
+  }
+
+  .search_button {
+    margin: 15px auto;
+  }
+
+  .contnr {
+    width: 380px;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    margin:5px;
+  }
+}
+
+@media screen and (min-width: 1405px) {
+  .search_el {
+    display: flex;
+    flex-direction: row;
+    width: 1050px;
+  }
+
+  .inner_box_search {
+    display: flex;
+    flex-direction: row;
+    align-items:flex-start;
+    padding: 10px;
+  }
+
+  .search {
+    margin: 0px;   
+  }
+
+  .search_date {
+    margin: 0px;
+    width: 130px;
+  }
+
+  .dropbtn {
+    width: 210px;
+    margin-left: 0px;
+  }
+
+  .search_button {
+    margin: 15px auto;
+  }
+
+  .contnr {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    margin:5px;
+  }
+}
+
 </style>
 
 
@@ -84,6 +213,7 @@
 <div class="search_panel">
     <div class="search_el">
         <div class="inner_box_search">
+            <div class="contnr">
             <label class="search" for="location">НАПРАВЛЕНИЕ:</label>
             <!-- <input type="text"  class="search_date" name="location"
             hx-get="/hotels/search" hx-trigger="input changed delay:500ms" hx-include="#location"
@@ -97,11 +227,15 @@
                   
                 </div>
               </div>
-
+            </div>
+            <div class="contnr">
             <label class="search" for="date_from">ЗАЕЗД:</label>
             <input type="date" class="search_date" name="date_from" id="date_from">
+            </div>
+            <div class="contnr">
             <label class="search" for="date_to">ВЫЕЗД:</label>
             <input type="date" class="search_date" name="date_to" id="date_to">
+        </div>
         </div>
         <button class="search_button" hx-get="/pages/hotels" hx-include="*" hx-target="#hotels"
             hx-swap="innerHTML transition:true" hx-push-url="true" 

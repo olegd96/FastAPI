@@ -199,7 +199,9 @@ class BookingDAO(BaseDAO):
             past_bookings = past_bookings.scalars().all()
             past_bookings = [TypeAdapter(SBookingWithRoom).validate_python(
                 book).model_dump() for book in past_bookings]
+            print(past_bookings)
             return past_bookings
+        
 
     @classmethod
     async def find_all_past_bookings_by_date(

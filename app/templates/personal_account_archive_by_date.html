@@ -7,7 +7,8 @@
         </div>
         <div class="composition1">
             <div class="all_descr">
-                <div class="descr" hx-get={{"pages/hotel/id/" ~ book.room.hotel_id}} hx-trigger="load"></div>
+                <div class="text_descr">
+                <div class="descr" hx-get={{"/pages/hotel/id/" ~ book.room.hotel_id}} hx-trigger="load"></div>
                 <div class="descr">                   
                     <div>{{book.room.name}}</div>
                     <div>{{book.room.description}}</div>
@@ -24,7 +25,8 @@
                         </ul>
                         {% endfor %}
                     </div>
-                </div>               
+                </div>
+            </div>               
                 <div class="button_box">
                     <button class="cart" hx-on:click={{"add_cart(" ~ book.room.id ~ "," ~ book.room.hotel_id
                         ~ ",'rooms_cart" ~ book.room.hotel_id ~ "')" }}>Повторить</button>

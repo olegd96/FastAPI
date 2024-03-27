@@ -1,7 +1,17 @@
 <style>
-    .tablist {
+    .bookings_list {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .tab-list {
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
     }
 
     .selected {
@@ -32,6 +42,7 @@
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
         padding-top: 10px;
+        max-width: 1200px;
     }
 
     .content {
@@ -45,15 +56,25 @@
         border-color: black;
         background-color: rgb(223, 228, 237);
         font-family: 'Montserrat', sans-serif;
-
         padding: 5px;
         align-items: center;
-
-
-
-
-
+        width: 940px;
     }
+
+
+    .text_descr {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        }
+
+    .datebox {
+        display:flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin:5px;
+        }
 
     .room_cart {
         display: flex;
@@ -66,6 +87,7 @@
         border-color: white;
         padding: 5px;
         height: 200px;
+        
 
 
 
@@ -76,12 +98,13 @@
         display: flexbox;
         justify-content: first baseline;
         margin-right:15px;
+        max-width: 400px;
 
     }
 
     .all_descr {
         display: flex;
-        justify-content: space-between;
+        justify-content:flex-end;
         font-size: 14px;
     }
 
@@ -95,7 +118,7 @@
 
     .composition1 {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         margin: 10px auto;
         justify-content: space-between;
         width: 100%;
@@ -212,6 +235,9 @@
     }
 
     .inner_box_search {
+        display: flex;
+        flex-direction: row;
+        
         background-color: rgb(236, 238, 243);
         padding: 25px;
 
@@ -237,9 +263,160 @@
         margin-left: 10px;
 
     }
+
+    @media screen and (max-width:672px) {
+        .tab-content {
+            max-width: 400px;
+        }
+        .datebox {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .inner_box_search {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .search_date {
+            width: 200px;
+        }
+
+        .cart {
+            width: 90px;
+            padding: 5px 10px;
+        }
+        .room_like {
+            width: 90px;
+        }
+        .composition1 {
+            display: flex;
+            flex-direction: row;
+            font-size: 10px;
+        }
+        .search_el {
+            flex-direction: column;
+        }
+        .room_cart {
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            font-size: 10px;
+            height:auto;
+        }
+        .all_descr {
+            flex-direction: row;
+            font-size: 10px;
+            height:auto;
+            width: auto;
+        }
+        .descr, .descr1{
+            width: 200px;
+        }
+        .hotel_img {
+            width: 50%;
+            height: 50%;
+        }
+        .button_box {
+            margin: 5px;
+            width: 120px;
+            height: 70px;
+            align-items: flex-end;
+        }
+        .cart {
+            font-size: 10px;
+        }
+        .text_descr {
+            margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 250px;
+        }
+    }
+
+    @media screen and (min-width:673px) and (max-width:1400px){
+        .tablist {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            
+        }
+
+        .datebox {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .inner_box_search {
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .search_date {
+            width: 200px;
+        }
+        
+        .composition1 {
+            display: flexbox;
+            flex-direction: column;
+            font-size: 10px;
+        }
+        .search_el {
+            flex-direction: row;
+            
+        }
+
+        .rooms_cart {
+            max-width:780px;
+        }
+
+        .room_cart {
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: flex-start;
+            font-size: 10px;
+            max-height:400px;
+        }
+        .all_descr {
+            flex-direction: row;
+            font-size: 10px;
+            height:auto;
+        }
+        .descr, .descr1{
+            width: 200px;
+        }
+        .hotel_img {
+            width: 80%;
+            height: 80%;
+        }
+        .button_box {
+            margin: 5px;
+            width: 120px;
+            height: 70px;
+        }
+        .cart {
+            font-size: 10px;
+        }
+        .text_descr {
+            margin-left: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .bookings_list {
+            
+            padding-left: 20px;
+            padding-right: 20px;
+            
+
+        }
+    }
 </style>
 
-
+<div>
 <div class="tab-list" role="tablist">
     <button hx-get="/pages/personal_account" hx-target="#bookings_list" 
         hx-swap="innerHTML transition:true"
@@ -254,23 +431,27 @@
 <div id="tab-content" class="tab-content">
     <div class="search_el">
         <div class="inner_box_search">
+            <div class="datebox">
             <label class="search" for="date_from">ЗАЕЗД:</label>
             <input type="date" class="search_date" name="date_from" id="date_from" 
-            hx-get="pages/personal_account_archive_by_date" 
+            hx-get="/pages/personal_account_archive_by_date" 
             hx-include="#date_from, #date_to" 
             hx-target="#past_book" 
             hx-swap="innerHTML transition:true">
+            </div>
+            <div class="datebox">
             <label class="search" for="date_to">ВЫЕЗД:</label>
             <input type="date" class="search_date" name="date_to" id="date_to" 
-            hx-get="pages/personal_account_archive_by_date" 
+            hx-get="/pages/personal_account_archive_by_date" 
             hx-include="#date_from, #date_to" 
             hx-target="#past_book" 
             hx-swap="innerHTML transition:true">
         </div>
     </div>
+    </div>
     <div id="past_book">
     {% if past_book %}
-    {% for book in past_book|sort(attribute="book.date_from") %}
+    {% for book in past_book %}
     <div class="room_cart">
         <div class="hotel_img">
             <img src={{"/static/images/resized_500_300_" ~ book.room.image_id ~ ".webp" }}
@@ -278,7 +459,8 @@
         </div>
         <div class="composition1">
             <div class="all_descr">
-                <div class="descr" hx-get={{"pages/hotel/id/" ~ book.room.hotel_id}} hx-trigger="load"></div>
+                <div class="text_descr">
+                <div class="descr" hx-get={{"/pages/hotel/id/" ~ book.room.hotel_id}} hx-trigger="load"></div>
                 <div class="descr">                    
                     <h4>{{book.room.name}}</h4>
                     <div>{{book.room.description}}</div>
@@ -295,7 +477,8 @@
                         </ul>
                         {% endfor %}
                     </div>
-                </div>                
+                </div>
+            </div>                
                 <div class="button_box">
                     <button class="cart" hx-on:click={{"add_cart(" ~ book.room.id ~ "," ~ book.room.hotel_id
                         ~ ",'rooms_cart" ~ book.room.hotel_id ~ "')" }}>Повторить</button>
@@ -315,5 +498,6 @@
     {% else %}
     <div class="notice">Список прошедших бронирований пуст</div>
     {% endif %}
+</div>
 </div>
 </div>

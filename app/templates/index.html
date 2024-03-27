@@ -7,9 +7,9 @@
     <meta name="htmx-config" content='{"refreshOnHistoryMiss":"true"}'>
     <link rel="stylesheet" href="{{ url_for('static', path='css/menu.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}">
-    <link rel="stylesheet" type = "text/css" href="{{ url_for('static', path='font/stylesheet.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='font/stylesheet.css') }}">
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
-    
+
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-straight/css/uicons-regular-straight.css'>
     <link rel='stylesheet'
@@ -17,84 +17,111 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-straight/css/uicons-solid-straight.css'>
-    
+
     <script src="{{ url_for('static', path='js/scripts.js') }}"></script>
     <script src="{{ url_for('static', path='js/htmx.min.js') }}"></script>
     <script src="{{ url_for('static', path='js/json-enc.js') }}"></script>
     <script src="{{ url_for('static', path='js/class-tools.js') }}"></script>
     <script src="{{ url_for('static', path='js/ws.js') }}"></script>
     <title>ONBOOK</title>
-    
+
 </head>
 
-<body id="main" >
+<body id="main">
     <div id="nav_box">
-        <div class="inisible" hx-post="/auth/refresh" hx-swap="none" hx-trigger="load" hx-on::after-request="refresh_nav()"></div>
+        <div class="inisible" hx-post="/auth/refresh" hx-swap="none" hx-trigger="load"
+            hx-on::after-request="refresh_nav()"></div>
         <nav id="nav" class="nav">
-            <span class="logo" hx-get="/pages/banners" 
-            hx-swap="innerHTML transition:true"
-            hx-target="#bookings_list"
-            >ONBOOK</span>
+            <span class="logo" hx-get="/pages/banners" hx-swap="innerHTML transition:true"
+                hx-target="#bookings_list">ONBOOK</span>
             <div class="wrapper">
                 <div class="tabs">
                     <input type="radio" name="tabs" checked id="tab1">
                     <label class="nav_lab" for="tab1" hx-get="/pages/search" hx-target="#bookings_list"
-                        hx-swap="innerHTML transition:true" 
-                        hx-push-url="true">Поиск отелей</label>
+                        hx-swap="innerHTML transition:true" hx-push-url="true">Поиск отелей</label>
                     <input type="radio" name="tabs" checked id="tab2">
-                    <label class="nav_lab" for="tab2" hx-get="/pages/anon_fav" hx-target="#bookings_list" 
-                    hx-push-url="true" >
+                    <label class="nav_lab" for="tab2" hx-get="/pages/anon_fav" hx-target="#bookings_list"
+                        hx-push-url="true">
                         <div><i class="fi fi-rs-heart"></i><sup class="sup">{{fav_count}}</sup></div>
                     </label>
                     <input type="radio" name="tabs" checked id="tab3">
                     <label class="nav_lab" for="tab3" hx-get="/pages/cart/anon" hx-target="#bookings_list"
-                        hx-swap="innerHTML transition:true"  hx-push-url="true">
+                        hx-swap="innerHTML transition:true" hx-push-url="true">
                         <div>
                             <i class="fi fi-rr-shopping-cart" id="cart"></i><sup class="sup">{{cart_count}}</sup>
                         </div>
                     </label>
                     <input type="radio" name="tabs" checked id="tab4">
                     <label class="nav_lab" for="tab4" hx-get="/pages/login" hx-target="#login_bar"
-                        hx-swap="innerHTML transition:true" 
-                        hx-push-url="true"
-                        >Войти</label>
+                        hx-swap="innerHTML transition:true" hx-push-url="true">Войти</label>
                     <div class="glider"></div>
                 </div>
             </div>
         </nav>
+        <nav class="burger">
+
+            <!-- <div class="brg_tab">
+                <label class="nav_lab" for="tab1" hx-get="/pages/search" hx-target="#bookings_list"
+                    hx-swap="innerHTML transition:true" hx-push-url="true">Поиск отелей</label>
+            </div>
+            <div class="brg_tab">
+                <label class="nav_lab" for="tab2" hx-get="/pages/anon_fav" hx-target="#bookings_list"
+                    hx-push-url="true">
+                    <div><i class="fi fi-rs-heart"></i><sup class="sup">{{fav_count}}</sup></div>
+                </label>
+            </div>
+            <div class="brg_tab">
+                <label class="nav_lab" for="tab3" hx-get="/pages/cart/anon" hx-target="#bookings_list"
+                    hx-swap="innerHTML transition:true" hx-push-url="true">
+                    <div>
+                        <i class="fi fi-rr-shopping-cart" id="cart"></i><sup class="sup">{{cart_count}}</sup>
+                    </div>
+                </label>
+            </div>
+            <div class="brg_tab">
+                <label class="nav_lab" for="tab4" hx-get="/pages/login" hx-target="#login_bar"
+                    hx-swap="innerHTML transition:true" hx-push-url="true">Войти</label>
+            </div> -->
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </nav>
+
     </div>
 
     <div id="login_bar" class="login_bar"></div>
     <div id="bookings_list" class="bookings_list" hx-swap="outerHTML transition:true"><span></span></div>
-    
-    
-        <div class="service" hx-ext="ws" ws-connect={{"/chat/ws/" ~ ids }}>
-            <div class="serv_name" onclick="showChat()"><div class="sp"><i
-                class=
-                "fi fi-rs-comment-alt"
-                ></i></div></div>
-            <div class="chat" id="chat">
-                <div class="head_chat">
+
+
+    <div class="service" hx-ext="ws" ws-connect={{"/chat/ws/" ~ ids }}>
+        <div class="serv_name" onclick="showChat()">
+            <div class="sp"><i class="fi fi-rs-comment-alt"></i></div>
+        </div>
+        <div class="chat" id="chat">
+            <div class="head_chat">
                 <div class="av">
-                <div class="tw-avatar tw-online">
-                    <div class="tw-w-16 tw-rounded-full">
-                      <img src='/static/images/simple-booking.jpg' />
+                    <div class="tw-avatar tw-online">
+                        <div class="tw-w-16 tw-rounded-full">
+                            <img src='/static/images/simple-booking.jpg' />
+                        </div>
                     </div>
-                  </div>
                 </div>
                 <div>
-                <i class="fi fi-rr-angle-small-down" onclick="hiddenChat()"></i>
-            </div></div>
-                <div class="chat_field" id="history" >  
+                    <i class="fi fi-rr-angle-small-down" onclick="hiddenChat()"></i>
+                </div>
             </div>
-                <form id="form" ws-send="" hx-on:submit="clearInput()"> 
+            <div class="chat_field" id="history">
+            </div>
+            <form id="form" ws-send="" hx-on:submit="clearInput()">
                 <div class="input_box">
-                <input class="chat_input"  id="chat_message" name="chat_message">
-                <button class="button_chat" type="submit"><i class="fi fi-rr-arrow-right" ></i></button>
-            </div></form>
-            </div>
+                    <input class="chat_input" id="chat_message" name="chat_message">
+                    <button class="button_chat" type="submit"><i class="fi fi-rr-arrow-right"></i></button>
+                </div>
+            </form>
         </div>
-        <footer class="footer">
+    </div>
+    <footer class="footer">
         <div class="footer__top">
             <div class="footer__left">
                 <div class="logo_1">ONBOOK</div>
@@ -108,25 +135,26 @@
         </div>
         <div class="footer__bottom">ONBOOK All rights reserved.</div>
     </footer>
-  
+
     <dialog class="dial" id="dial">
         <div class="dial_box">
-        <form method="dialog">
-        <button autofocus value="true" class="dial_button">Ok</button>
-        <button class="dial_button1" value="false">Отмена</button>
-        </form>
-        <div class="dial_mess"><p  id="dial_mess"></p></div>
+            <form method="dialog">
+                <button autofocus value="true" class="dial_button">Ok</button>
+                <button class="dial_button1" value="false">Отмена</button>
+            </form>
+            <div class="dial_mess">
+                <p id="dial_mess"></p>
+            </div>
         </div>
     </dialog>
 
- 
+
     <dialog class="popup" id="popup">
         <div class="popup_box">
-            <button  class="popup_button"><i
-                class=
-                "fi fi-br-cross"
-                ></i></button>
-            <div class="popup_mess"><p  id="popup_mess"></p></div>
+            <button class="popup_button"><i class="fi fi-br-cross"></i></button>
+            <div class="popup_mess">
+                <p id="popup_mess"></p>
+            </div>
         </div>
     </dialog>
 
@@ -144,8 +172,10 @@
         //     messages.appendChild(message)
         //     let chat = document.getElementById('history')
         //     chat.scrollTop = chat.scrollHeight
-            
+
         // };
+        
+
         function clearInput() {
             var input = document.getElementById("chat_message");
             input.value = '';
@@ -158,6 +188,8 @@
         clsBtn = document.querySelector(".dial_button");
         clsBtnNo = document.querySelector(".dial_button1");
         msgs = document.getElementById("dial_mess");
+
+
         // msg.textContent = "";
         function showMdAlrt(msg) {
             toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
@@ -165,41 +197,51 @@
             dlg.showModal();
             // window.history.pushState(null, null, document.location);
             show = true;
-            
         }
 
-        
-        
-        
         document.addEventListener('keydown', (e) => {
             if (e.code === "Escape" && dlg.classList.contains("is-visible")) {
                 toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
                 dlg.close();
                 dlg.style.display = "";
-
-                 
             }
-            });
+        });
 
         function showPopUp(msg) {
+            popup = document.getElementById("popup");
+            popup_msgs = document.getElementById("popup_mess");
+            popup_button = document.querySelector(".popup_button");
+            popup_button.addEventListener("click", () => {
+                toggleTwoClasses(popup, "is-visible", "is-hidden", 500);
+                popup.close();
+                popup.style.display = "";
+                // history.back();
+                show = false;
+            });
+            handleModalClick = (event) => {
+                    const modalRect = popup.getBoundingClientRect();
+                    if (
+                        event.clientX < modalRect.left ||
+                        event.clientX > modalRect.right ||
+                        event.clientY < modalRect.top ||
+                        event.clientY > modalRect.bottom
+                    ) {
+                        toggleTwoClasses(popup, "is-visible", "is-hidden", 300);
+                        popup.close();
+                        popup.style.display = "";
+                        // history.back();
+                        show = false;
+
+                    }
+                };
+
+            popup.addEventListener("click", handleModalClick);
             toggleTwoClasses(popup, "is-visible", "is-hidden", 500);
             popup.showModal();
             popup_msgs.textContent = msg;
             // window.history.pushState(null, null, document.location);
             show = true;
         }
-
-        // handleModalClick = ({ currentTarget, target }) => {
-        //     const isClickedOnBackdrop = target === currentTarget;
-        //     if (isClickedOnBackdrop) {
-        //         toggleTwoClasses(popup, "is-visible", "is-hidden", 1000);
-        //         popup.close();
-        //         popup.style.display = "";
-        //         // popup.style.display = "";
-        //         // history.back();
-        //         // show = false;
-        //  }
-        // }
 
         handleModalClick = (event) => {
             const modalRect = popup.getBoundingClientRect();
@@ -215,9 +257,8 @@
                 popup.style.display = "";
                 // history.back();
                 show = false;
-
             }
-            };
+        };
 
         popup.addEventListener("click", handleModalClick);
 
@@ -227,10 +268,11 @@
             popup.style.display = "";
             // history.back();
             show = false;
-            });
+        });
 
-        addEventListener('popstate', function(e) {
+        addEventListener('popstate', function (e) {
             if (show) {
+                booking_menu_scr();
                 popup.close();
                 popup.style.display = "";
                 dlg.close();
@@ -239,7 +281,6 @@
                 dlg.classList.remove("is-visible");
                 popup.classList.add("is-hidden");
                 popup.classList.remove("is-visible");
-            
                 // history.back();
                 show = false;
             }
@@ -247,54 +288,64 @@
 
         clsBtn.addEventListener("click", () => {
             toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
-            
-            
             // history.back();
             show = false;
             //dlg.close();
-            });
+        });
 
         clsBtnNo.addEventListener("click", () => {
             toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
-            
-            
             // history.back();
             show = false;
             // dlg.close(); 
-            });
+        });
 
-        document.getElementById('bookings_list').addEventListener('htmx:confirm', function(evt) {
-            if (evt.target.className === "unbook" || evt.target.className === "del"){
+        document.getElementById('bookings_list').addEventListener('htmx:confirm', function (evt) {
+            if (evt.target.className === "unbook" || evt.target.className === "del") {
                 evt.preventDefault();
                 showMdAlrt(`${evt.detail.question}`);
-                dlg.addEventListener("close", lstnr = () => {   
+                dlg.addEventListener("close", lstnr = () => {
                     if (dlg.returnValue == "true") evt.detail.issueRequest(true);
-                    dlg.removeEventListener("close", lstnr); 
-                    })
-               
-            }})
+                    dlg.removeEventListener("close", lstnr);
+                })
 
-            let par = document.getElementById("history");
-        document.body.addEventListener("htmx:wsBeforeMessage", (data) => {  
+            }
+        })
+
+        par = document.getElementById("history");
+        document.body.addEventListener("htmx:wsBeforeMessage", (data) => {
             par.insertAdjacentHTML('beforeend', data.detail.message);
             par.scrollTop = par.scrollHeight;
         })
 
-        
-            
-        window.onLoad = function(){
+
+
+        window.onLoad = function () {
+            let show = false;
             let dlg = undefined;
-            let clsBtn = undefined; 
-            let clsBtnNo = undefined; 
+            let clsBtn = undefined;
+            let clsBtnNo = undefined;
             let msgs = undefined;
             let popup = undefined;
             let popup_box = undefined;
             let popup_msgs = undefined;
             let popup_button = undefined;
+            let par = undefined;
             const handleModalClick = undefined;
-            
         };
+
+        // let brgr = document.querySelector('.burger');
+        // let wrapper = document.querySelector('.wrapper');
+        // let nav_lab = document.getElementsByClassName('nav_lab');
+        document.addEventListener("DOMContentLoaded", booking_menu_scr());
+
+
+
+    // nav_box.addEventListener('DOMContentLoaded', () => {
         
+    //     booking_menu_scr();
+    
+
     </script>
 </body>
 

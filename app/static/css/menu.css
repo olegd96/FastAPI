@@ -325,7 +325,7 @@ body {
   flex-direction: column;
   padding: 5px;
   position: absolute;
-  top: -350px;
+  top: -380px;
   right: 0px;
   justify-content: space-between;
   z-index: 1000;

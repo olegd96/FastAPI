@@ -10,6 +10,8 @@
         transition: all 3s ease-in;
         color: rgb(85, 85, 107);
         max-width: 500px;
+        min-width: 330px;
+        
     }
 
 
@@ -97,10 +99,21 @@
     }
 
 
-    @media screen and (min-width: 280px) {
+    @media screen and (max-width: 780px) {
         .logpanel {
-            min-width: 300px;
+            width: 330px;
+            max-width: none;
+            font-size: 14px;
         }
+
+        .box {
+            width: 300px;
+        }
+
+        .log_el, .log {
+            font-size: 14px;
+        }
+
     }
 </style>
 

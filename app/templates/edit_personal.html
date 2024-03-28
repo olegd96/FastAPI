@@ -54,12 +54,18 @@
 
 @media screen and (max-width:672px) {
     .edit_personal {
-        width:350px;
+        width:300px;
+        height: 160px;
     }
     .editor_inp {
-        width: 250px;
+        width: 200px;
+        font-size: 14px;
     }
-
+    .done_btn {
+        font-size: 14px;
+        height: 30px;
+        width: 70px;
+    }
 }
 
 </style>
@@ -69,9 +75,9 @@
     <div class="edit_data"><label class="" for="fio">Ф.И.О.:   </label><input id="fio" class="editor_inp" type="text" name="fio" value="{{user.fio}}"></div>
     <div class="edit_data"><label class="" for="tel">Тел.:   </label><input id="tel" class="editor_inp" type="tel" name="telephone" value={{user.telephone}}></div>
     <div class="done">
-        <div class="done_btn" id="done" hx-headers="{'Content-Type': 'application/json'}"
+        <div class="done_btn" id="done" role="button" hx-headers="{'Content-Type': 'application/json'}"
         hx-ext='json-enc' hx-post="/auth/update_personal_data" hx-swap="none" hx-on::after-request="refresh_account()"><i class="fi fi-br-check" ></i></div>
-        <div class="done_btn" hx-on:click="cancel('edit_personal')"><i class="fi fi-br-cross"></i></div>
+        <div class="done_btn" role="button" hx-on:click="cancel('edit_personal')"><i class="fi fi-br-cross"></i></div>
     </div>
 </form>
 </div>

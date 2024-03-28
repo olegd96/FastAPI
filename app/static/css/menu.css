@@ -698,4 +698,25 @@ body {
     
   }
 
+  .dial {
+    width: 330px;
+    height: 200px;
+    font-size: 14px;
+    top: 150px;
+    left: calc(50% - 165px);
+  }
+  
+  
+  .dial_button {
+    width: 100px;
+    height: 30px;
+    left: 30px;
+  }
+
+  .dial_button1 {
+    width: 100px;
+    height: 30px;
+    left: 200px;
+  }
+
 }

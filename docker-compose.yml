@@ -13,7 +13,7 @@ services:
       - flower
 
   db:
-    image: postgres:15
+    image: postgres:latest
     container_name: booking_db
     volumes:
       - postgresdata:/var/lib/postgresql/data

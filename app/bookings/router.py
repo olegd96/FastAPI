@@ -27,6 +27,10 @@ router = APIRouter(
 async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBookingInfo]:
     return await BookingDAO.find_all_with_images(user_id=user.id)
 
+@router.get("/notice")
+async def get_not():
+    return await BookingDAO.find_all_nearest_bookings(3)
+
 
 @router.post("")
 #@version(1)

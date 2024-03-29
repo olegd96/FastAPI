@@ -596,7 +596,7 @@ body {
   }
   .wrapper {
     display: none;
-    margin-right: 0px;
+    margin-right: 5px;
     opacity: 1;
   }
 
@@ -648,7 +648,7 @@ body {
     /* background-color: #2d619c; */
     width: 200px;
     top: 150px;
-    right: 5px;
+    right: 10px;
   }
 
 
@@ -674,7 +674,7 @@ body {
   }
 
   .footer__right {
-    font-size: 8px;
+    font-size: 10px;
   }
 
   .logo_1 {

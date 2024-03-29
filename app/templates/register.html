@@ -3,14 +3,16 @@
         padding: 15px;
         margin: 15px auto;
         background-color: rgb(223, 228, 237);
-        display: flexbox;
-        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        
         font-family: 'Montserrat', sans-serif;
         font-size: 18px;
         width: 40%;
         transition: all 3s ease-in;
         color: rgb(85, 85, 107);
         max-width: 500px;
+        min-width: 330px;
     }
 
 
@@ -93,9 +95,21 @@
         color: black;
     }
 
-    @media screen and (min-width: 280px) {
+    @media screen and (max-width: 780px) {
         .logpanel {
-            min-width: 300px;
+            width: 330px;
+            max-width: none;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .box {
+            width: 300px;
+        }
+
+        .log_el, .log {
+            font-size: 14px;
         }
     }
 </style>

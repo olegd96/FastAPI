@@ -596,7 +596,7 @@ body {
   }
   .wrapper {
     display: none;
-    margin-right: 15px;
+    margin-right: 0px;
     opacity: 1;
   }
 

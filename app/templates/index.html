@@ -95,7 +95,16 @@
         </nav>
 
     </div>
-    <div class="prgrs"><img  id="progress_1" alt="Result loading..." class="htmx-indicator" src="/static/images/progress.gif"/></div>
+    <div class="prgrs">
+        <div class="htmx-indicator" id="progress_1">
+        <div class="loader" >
+        <div class="inner one"></div>
+        <div class="inner two"></div>
+        <div class="inner three"></div>
+        </div>
+    </div>
+    </div>
+    <!-- <div class="prgrs"><img  src='/static/images/25.svg' id="progress_1" alt="Result loading..."  class="htmx-indicator"/></div> -->
     <div id="login_bar" class="login_bar"></div>
     <div id="bookings_list" class="bookings_list" hx-swap="outerHTML transition:true"></div>
 

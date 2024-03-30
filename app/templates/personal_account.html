@@ -108,11 +108,13 @@
 
 <div class="tab-list" role="tablist">
 	<button hx-get="/pages/personal_account" 
-    hx-target="#bookings_list"  
+    hx-target="#bookings_list"
+    hx-indicator="#progress_1"  
     hx-swap="innerHTML transition:true"
     hx-push-url="true" 
     class="selected"  >Личные данные</button>
-	<button hx-get="/pages/personal_account_archive" 
+	<button hx-get="/pages/personal_account_archive"
+    hx-indicator="#progress_1" 
     hx-target="#bookings_list" 
     hx-swap="innerHTML transition:true"
     hx-push-url="true"  
@@ -126,9 +128,11 @@
     <div class="pers_data"><label class="">Тел.:   </label><span class="content">{{user.telephone}}</span></div>
     <div class="button_block">
     <div class="edit" role="button" tabindex="1" hx-get="/pages/editor" hx-target="#editor_block"
+    hx-indicator="#progress_1"
     hx-swap="innerHTML transition:true"
     ><i class="fi fi-rr-pencil"></i></div>
     <div class="edit_pass" role="button" tabindex="2" hx-get="/pages/edit_pass" hx-target="#editor_block"
+    hx-indicator="#progress_1"
     hx-swap="innerHTML transition:true"
     >Сменить пароль</div>
     </div>

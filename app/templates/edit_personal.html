@@ -76,7 +76,9 @@
     <div class="edit_data"><label class="" for="tel">Тел.:   </label><input id="tel" class="editor_inp" type="tel" name="telephone" value={{user.telephone}}></div>
     <div class="done">
         <div class="done_btn" id="done" role="button" hx-headers="{'Content-Type': 'application/json'}"
-        hx-ext='json-enc' hx-post="/auth/update_personal_data" hx-swap="none" hx-on::after-request="refresh_account()"><i class="fi fi-br-check" ></i></div>
+        hx-ext='json-enc' hx-post="/auth/update_personal_data" 
+        hx-indicator="#progress_1"
+        hx-swap="none" hx-on::after-request="refresh_account()"><i class="fi fi-br-check" ></i></div>
         <div class="done_btn" role="button" hx-on:click="cancel('edit_personal')"><i class="fi fi-br-cross"></i></div>
     </div>
 </form>

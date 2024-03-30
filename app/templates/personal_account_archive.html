@@ -431,11 +431,13 @@
 
 <div>
 <div class="tab-list" role="tablist">
-    <button hx-get="/pages/personal_account" hx-target="#bookings_list" 
+    <button hx-get="/pages/personal_account" hx-target="#bookings_list"
+    hx-indicator="#progress_1" 
         hx-swap="innerHTML transition:true"
         hx-push-url="true" 
         class="not_selected">Личные данные</button>
-    <button hx-get="/pages/personal_account_archive" hx-target="#bookings_list" 
+    <button hx-get="/pages/personal_account_archive" hx-target="#bookings_list"
+    hx-indicator="#progress_1" 
         hx-swap="innerHTML transition:true"
         hx-push-url="true" 
         class="selected">Архив бронирований</button>
@@ -447,7 +449,8 @@
             <div class="datebox">
             <label class="search" for="date_from">ЗАЕЗД:</label>
             <input type="date" class="search_date" name="date_from" id="date_from" 
-            hx-get="/pages/personal_account_archive_by_date" 
+            hx-get="/pages/personal_account_archive_by_date"
+            hx-indicator="#progress_1" 
             hx-include="#date_from, #date_to" 
             hx-target="#past_book" 
             hx-swap="innerHTML transition:true">
@@ -455,7 +458,8 @@
             <div class="datebox">
             <label class="search" for="date_to">ВЫЕЗД:</label>
             <input type="date" class="search_date" name="date_to" id="date_to" 
-            hx-get="/pages/personal_account_archive_by_date" 
+            hx-get="/pages/personal_account_archive_by_date"
+            hx-indicator="#progress_1" 
             hx-include="#date_from, #date_to" 
             hx-target="#past_book" 
             hx-swap="innerHTML transition:true">
@@ -473,7 +477,9 @@
         <div class="composition1">
             <div class="all_descr">
                 <div class="text_descr">
-                <div class="descr" hx-get={{"/pages/hotel/id/" ~ book.room.hotel_id}} hx-trigger="load"></div>
+                <div class="descr" hx-get={{"/pages/hotel/id/" ~ book.room.hotel_id}}
+                hx-indicator="#progress_1" 
+                hx-trigger="load"></div>
                 <div class="descr">                    
                     <h4>{{book.room.name}}</h4>
                     <div>{{book.room.description}}</div>
@@ -493,9 +499,9 @@
                 </div>
             </div>                
                 <div class="button_box">
-                    <button class="cart" hx-on:click={{"add_cart(" ~ book.room.id ~ "," ~ book.room.hotel_id
+                    <button class="cart" hx-indicator="#progress_1" hx-on:click={{"add_cart(" ~ book.room.id ~ "," ~ book.room.hotel_id
                         ~ ",'rooms_cart" ~ book.room.hotel_id ~ "')" }}>Повторить</button>
-                    <div class="room_like" hx-on:click={{"add_fav_single(" ~ book.room.id ~ "," ~ book.room.hotel_id~ ")" }}>
+                    <div class="room_like" hx-indicator="#progress_1" hx-on:click={{"add_fav_single(" ~ book.room.id ~ "," ~ book.room.hotel_id~ ")" }}>
                         {% if book.room.id in fav %}
                         <i class="fi fi-ss-heart" id={{book.room.id}}></i>
                         {% else %}

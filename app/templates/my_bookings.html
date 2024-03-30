@@ -155,6 +155,7 @@
         </ul>
     </div>
     <div class="unbook"><button class="del" id="del" hx-delete={{"/bookings/" ~ item.id ~ "" }} 
+        hx-indicator="#progress_1"
             hx-confirm="Отменить бронь?"
             hx-on::after-request="refresh_nav(); refresh_my_bookings()"
             >Отменить бронь</button></div>

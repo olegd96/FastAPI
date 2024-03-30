@@ -14,6 +14,7 @@
         background-color: rgb(223, 228, 237);
     }
 
+
     .search {
         font-size: 15px;
         font-family: 'Montserrat', sans-serif;
@@ -63,6 +64,7 @@
         font-size: 15px;
         font-weight: bold;
         color: white;
+        position: relative;
     }
 
     .search_button:hover {
@@ -229,7 +231,8 @@
 
             <div class="dropdown">
                 <input type="search"  class="dropbtn" name="location" id="loc" 
-                hx-get="/pages/loc_list" hx-trigger="input changed delay:500ms, search" 
+                hx-get="/pages/loc_list" hx-trigger="input changed delay:500ms, search"
+                hx-indicator="#progress_1" 
                 hx-target="#myDropdown" hx-swap="innerHTML">
                 <div id="myDropdown" class="dropdown-content">
                   
@@ -246,9 +249,11 @@
         </div>
         </div>
         <button class="search_button" hx-get="/pages/hotels" hx-include="*" hx-target="#hotels"
-            hx-swap="innerHTML transition:true" hx-push-url="true" 
+        hx-indicator="#progress_1"
+            hx-swap="innerHTML transition:true" hx-push-url="true" hx-indicator="#progress_1"
             >ПОИСК</button>
+            
     </div>
-    <div id="hotels" class="book_hotels"></div>
+    <div id="hotels" class="book_hotels" ></div>
     <div id="rooms" class="rooms"></div>
 </div>

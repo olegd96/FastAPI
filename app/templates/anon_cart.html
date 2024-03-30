@@ -307,12 +307,15 @@
             </ul>
         </div>
 
-        <div class="unbook" hx-delete={{"/cart/anon/" ~ item.id ~ "" }} hx-push-url="false" hx-confirm="Удалить позицию из корзины?"
+        <div class="unbook" hx-delete={{"/cart/anon/" ~ item.id ~ "" }} 
+        hx-indicator="#progress_1"
+        hx-push-url="false" hx-confirm="Удалить позицию из корзины?"
             hx-on:htmx:after-request="refresh_anon_cart();refresh_anon_nav()"><i class="fi fi-rr-trash"></i></div>
     </div>
 </div>
     {% endfor %}
     <div class="order_booking"><button class="onbk" hx-get="/pages/login" hx-target="#login_bar"
+        hx-indicator="#progress_1"
             hx-on:click="alert('Войдите или зарегистрируйтесь')" hx-swap="innerHTML transition:true">Оформить бронирование</button></div>
     {% else %}
     <div class="notice">Пустая корзина</div>

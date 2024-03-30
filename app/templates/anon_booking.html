@@ -91,14 +91,14 @@
     }
 
     .burger {
-  display: none;
-  width: 20px;
-  height: 14px;
-  cursor: pointer;
-  position: absolute;
-  top: 26px;
-  right: 30px;
-  z-index: 6;
+        display: none;
+        width: 20px;
+        height: 14px;
+        cursor: pointer;
+        position: absolute;
+        top: 26px;
+        right: 30px;
+        z-index: 6;
 }
 
 .burger-close span:first-child {
@@ -224,9 +224,11 @@
         <div class="tabs">
             <input type="radio" name="tabs" checked id="tab1">
             <label class="nav_lab" for="tab1" hx-get="/pages/search" hx-target="#bookings_list"
+            hx-indicator="#progress_1"
                 hx-swap="innerHTML transition:true" hx-push-url="true" >Поиск отелей</label>
             <input type="radio" name="tabs" checked id="tab2">
             <label class="nav_lab" for="tab2" hx-get="/pages/anon_fav"  hx-target="#bookings_list"
+            hx-indicator="#progress_1"
             hx-push-url="true" hx-swap="innerHTML transition:true" >
                 <div>
                     <i class="fi fi-rs-heart"></i><sup class="sup">{{fav_count}}</sup>
@@ -234,6 +236,7 @@
             </label>
             <input type="radio" name="tabs" checked id="tab3">
             <label class="nav_lab" for="tab3" hx-get="/pages/cart/anon" hx-target="#bookings_list"
+            hx-indicator="#progress_1"
             hx-push-url="true" hx-swap="innerHTML transition:true">
                 <div>
                     <i class="fi fi-rr-shopping-cart" id="cart"></i><sup class="sup">{{cart_count}}</sup>
@@ -241,6 +244,7 @@
             </label>
             <input type="radio" name="tabs" checked id="tab4">
             <label class="nav_lab" for="tab4" hx-get="/pages/login" hx-target="#login_bar"
+            hx-indicator="#progress_1"
             hx-push-url="true" hx-swap="innerHTML transition:true" >Войти</label>
             <div class="glider"></div>
         </div>

@@ -1,3 +1,5 @@
+from asyncio import sleep
+import asyncio
 from contextlib import asynccontextmanager
 import time
 import uuid
@@ -38,7 +40,6 @@ from app.hotels.rooms import router
 from app.test_session.session import router as router_session
 
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}")
@@ -46,6 +47,7 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
+
 
 @app.exception_handler(RequestAttorneyException)
 async def attorney_exception_handler(request: Request, exc: RequestAttorneyException):
@@ -113,9 +115,6 @@ admin.add_view(CartAdmin)
 admin.add_view(FavourAdmin)
 
 
-
-
-
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     start_time = time.time()
@@ -123,7 +122,5 @@ async def add_process_time_header(request: Request, call_next):
     process_time = time.time() - start_time
     logger.info("Request execution time",
                 extra={"process_time": round(process_time, 4)})
-    response.headers["X-Process-Time"] = str(process_time) 
+    response.headers["X-Process-Time"] = str(process_time)
     return response
-
-

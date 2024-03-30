@@ -305,6 +305,7 @@
                     <div class="button_box">
                         <button class="hotels_discover" hx-get={{"/pages/hotels/" ~ hotel.id ~ "/rooms" }}
                             hx-include="#date_from, #date_to" hx-target={{"#rooms_cart" ~ hotel.id }}
+                            hx-indicator="#progress_1"
                             hx-swap="outerHTML transition:true" hx-push-url="true" hx-on::responseError="alert('Проверьте корректность дат')"
                             >Посмотреть номера</button>
                         <div class="hotel_like" >

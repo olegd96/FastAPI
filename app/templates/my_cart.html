@@ -292,7 +292,9 @@
         </ul>
     </div>
     <div class="like_trash">
-        <div class="room_like" hx-on:click={{"add_fav_from_cart(" ~ item.room_id ~ "," ~ item.hotel_id ~ ")" }}>
+        <div class="room_like" 
+        hx-indicator="#progress_1"
+        hx-on:click={{"add_fav_from_cart(" ~ item.room_id ~ "," ~ item.hotel_id ~ ")" }}>
             {% if item.room_id in fav %}
             <i class="fi fi-ss-heart"></i>
             {% else %}
@@ -300,6 +302,7 @@
             {% endif %}
         </div>
         <div class="unbook" hx-delete={{"/cart/" ~ item.id ~ "" }} hx-confirm="Удалить позицию из корзины?"
+        hx-indicator="#progress_1"
             hx-on:htmx:after-request="refresh_nav(); refresh_my_cart()"
             ><i class="fi fi-rr-trash"></i></div>
     </div>
@@ -307,6 +310,7 @@
 </div>
 {% endfor %}
 <div class="order_booking"><button class="onbk" hx-on:click="book_all_checked();refresh_nav()"
+    hx-indicator="#progress_1"
         hx-swap="innerHTML transition:true">Оформить бронирование</button></div>
 {% else %}
 <div class="notice">Пустая корзина</div>

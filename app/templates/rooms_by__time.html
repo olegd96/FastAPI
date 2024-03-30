@@ -334,9 +334,9 @@
                     </div>
                 </div>
                     <div class="button_box">
-                        <button class="cart" hx-on:click={{"add_cart(" ~ room.id ~ "," ~ room.hotel_id
+                        <button class="cart" hx-indicator="#progress_1" hx-on:click={{"add_cart(" ~ room.id ~ "," ~ room.hotel_id
                             ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>Добавить в корзину</button>
-                        <div class="room_like" hx-on:click={{"add_fav(" ~ room.id ~ "," ~ room.hotel_id
+                        <div class="room_like" hx-indicator="#progress_1" hx-on:click={{"add_fav(" ~ room.id ~ "," ~ room.hotel_id
                             ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>
                             {% if room.id in fav %}
                             <i class="fi fi-ss-heart"></i>

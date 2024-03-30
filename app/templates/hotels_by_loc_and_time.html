@@ -1,4 +1,11 @@
 <style>
+    .total {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
     .hotel_cart {
         display: flex;
         flex: auto;
@@ -212,6 +219,7 @@
         .text_descr{
             flex-direction: column;
         }
+
         
     }
 
@@ -280,7 +288,7 @@
    
 </style>
 
-<div>
+<div class="total">
     {% for hotel in hotels|sort(attribute="name") %}
     <div class="hotel_paragraph">
         <div class="hotel_cart">

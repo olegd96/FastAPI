@@ -136,7 +136,7 @@
         <button class="log_button" hx-on:click="loginUser()"
         hx-indicator="#progress_1"
         >Войти</button>
-        <span class="reg" hx-get="/pages/reg_user" hx-target="#login_bar" hx-push-url="true"
+        <span class="reg" role="button" hx-get="/pages/reg_user" hx-target="#login_bar" hx-push-url="true"
         hx-indicator="#progress_1"
             hx-swap="innerHTML transition:true" >Зарегистрироваться</span>
     </div>

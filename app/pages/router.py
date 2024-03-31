@@ -264,7 +264,9 @@ async def personal_account_by_date(
         user=user, 
         date_from=date_from,
         date_to=date_to)
-    return templates.TemplateResponse("personal_account_archive_by_date.html", {"request": request, "past_book": past_bookings_by_date})
+    fav = await FavDao.find_all(user_id=user.id)
+    fav = [f.room_id for f in fav]
+    return templates.TemplateResponse("personal_account_archive_by_date.html", {"request": request, "past_book": past_bookings_by_date, "fav": fav})
 
 @router.get("/loc_list", response_class=HTMLResponse)
 async def get_loc_list(

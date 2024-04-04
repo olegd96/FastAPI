@@ -106,7 +106,8 @@
     </div>
     <!-- <div class="prgrs"><img  src='/static/images/25.svg' id="progress_1" alt="Result loading..."  class="htmx-indicator"/></div> -->
     <div id="login_bar" class="login_bar"></div>
-    <div id="bookings_list" class="bookings_list" hx-swap="outerHTML transition:true"></div>
+    <div id="bookings_list" class="bookings_list" hx-get="/pages/banners" hx-swap="innerHTML transition:true"
+    hx-indicator="#progress_1" hx-trigger="load once"></div>
     <div class="service" hx-ext="ws" ws-connect={{"/chat/ws/" ~ ids }}>
         <div class="serv_name" onclick="showChat()">
             <div class="sp"><i class="fi fi-rs-comment-alt"></i></div>

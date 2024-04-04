@@ -1,16 +1,18 @@
+
+
 <style>
     .rooms_cart {
         display: flexbox;
         flex-direction: column;
         
-        justify-content: flex-start;
+        justify-content: center;
         border-color: black;
         background-color: rgb(223, 228, 237);
         font-family: 'Montserrat', sans-serif;
-
+        
         padding: 5px;
         align-items: center;
-
+        width:1042px;
 
 
 
@@ -28,7 +30,7 @@
 
         border-color: white;
         padding: 5px;
-        height: 200px;
+        height: auto;
 
 
 
@@ -182,6 +184,10 @@
             margin-left: 0px;
         }
 
+        .rooms_cart {
+            width: auto;
+        }
+
         .hotel_paragraph {
             justify-content: flex-start;
             align-items: flex-start;
@@ -234,7 +240,7 @@
 
     }
 
-    @media screen and (min-width:680px) and (max-width:1000px){
+    @media screen and (min-width:680px) and (max-width:1100px){
         .room_cart {
             display:flex;
             flex-direction: row;
@@ -245,10 +251,16 @@
             margin-left:0px;
         }
 
+        .rooms_cart {
+            width: auto;
+        }
+
         .hotel_paragraph {
             padding: none;
             justify-content: flex-start;
             align-items: flex-start;
+            width:auto
+
         }
         .descr, .serv {
             font-size: 10px;
@@ -346,7 +358,9 @@
                             <i class="fi fi-rs-heart"></i>
                             {% endif %}
                         </div>
-                        <div class="clear_box"></div>
+                        <div class="clear_box">
+                        
+                        </div>
                     </div>
                 </div>
             </div>

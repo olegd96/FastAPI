@@ -29,9 +29,6 @@ router = APIRouter(
 
 templates = Jinja2Templates(directory="app/templates")
 
-@router.get("/clear", response_class=HTMLResponse)
-async def clear_page(request: Request):
-    return templates.TemplateResponse("exp.html", {"request": request})
 
 @router.get("", response_class=HTMLResponse)
 async def start_page(

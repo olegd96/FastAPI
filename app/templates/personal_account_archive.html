@@ -215,6 +215,10 @@
 
     .clear_box {
         height: 120px;
+        display: flexbox;
+        flex-direction: column;
+        justify-content:flex-end;
+        align-items: end;
     }
 
     #room_id {
@@ -395,7 +399,7 @@
             align-items: flex-start;
             justify-content: flex-start;
             font-size: 10px;
-            
+            max-width: 950px;
         }
         .all_descr {
             flex-direction: row;
@@ -406,8 +410,8 @@
             width: 200px;
         }
         .hotel_img {
-            width: 60%;
-            height: 60%;
+            width: 50%;
+            height: 50%;
         }
         .button_box {
             margin: 5px;
@@ -513,7 +517,15 @@
                         <i class="fi fi-rs-heart" id={{book.room.id}}></i>
                         {% endif %}
                     </div>
-                    <div class="clear_box"></div> 
+                    <div class="clear_box">
+                            <div class="tw-rating tw-rating-xs">
+                                <input type="tw-radio" name="rating-1" class="tw-mask tw-mask-star tw-bg-sky-700" />
+                                <input type="tw-radio" name="rating-1" class="tw-mask tw-mask-star tw-bg-sky-700" checked />
+                                <input type="tw-radio" name="rating-1" class="tw-mask tw-mask-star tw-bg-sky-700" />
+                                <input type="tw-radio" name="rating-1" class="tw-mask tw-mask-star tw-bg-sky-700" />
+                                <input type="tw-radio" name="rating-1" class="tw-mask tw-mask-star tw-bg-sky-700" />
+                              </div>
+                    </div> 
                 </div>
             </div>
         </div>

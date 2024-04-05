@@ -117,7 +117,7 @@
   position: relative;
 }
 
-input[type="radio"] {
+.tabs input[type="radio"] {
   display: none;
 }
 

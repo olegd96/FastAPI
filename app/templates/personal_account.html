@@ -1,10 +1,11 @@
 <style>
-    
 
     .tablist {
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
     }
+
+
 
     .selected {
         font-family: 'Montserrat', sans-serif;
@@ -93,26 +94,30 @@
 
     @media screen and (min-width:673px) and (max-width:1400px){
         .bookings_list {
-            
             padding-left: 20px;
             padding-right: 20px;
-            
-
+        }
+        .tab-content {
+            max-width: 950px;
         }
 
+        
     }
 
     @media screen and (max-width:672px) {
         .bookings_list {
-            
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+  
             padding-left: 20px;
             padding-right: 20px;
-            
-
         }
 
         .tab-content {
-            max-width: 320px;
+            max-width: 400px;
         }
 
         
@@ -129,7 +134,7 @@
     }
 </style>
 
-<div>
+<div class="tab_comp">
 <div class="tab-list" role="tablist">
 	<button hx-get="/pages/personal_account" 
     hx-target="#bookings_list"

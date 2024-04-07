@@ -17,6 +17,7 @@ class Bookings(Base):
     total_days: Mapped[int] = mapped_column(Computed("date_to - date_from"))
     deleted: Mapped[bool] = mapped_column(Boolean, default=False)
     created: Mapped[datetime] = mapped_column(server_default=text("TIMEZONE('utc', now())"))
+    rate: Mapped[int] = mapped_column(Integer, default=0)
 
     user: Mapped["Users"] = relationship(back_populates="bookings")
     room: Mapped["Rooms"] = relationship(back_populates="bookings")

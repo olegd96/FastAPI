@@ -14,6 +14,7 @@ class SBooking(BaseModel):
     price : int
     total_cost : int
     total_days : int
+    rate: Optional[int]
     
     model_config = ConfigDict(from_attributes=True)
 
@@ -39,3 +40,7 @@ class SBookingWithRoom(SBooking):
     room: "SRoom"
 
     model_config = ConfigDict(from_attributes=True)
+
+class SBookingRate(BaseModel):
+    rate: str
+    ids: str

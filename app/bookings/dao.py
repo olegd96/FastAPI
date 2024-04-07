@@ -6,7 +6,7 @@ from app.bookings.schemas import SBooking, SBookingInfo, SBookingWithRoom
 from app.hotels.rooms.schemas import SRoomWithHotel
 from app.loger import logger
 
-from sqlalchemy import desc, insert, or_, select, delete, and_, func
+from sqlalchemy import Null, desc, insert, or_, select, delete, and_, func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload
 from app.bookings.models import Bookings
@@ -199,7 +199,6 @@ class BookingDAO(BaseDAO):
             past_bookings = past_bookings.scalars().all()
             past_bookings = [TypeAdapter(SBookingWithRoom).validate_python(
                 book).model_dump() for book in past_bookings]
-            print(past_bookings)
             return past_bookings
         
 
@@ -277,3 +276,25 @@ class BookingDAO(BaseDAO):
             rooms_hotels = [TypeAdapter(SRoomWithHotel).validate_python(
                 r).model_dump() for r in res]
             return rooms_hotels
+
+
+    @classmethod
+    async def set_avg_by_room_id(
+        cls,
+    ):
+        rooms_avg = (
+            select(Bookings.room_id, Rooms.hotel_id, func.round((func.avg(Bookings.rate)), 1).label("avg_rate"))
+            .where(Bookings.rate != 0)
+            .join(Rooms, Rooms.id == Bookings.room_id)
+            .group_by(Rooms.hotel_id, Bookings.room_id)
+        ).cte("rooms_avg")
+
+        hotels_avg = (
+            select(rooms_avg.c.hotel_id, func.round(func.avg(rooms_avg.c.avg_rate).label("hotel_avg"), 1))
+            .group_by(rooms_avg.c.hotel_id)
+        )
+
+        async with async_session_maker() as session:
+            res = await session.execute(hotels_avg)
+            res = res.mappings().all()
+            print(res)

@@ -6,7 +6,8 @@ from fastapi import APIRouter, Depends, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from app.bookings.dao import BookingDAO
-from app.bookings.schemas import SBookingInfo
+from app.bookings.models import Bookings
+from app.bookings.schemas import SBookingInfo, SBookingRate
 from app.cart.dao import CartDao
 from app.exceptions import CannotBookHotelForLongPeriod, DateFromCannotBeAfterDateTo, IncorrectTokenFormatException, TokenExpiredException, UserIsNotPresentException
 from app.favourites.dao import FavDao
@@ -306,3 +307,14 @@ async def get_chat(
     request: Request,
 ):
     return templates.TemplateResponse("ws.html", {"request": request})
+
+@router.post("/rate", response_class=HTMLResponse)
+async def get_rate(
+    request: Request,
+    data: SBookingRate,
+    user: Users = Depends(get_current_user),
+):
+    data = data.model_dump()
+    rate = await BookingDAO.update(Bookings.id==int(data['ids']),  data={"rate": int(data['rate'])})
+    await BookingDAO.set_avg_by_room_id()
+    return templates.TemplateResponse("rate.html", {"request": request, "book": rate})

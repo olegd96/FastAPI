@@ -5,6 +5,7 @@
         justify-content: flex-start;
         align-items: center;
     }
+
     .tab-list {
         font-family: 'Montserrat', sans-serif;
         font-size: 16px;
@@ -67,14 +68,14 @@
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
-        }
+    }
 
     .datebox {
-        display:flex;
+        display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin:5px;
-        }
+        margin: 5px;
+    }
 
     .room_cart {
         display: flex;
@@ -86,8 +87,8 @@
 
         border-color: white;
         padding: 5px;
-        height:auto;
-        
+        height: auto;
+
 
 
 
@@ -97,14 +98,14 @@
     .descr {
         display: flexbox;
         justify-content: first baseline;
-        margin-right:15px;
+        margin-right: 15px;
         max-width: 400px;
 
     }
 
     .all_descr {
         display: flex;
-        justify-content:flex-end;
+        justify-content: flex-end;
         font-size: 14px;
     }
 
@@ -209,7 +210,7 @@
         display: flex;
         flex-direction: column;
         margin-right: 5px;
-        margin-left:30px;
+        margin-left: 30px;
         height: 190px;
     }
 
@@ -217,7 +218,7 @@
         height: 120px;
         display: flexbox;
         flex-direction: column;
-        justify-content:flex-end;
+        justify-content: flex-end;
         align-items: end;
     }
 
@@ -230,7 +231,7 @@
         display: flex;
         font-family: 'Montserrat', sans-serif;
 
-       
+
         margin-bottom: 10px;
         justify-content: space-between;
         align-items: center;
@@ -241,7 +242,7 @@
     .inner_box_search {
         display: flex;
         flex-direction: row;
-        
+
         background-color: rgb(236, 238, 243);
         padding: 25px;
 
@@ -268,6 +269,54 @@
         background-color: white;
     }
 
+    .rating-area {
+        overflow: hidden;
+        width: 100px;
+        margin: 0 auto;
+    }
+
+    /* .rating-area input {
+        display:none;
+    } */
+
+    .rating-area label {
+        float: right;
+        width: 20px;
+        padding: 0;
+        cursor: pointer;
+        font-size: 17px;
+        line-height: 17px;
+        color: lightgrey;
+        text-shadow: 1px 1px #bbb;
+    }
+
+    /* .rating-area label:before {
+        content: '★';
+    } */
+
+    .rating-area>input:checked~label {
+        color: rgb(86, 142, 206);
+        text-shadow: 1px 1px rgb(85, 85, 107);
+    }
+
+    .rating-area label:hover,
+    .rating-area label:hover~label {
+        color: rgb(86, 142, 206);
+    }
+
+    .rating-area>input:checked+label:hover,
+    .rating-area>input:checked+label:hover~label,
+    .rating-area>input:checked~label:hover,
+    .rating-area>input:checked~label:hover~label,
+    .rating-area>label:hover~input:checked~label {
+        color: rgb(86, 142, 206);
+        text-shadow: 1px 1px rgb(185, 185, 238);
+    }
+
+    .rate-area>label:active {
+        position: relative;
+    }
+
     @media screen and (max-width:672px) {
         .tab-content {
             max-width: 400px;
@@ -276,17 +325,19 @@
         .tab-list button {
             font-size: 14px;
         }
-        
+
         .datebox {
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
         }
+
         .inner_box_search {
             flex-direction: column;
             justify-content: center;
             align-items: center;
         }
+
         .search_date {
             width: 200px;
         }
@@ -295,9 +346,11 @@
             width: 90px;
             padding: 5px 10px;
         }
+
         .room_like {
             width: 80px;
         }
+
         .composition1 {
             display: flex;
             flex-direction: row;
@@ -306,48 +359,57 @@
             border-top-color: rgb(68, 110, 158);
             margin-top: 5px;
             padding-top: 5px;
-            
+
         }
+
         .search_el {
             flex-direction: column;
         }
+
         .room_cart {
             flex-direction: column;
             align-items: flex-start;
             justify-content: flex-start;
             font-size: 10px;
-            height:auto;
-            width:330px;
+            height: auto;
+            width: 330px;
         }
+
         .all_descr {
             flex-direction: row;
             justify-content: space-between;
             font-size: 10px;
-            height:auto;
-            
+            height: auto;
+
         }
-        .descr, .descr1{
+
+        .descr,
+        .descr1 {
             width: 200px;
         }
 
         .serv {
             width: 200px;
         }
+
         .hotel_img {
             width: 50%;
             height: 50%;
         }
+
         .button_box {
             margin: 5px;
             width: 80px;
             height: 40px;
         }
+
         .cart {
             font-size: 10px;
             padding: 5px 10px;
             width: 80px;
             margin-right: 10px;
         }
+
         .text_descr {
             margin-left: 10px;
             display: flex;
@@ -355,15 +417,25 @@
             justify-content: flex-start;
             width: 230px;
         }
+
+        .rating-area {
+            width: 70px;   
+        }
+
+        .rating-area:not(:checked)>label {
+        width: 14px;
+        font-size: 14px;
+        line-height: 18px;
+        }
     }
 
-    @media screen and (min-width:673px) and (max-width:1400px){
+    @media screen and (min-width:673px) and (max-width:1400px) {
         .tablist {
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
             align-items: flex-start;
-            
+
         }
 
         .datebox {
@@ -371,27 +443,30 @@
             justify-content: flex-start;
             align-items: flex-start;
         }
+
         .inner_box_search {
             flex-direction: row;
             justify-content: flex-start;
             align-items: flex-start;
         }
+
         .search_date {
             width: 200px;
         }
-        
+
         .composition1 {
             display: flexbox;
             flex-direction: column;
             font-size: 10px;
         }
+
         .search_el {
             flex-direction: row;
-            
+
         }
 
         .rooms_cart {
-            max-width:780px;
+            max-width: 780px;
         }
 
         .room_cart {
@@ -401,26 +476,33 @@
             font-size: 10px;
             max-width: 950px;
         }
+
         .all_descr {
             flex-direction: row;
             font-size: 10px;
-            height:auto;
+            height: auto;
         }
-        .descr, .descr1{
+
+        .descr,
+        .descr1 {
             width: 200px;
         }
+
         .hotel_img {
             width: 50%;
             height: 50%;
         }
+
         .button_box {
             margin: 5px;
             width: 120px;
             height: 70px;
         }
+
         .cart {
             font-size: 10px;
         }
+
         .text_descr {
             margin-left: 10px;
             display: flex;
@@ -429,111 +511,136 @@
         }
 
         .bookings_list {
-            
+
             padding-left: 20px;
             padding-right: 20px;
-            
+
 
         }
     }
 </style>
 
 <div>
-<div class="tab-list" role="tablist">
-    <button hx-get="/pages/personal_account" hx-target="#bookings_list"
-    hx-indicator="#progress_1" 
-        hx-swap="innerHTML transition:true"
-        hx-push-url="true" 
-        class="not_selected">Личные данные</button>
-    <button hx-get="/pages/personal_account_archive" hx-target="#bookings_list"
-    hx-indicator="#progress_1" 
-        hx-swap="innerHTML transition:true"
-        hx-push-url="true" 
-        class="selected">Архив бронирований</button>
-</div>
+    <div class="tab-list" role="tablist">
+        <button hx-get="/pages/personal_account" hx-target="#bookings_list" hx-indicator="#progress_1"
+            hx-swap="innerHTML transition:true" hx-push-url="true" class="not_selected">Личные данные</button>
+        <button hx-get="/pages/personal_account_archive" hx-target="#bookings_list" hx-indicator="#progress_1"
+            hx-swap="innerHTML transition:true" hx-push-url="true" class="selected">Архив бронирований</button>
+    </div>
 
-<div id="tab-content" class="tab-content">
-    <div class="search_el">
-        <div class="inner_box_search">
-            <div class="datebox">
-            <label class="search" for="date_from">ЗАЕЗД:</label>
-            <input type="date" class="search_date" name="date_from" id="date_from" 
-            hx-get="/pages/personal_account_archive_by_date"
-            hx-indicator="#progress_1" 
-            hx-include="#date_from, #date_to" 
-            hx-target="#past_book" 
-            hx-swap="innerHTML transition:true">
-            </div>
-            <div class="datebox">
-            <label class="search" for="date_to">ВЫЕЗД:</label>
-            <input type="date" class="search_date" name="date_to" id="date_to" 
-            hx-get="/pages/personal_account_archive_by_date"
-            hx-indicator="#progress_1" 
-            hx-include="#date_from, #date_to" 
-            hx-target="#past_book" 
-            hx-swap="innerHTML transition:true">
-        </div>
-    </div>
-    </div>
-    <div id="past_book">
-    {% if past_book %}
-    {% for book in past_book %}
-    <div class="room_cart">
-        <div class="hotel_img">
-            <img src={{"/static/images/resized_500_300_" ~ book.room.image_id ~ ".webp" }}
-                onerror="this.src='/static/images/simple-booking.jpg';">
-        </div>
-        <div class="composition1">
-            <div class="all_descr">
-                <div class="text_descr">
-                <div class="descr" hx-get={{"/pages/hotel/id/" ~ book.room.hotel_id}}
-                hx-indicator="#progress_1" 
-                hx-trigger="load"></div>
-                <div class="descr">                    
-                    <h4>{{book.room.name}}</h4>
-                    <div>{{book.room.description}}</div>
-                    <div>Цена: {{book.room.price}}/сутки</div>
-                    <div>Дата визита: {{book.date_from}} - {{book.date_from}}</div>
-                    <div>Количество дней: {{book.total_days}}</div>
-                    <div>Общая стоимость: {{book.total_cost}}</div>
+    <div id="tab-content" class="tab-content">
+        <div class="search_el">
+            <div class="inner_box_search">
+                <div class="datebox">
+                    <label class="search" for="date_from">ЗАЕЗД:</label>
+                    <input type="date" class="search_date" name="date_from" id="date_from"
+                        hx-get="/pages/personal_account_archive_by_date" hx-indicator="#progress_1"
+                        hx-include="#date_from, #date_to" hx-target="#past_book" hx-swap="innerHTML transition:true">
                 </div>
-                <div class="serv">
-                    <div>
-                        {% for serv in book.room.services %}
-                        <ul>
-                            <li>{{serv}}</li>
-                        </ul>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>                
-                <div class="button_box">
-                    <button class="cart" hx-indicator="#progress_1" hx-on:click={{"add_cart(" ~ book.room.id ~ "," ~ book.room.hotel_id
-                        ~ ",'rooms_cart" ~ book.room.hotel_id ~ "')" }}>Повторить</button>
-                    <div class="room_like" hx-indicator="#progress_1" hx-on:click={{"add_fav_single(" ~ book.room.id ~ "," ~ book.room.hotel_id~ ")" }}>
-                        {% if book.room.id in fav %}
-                        <i class="fi fi-ss-heart" id={{book.room.id}}></i>
-                        {% else %}
-                        <i class="fi fi-rs-heart" id={{book.room.id}}></i>
-                        {% endif %}
-                    </div>
-                    <div class="clear_box">
-                            <div class="tw-rating tw-rating-xs">
-                                <input type="tw-radio" name="rating-1" class="tw-mask tw-mask-star tw-bg-sky-700" />
-                                <input type="tw-radio" name="rating-1" class="tw-mask tw-mask-star tw-bg-sky-700" checked />
-                                <input type="tw-radio" name="rating-1" class="tw-mask tw-mask-star tw-bg-sky-700" />
-                                <input type="tw-radio" name="rating-1" class="tw-mask tw-mask-star tw-bg-sky-700" />
-                                <input type="tw-radio" name="rating-1" class="tw-mask tw-mask-star tw-bg-sky-700" />
-                              </div>
-                    </div> 
+                <div class="datebox">
+                    <label class="search" for="date_to">ВЫЕЗД:</label>
+                    <input type="date" class="search_date" name="date_to" id="date_to"
+                        hx-get="/pages/personal_account_archive_by_date" hx-indicator="#progress_1"
+                        hx-include="#date_from, #date_to" hx-target="#past_book" hx-swap="innerHTML transition:true">
                 </div>
             </div>
         </div>
+        <div id="past_book">
+            {% if past_book %}
+            {% for book in past_book %}
+            <div class="room_cart">
+                <div class="hotel_img">
+                    <img src={{"/static/images/resized_500_300_" ~ book.room.image_id ~ ".webp" }}
+                        onerror="this.src='/static/images/simple-booking.jpg';">
+                </div>
+                <div class="composition1">
+                    <div class="all_descr">
+                        <div class="text_descr">
+                            <div class="descr" hx-get={{"/pages/hotel/id/" ~ book.room.hotel_id}}
+                                hx-indicator="#progress_1" hx-trigger="load"></div>
+                            <div class="descr">
+                                <h4>{{book.room.name}}</h4>
+                                <div>{{book.room.description}}</div>
+                                <div>Цена: {{book.room.price}}/сутки</div>
+                                <div>Дата визита: {{book.date_from}} - {{book.date_from}}</div>
+                                <div>Количество дней: {{book.total_days}}</div>
+                                <div>Общая стоимость: {{book.total_cost}}</div>
+                            </div>
+                            <div class="serv">
+                                <div>
+                                    {% for serv in book.room.services %}
+                                    <ul>
+                                        <li>{{serv}}</li>
+                                    </ul>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button_box" id="box{{book.id}}">
+                            <button class="cart" hx-indicator="#progress_1" hx-on:click={{"add_cart(" ~ book.room.id
+                                ~ "," ~ book.room.hotel_id ~ ",'rooms_cart" ~ book.room.hotel_id ~ "')"
+                                }}>Повторить</button>
+                            <div class="room_like" hx-indicator="#progress_1" hx-on:click={{"add_fav_single(" ~
+                                book.room.id ~ "," ~ book.room.hotel_id~ ")" }}>
+                                {% if book.room.id in fav %}
+                                <i class="fi fi-ss-heart" id={{book.room.id}}></i>
+                                {% else %}
+                                <i class="fi fi-rs-heart" id={{book.room.id}}></i>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="clear_box" id={{"box_gen" ~ book.id}}>
+                                <form id="form{{book.id}}"
+                                    hx-post="/pages/rate" hx-ext="json-enc" 
+                                    hx-headers="{'Content-Type': 'application/json'}"
+                                    hx-vals='{"ids": "{{book.id}}"}'
+                                    hx-target="closest .clear_box"
+                                    hx-swap="outerHTML"
+                                    hx-trigger="click from:.radio{{book.id}}"
+                                    >
+                                <div class="rating-area" id="area{{book.id}}">
+                                    {% if book.rate == 5 %}
+                                    <input type="radio" id="star-5{{book.id}}" name="rate" value="5" class="radio{{book.id}}" checked> 
+                                    {% else %}
+                                    <input type="radio" id="star-5{{book.id}}" name="rate" value="5" class="radio{{book.id}}">
+                                    {% endif %}
+                                    <label for="star-5{{book.id}}" title="Оценка «5»"><i class="fi fi-ss-star"></i>
+                                    </label>
+                                    {% if book.rate == 4 %}
+                                    <input type="radio" id="star-4{{book.id}}" name="rate" value="4" class="radio{{book.id}}" checked> 
+                                    {% else %}
+                                    <input type="radio" id="star-4{{book.id}}" name="rate" value="4" class="radio{{book.id}}">
+                                    {% endif %}
+                                    <label for="star-4{{book.id}}" title="Оценка «4»"><i class="fi fi-ss-star"></i></label>
+                                    {% if book.rate == 3 %}
+                                    <input type="radio" id="star-3{{book.id}}" name="rate" value="3" class="radio{{book.id}}" checked> 
+                                    {% else %}
+                                    <input type="radio" id="star-3{{book.id}}" name="rate" value="3" class="radio{{book.id}}">
+                                    {% endif %}
+                                    <label for="star-3{{book.id}}" title="Оценка «3»"><i class="fi fi-ss-star"></i></label>
+                                    {% if book.rate == 2 %}
+                                    <input type="radio" id="star-2{{book.id}}" name="rate" value="2" class="radio{{book.id}}" checked> 
+                                    {% else %}
+                                    <input type="radio" id="star-2{{book.id}}" name="rate" value="2" class="radio{{book.id}}">
+                                    {% endif %}
+                                    <label for="star-2{{book.id}}" title="Оценка «2»"><i class="fi fi-ss-star"></i></label>
+                                    {% if book.rate == 1 %}
+                                    <input type="radio" id="star-1{{book.id}}" name="rate" value="1" class="radio{{book.id}}" checked> 
+                                    {% else %}
+                                    <input type="radio" id="star-1{{book.id}}" name="rate" value="1" class="radio{{book.id}}">
+                                    {% endif %}
+                                    <label for="star-1{{book.id}}" title="Оценка «1»"><i class="fi fi-ss-star"></i></label>
+                                </div>
+                            </form>                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="notice">Список прошедших бронирований пуст</div>
+            {% endif %}
+        </div>
     </div>
-    {% endfor %}
-    {% else %}
-    <div class="notice">Список прошедших бронирований пуст</div>
-    {% endif %}
-</div>
-</div>
 </div>

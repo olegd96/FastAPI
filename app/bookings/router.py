@@ -9,7 +9,7 @@ from fastapi_versioning import version
 
 from app.bookings.dao import BookingDAO
 from app.bookings.models import Bookings
-from app.bookings.schemas import SBooking, SBookingInfo, SBookingWithRoom, SNewBooking
+from app.bookings.schemas import SBooking, SBookingInfo, SBookingRate, SBookingWithRoom, SNewBooking
 from app.exceptions import BookingMiss, RoomCannotBeBooked
 from app.hotels.rooms.schemas import SRoomWithHotel
 from app.tasks.tasks import send_booking_confirmation_email
@@ -81,3 +81,12 @@ async def get_past_bookings(
 async def get_most_popular() -> list[SRoomWithHotel]:
     popular = await BookingDAO.get_most_popular_location()
     return popular
+
+@router.post("/rate")
+async def check_rate(
+    data: SBookingRate,
+    user: Users = Depends(get_current_user),
+) -> SBooking:
+    data = data.model_dump()
+    rate = await BookingDAO.update(Bookings.id==int(data['ids']),  data={"rate": int(data['rate'])})
+    return rate

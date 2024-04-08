@@ -3,10 +3,11 @@ import uuid
 
 from pydantic import TypeAdapter
 from app.bookings.schemas import SBooking, SBookingInfo, SBookingWithRoom
+from app.hotels.dao import HotelsDAO
 from app.hotels.rooms.schemas import SRoomWithHotel
 from app.loger import logger
 
-from sqlalchemy import Null, desc, insert, or_, select, delete, and_, func
+from sqlalchemy import Null, desc, insert, or_, select, delete, and_, func, update
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload
 from app.bookings.models import Bookings
@@ -281,20 +282,44 @@ class BookingDAO(BaseDAO):
     @classmethod
     async def set_avg_by_room_id(
         cls,
+        room_id: int,
     ):
-        rooms_avg = (
-            select(Bookings.room_id, Rooms.hotel_id, func.round((func.avg(Bookings.rate)), 1).label("avg_rate"))
-            .where(Bookings.rate != 0)
-            .join(Rooms, Rooms.id == Bookings.room_id)
-            .group_by(Rooms.hotel_id, Bookings.room_id)
-        ).cte("rooms_avg")
+        try:
+            rooms_avg = (
+                select(Bookings.room_id, Rooms.hotel_id, func.round((func.avg(Bookings.rate)), 1).label("avg_rate"))
+                .where(
+                    and_(Bookings.rate != 0,
+                        Bookings.room_id == room_id))
+                .join(Rooms, Rooms.id == Bookings.room_id)
+                .group_by(Rooms.hotel_id, Bookings.room_id)
+            ).cte("rooms_avg")
 
-        hotels_avg = (
-            select(rooms_avg.c.hotel_id, func.round(func.avg(rooms_avg.c.avg_rate).label("hotel_avg"), 1))
-            .group_by(rooms_avg.c.hotel_id)
-        )
+            hotels_avg = (
+                select(rooms_avg.c.hotel_id, func.round(func.avg(rooms_avg.c.avg_rate), 1).label("hotel_avg"))
+                .group_by(rooms_avg.c.hotel_id)
+            ).cte("hotels_avg")
+            
+            hotel_rate = (update(Hotels)
+                        .where(Hotels.id == hotels_avg.c.hotel_id)
+                        .values(rate=hotels_avg.c.hotel_avg)
+                        .returning(
+                            Hotels.id,
+                            Hotels.rate)
+                            )
 
-        async with async_session_maker() as session:
-            res = await session.execute(hotels_avg)
-            res = res.mappings().all()
-            print(res)
+            async with async_session_maker() as session:
+                res = await session.execute(hotel_rate)
+                await session.commit()
+                return res.mappings().one_or_none()
+        except (SQLAlchemyError, UserIsNotPresentException, Exception) as e:
+            if isinstance(e, SQLAlchemyError):
+                msg = "Database Exc"
+            elif isinstance(e, UserIsNotPresentException):
+                msg = "User Exc"
+            elif isinstance(e, Exception):
+                msg = "Unknown Exc"
+            msg += ": Cannot update hotel_rate"
+            extra = {
+                "room_id": room_id,
+            }
+            logger.error(msg, extra=extra, exc_info=True)

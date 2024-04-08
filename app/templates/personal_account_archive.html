@@ -589,14 +589,15 @@
                                 {% endif %}
                             </div>
                             
-                            <div class="clear_box" id={{"box_gen" ~ book.id}}>
+                            <div class="clear_box" id="box_gen{{book.id}}">
                                 <form id="form{{book.id}}"
                                     hx-post="/pages/rate" hx-ext="json-enc" 
                                     hx-headers="{'Content-Type': 'application/json'}"
                                     hx-vals='{"ids": "{{book.id}}"}'
-                                    hx-target="closest .clear_box"
-                                    hx-swap="outerHTML"
+                                    hx-target="#box_gen{{book.id}}"
+                                    hx-swap="innerHTML"
                                     hx-trigger="click from:.radio{{book.id}}"
+                                    hx-indicator="#progress_1"
                                     >
                                 <div class="rating-area" id="area{{book.id}}">
                                     {% if book.rate == 5 %}

@@ -60,7 +60,7 @@ def create_booking_notice_template(
         <h1>Напоминание о бронировании</h1>
         Вы забронировали отель с {booking["date_from"]} по {booking["date_to"]}
         <h2>{booking["room_name"]}</h2>
-         <img src='/static/images/resized_500_300_'{booking['img']}'.webp'
+         <img src='/static/images/resized_200_100_'{booking['img']}'.webp'
                     onerror="this.src='static/images/simple-booking.jpg';">
         """,
         subtype="html"
@@ -84,7 +84,7 @@ def create_registration_confirmation_templates(
         Вы зарегистрировались на ONBOOK,
         пожалуйста, подтвердите регистрацию,
         для этого перейдите по
-        <a href="http://localhost:8000/auth/verify/{user_id}" style="color: blue;">ссылкe</a>.
+        <a href="http://94.241.143.220/auth/verify/{user_id}" style="color: blue;">ссылкe</a>.
         Если это были не вы, не отвечайте на данное сообщение.
         """
     msgText = MIMEText('<b>%s</b><br/><img src="cid:%s"/><br/>' % (body, attachment), 'html')

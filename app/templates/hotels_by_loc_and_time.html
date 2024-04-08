@@ -32,6 +32,10 @@
 
     }
 
+    .descr h3 {
+        color: rgb(85, 85, 107);
+    }
+
     .all_descr {
         display: flex;
         flex-direction: row;
@@ -99,6 +103,30 @@
 
     .hotel_img {
         transition: filter 200ms ease-in-out;
+        position: relative;
+    }
+
+    .rate_box {
+        position: absolute;
+        left: 10px;
+        top:10px;
+        width: 40px;
+        height: 30px;
+        background-color: white;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 10px;
+        box-shadow: 0px 0px 10px 0px rgb(175, 174, 174);
+        
+    }
+
+    .rate_label {
+        font-size: 14px;
+        font-weight: bold;
+        color: rgb(85, 85, 107);
     }
 
 
@@ -294,12 +322,23 @@
     <div class="hotel_paragraph">
         <div class="hotel_cart">
             <div class="hotel_img"><img src={{"/static/images/" ~ hotel.image_id ~ ".jpg" }}
-                    onerror="src='/static/images/simple-booking.jpg';"></div>
+                    onerror="src='/static/images/simple-booking.jpg';">
+                <div class="rate_box">
+                    <label class="rate_label">
+                        {% if hotel.rate != 0 %}
+                        {{hotel.rate}}
+                        {% else %}
+                        {{"NEW"}}
+                        {% endif %}
+                    </label>
+                </div>
+                </div>
             <div class="composition">
                 <div class="all_descr">
                     <div class="text_descr">
                     <div class="descr">
                         <h3>{{hotel.name}}</h3>
+                        <div>{{hotel.rate}}</div>
                         <div>{{hotel.location}}</div>
                         <div><label>Свободных комнат: </label>{{hotel.rooms_left}}</div>
                     </div>

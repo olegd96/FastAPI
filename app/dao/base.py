@@ -102,11 +102,11 @@ class BaseDAO:
             stmt = (update(cls.models)
                     .where(*where)
                     .values(**update_data)
-                    .returning(cls.models))
+                    .returning(cls.models.__table__.columns))
             async with async_session_maker() as session:
                 res = await session.execute(stmt)
                 await session.commit()
-                return res.scalars().one()
+                return res.mappings().one()
         except (SQLAlchemyError, Exception) as e:
             if isinstance(e, SQLAlchemyError):
                 msg = "Database Exc: Cannot update data into table"

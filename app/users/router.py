@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, Request, Response
 from fastapi.responses import PlainTextResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import TypeAdapter
+from app.bookings.dao import BookingDAO
 from app.cart.dao import CartDao
 from app.exceptions import CannotAddDataToDatabase, IncorrectCurrentPasswordException, IncorrectEmailOrPasswordException, InvalidTokenException, PasswordNotConfirm, UnverifiedEmailException, UserAlreadyExistsException
 from app.favourites.dao import FavDao
@@ -169,9 +170,6 @@ async def change_password(
     if user_update:
         return {"message": "Пароль сменен"}
     return {"message": "Ошибка"}
-
-
- 
 
 
 

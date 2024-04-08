@@ -12,6 +12,7 @@ from app.cart.dao import CartDao
 from app.exceptions import CannotBookHotelForLongPeriod, DateFromCannotBeAfterDateTo, IncorrectTokenFormatException, TokenExpiredException, UserIsNotPresentException
 from app.favourites.dao import FavDao
 from app.hotels.dao import HotelsDAO
+from app.hotels.models import Hotels
 from app.hotels.rooms.dao import RoomsDAO
 from app.cart.dao import CartDao
 from app.pages.dependencies import check_valid_request
@@ -316,5 +317,5 @@ async def get_rate(
 ):
     data = data.model_dump()
     rate = await BookingDAO.update(Bookings.id==int(data['ids']),  data={"rate": int(data['rate'])})
-    await BookingDAO.set_avg_by_room_id()
+    hotel_rate = await BookingDAO.set_avg_by_room_id(room_id=rate.room_id)
     return templates.TemplateResponse("rate.html", {"request": request, "book": rate})

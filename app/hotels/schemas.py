@@ -8,6 +8,7 @@ class SHotels(BaseModel):
     services: List[str]
     rooms_quantity: int
     image_id: int
+    rate:float
 
     model_config = ConfigDict(from_attributes=True)
 

@@ -2,6 +2,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText  # Added
 from email.mime.image import MIMEImage
 from email.message import EmailMessage
+from email.header import Header
 import uuid
 from app.config import settings
 from pydantic import EmailStr
@@ -84,7 +85,7 @@ def create_registration_confirmation_templates(
         Вы зарегистрировались на ONBOOK,
         пожалуйста, подтвердите регистрацию,
         для этого перейдите по
-        <a href="http://94.241.143.220/auth/verify/{user_id}" style="color: blue;">ссылкe</a>.
+        <a href="http://localhost:8000/auth/verify/{user_id}" style="color: blue;">ссылкe</a>.
         Если это были не вы, не отвечайте на данное сообщение.
         """
     msgText = MIMEText('<b>%s</b><br/><img src="cid:%s"/><br/>' % (body, attachment), 'html')

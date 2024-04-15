@@ -39,7 +39,6 @@ document.addEventListener('htmx:responseError', function(event){
 })
 
 
-
 document.addEventListener('htmx:configRequest', function(event) {
     event.detail.headers['myHeader'] = 'true'
 }
@@ -163,7 +162,7 @@ async function loginUser() {
             const url = "/pages/bookings";
             fetch(url, {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
-                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv);booking_menu_scr(); });
+                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); booking_menu_scr();});
             cancel("logpanel");
             refresh_panel();
         } 

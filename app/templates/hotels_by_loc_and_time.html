@@ -321,7 +321,7 @@
     {% for hotel in hotels|sort(attribute="name") %}
     <div class="hotel_paragraph">
         <div class="hotel_cart">
-            <div class="hotel_img"><img src={{"/static/images/" ~ hotel.image_id ~ ".jpg" }}
+            <div class="hotel_img"><img src="/static/images/{{hotel.image_id}}.jpg"
                     onerror="src='/static/images/simple-booking.jpg';">
                 <div class="rate_box">
                     <label class="rate_label">
@@ -351,10 +351,10 @@
                     </div>
                 </div>
                     <div class="button_box">
-                        <button class="hotels_discover" hx-get={{"/pages/hotels/" ~ hotel.id ~ "/rooms" }}
-                            hx-include="#date_from, #date_to" hx-target={{"#rooms_cart" ~ hotel.id }}
+                        <button class="hotels_discover" hx-get="/pages/hotels/{{hotel.id}}/rooms"
+                            hx-include="#date_from, #date_to" hx-target="#rooms_cart{{hotel.id}}"
                             hx-indicator="#progress_1"
-                            hx-swap="outerHTML transition:true" hx-push-url="true" hx-on::responseError="alert('Проверьте корректность дат')"
+                            hx-swap="outerHTML transition:true show:#rooms_cart{{hotel.id}}:top" hx-push-url="true" hx-on::responseError="alert('Проверьте корректность дат')"
                             >Посмотреть номера</button>
                         <div class="hotel_like" >
                            
@@ -366,6 +366,6 @@
         </div>
     </div>
 
-    <div class="rooms_sec" id={{"rooms_cart" ~ hotel.id }}></div>
+    <div class="rooms_sec" id="rooms_cart{{hotel.id }}"></div>
     {% endfor %}
 </div>

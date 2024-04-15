@@ -1,15 +1,18 @@
 
 import uuid
+from fastapi import logger
 from pydantic import EmailStr
 from sqlalchemy import insert
 
+from app.bookings.dao import BookingDAO
 from app.tasks.celery import celery
 from PIL import Image
 from pathlib import Path
 from app.config import settings
+from app.loger import logger
 
 
-from app.tasks.email_templates import create_booking_confirmation_templates, create_registration_confirmation_templates
+from app.tasks.email_templates import create_booking_confirmation_templates, create_booking_notice_template, create_registration_confirmation_templates
 import smtplib
 
 
@@ -47,4 +50,6 @@ def send_registration_confirmation_email(
     msg_content = create_registration_confirmation_templates(user_id, email_to)
     with smtplib.SMTP_SSL(settings.SMTP_HOST, settings.SMTP_PORT) as server:
         server.login(settings.SMTP_USER, settings.SMTP_PASS)
-        server.send_message(msg_content)     
+        server.send_message(msg_content) 
+
+  

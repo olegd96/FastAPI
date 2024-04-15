@@ -19,7 +19,7 @@ async def get_rooms_by_time(
     date_from: date = Query(...,
                             description=f"Например, {datetime.now().date()}"),
     date_to: date = Query(
-        ..., description=f"Например, {(datetime.now() + timedelta(days=14)).date()}")
+        ..., description=f"Например, {(datetime.now() + timedelta(days=14)).date()}"),
 ) -> List[SRoomInfo]:
     if date_from > date_to:
         raise DateFromCannotBeAfterDateTo

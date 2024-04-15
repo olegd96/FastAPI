@@ -4,6 +4,7 @@ import uuid
 from pydantic import BaseModel, ConfigDict, EmailStr
 
 from app.hotels.rooms.schemas import SRoom
+from app.users.schemas import SUser
 
 class SBooking(BaseModel):
     id : int 
@@ -38,6 +39,12 @@ class SNewBooking(BaseModel):
 
 class SBookingWithRoom(SBooking):
     room: "SRoom"
+
+    model_config = ConfigDict(from_attributes=True)
+
+class SBookingWithRoomAndUser(SBooking):
+    room: "SRoom"
+    user: "SUser"
 
     model_config = ConfigDict(from_attributes=True)
 

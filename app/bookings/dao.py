@@ -2,7 +2,7 @@ from datetime import date, timedelta
 import uuid
 
 from pydantic import TypeAdapter
-from app.bookings.schemas import SBooking, SBookingInfo, SBookingWithRoom
+from app.bookings.schemas import SBooking, SBookingInfo, SBookingWithRoom, SBookingWithRoomAndUser
 from app.hotels.dao import HotelsDAO
 from app.hotels.rooms.schemas import SRoomWithHotel
 from app.loger import logger
@@ -160,7 +160,8 @@ class BookingDAO(BaseDAO):
             .join(Hotels, Hotels.id == Rooms.hotel_id)
             .where(
                 and_(Bookings.user_id == user_id,
-                     Bookings.deleted == False)
+                     Bookings.deleted == False,
+                     Bookings.date_to > date.today())
             )
         )
         async with async_session_maker() as session:
@@ -175,13 +176,16 @@ class BookingDAO(BaseDAO):
                 .options(joinedload(Bookings.user))
                 .options(joinedload(Bookings.room))
                 .filter(
-                    and_(date.today() == Bookings.date_from - timedelta(days=day_delta),
+                    and_(date.today() <= Bookings.date_from - timedelta(days=day_delta),
                          Bookings.deleted == False)
                 )
             )
             
-            result = await session.execute(book_query)
-            return result.scalars().all()
+            bookings = await session.execute(book_query)
+            bookings = bookings.scalars().all()
+            bookings = [TypeAdapter(SBookingWithRoomAndUser).validate_python(
+                book).model_dump() for book in bookings]
+            return bookings
 
     @classmethod
     async def find_all_past_bookings(cls, user: Users):
@@ -286,16 +290,16 @@ class BookingDAO(BaseDAO):
     ):
         try:
             rooms_avg = (
-                select(Bookings.room_id, Rooms.hotel_id, func.round((func.avg(Bookings.rate)), 1).label("avg_rate"))
+                select(Bookings.room_id, Rooms.hotel_id.label("hotel_id"), func.round((func.avg(Bookings.rate)), 3).label("avg_rate"))
                 .where(
                     and_(Bookings.rate != 0,
                         Bookings.room_id == room_id))
                 .join(Rooms, Rooms.id == Bookings.room_id)
-                .group_by(Rooms.hotel_id, Bookings.room_id)
+                .group_by(Bookings.room_id, Rooms.hotel_id)
             ).cte("rooms_avg")
 
             hotels_avg = (
-                select(rooms_avg.c.hotel_id, func.round(func.avg(rooms_avg.c.avg_rate), 1).label("hotel_avg"))
+                select(rooms_avg.c.hotel_id, func.round(func.avg(rooms_avg.c.avg_rate), 3).label("hotel_avg"))
                 .group_by(rooms_avg.c.hotel_id)
             ).cte("hotels_avg")
             

@@ -1,7 +1,10 @@
-from datetime import date
+import asyncio
+from datetime import date, timedelta, datetime
+
+from typing import List
 from urllib import response
 
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import TypeAdapter
 from sqlalchemy import select
@@ -9,9 +12,10 @@ from fastapi_versioning import version
 
 from app.bookings.dao import BookingDAO
 from app.bookings.models import Bookings
-from app.bookings.schemas import SBooking, SBookingInfo, SBookingRate, SBookingWithRoom, SNewBooking
+from app.bookings.schemas import SBooking, SBookingInfo, SBookingRate, SBookingWithRoom, SBookingWithRoomAndUser, SNewBooking
 from app.exceptions import BookingMiss, RoomCannotBeBooked
 from app.hotels.rooms.schemas import SRoomWithHotel
+from app.tasks.scheduled import notice
 from app.tasks.tasks import send_booking_confirmation_email
 from app.users.dependencies import get_current_user
 from app.users.models import Users
@@ -26,11 +30,6 @@ router = APIRouter(
 #@version(1)
 async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBookingInfo]:
     return await BookingDAO.find_all_with_images(user_id=user.id)
-
-@router.get("/notice")
-async def get_not():
-    return await BookingDAO.find_all_nearest_bookings(3)
-
 
 @router.post("")
 #@version(1)
@@ -65,15 +64,26 @@ async def delete_booking(
 @router.get('/notice', status_code=201)
 async def get_notice_list(
     delta:int
-) :
+) -> List[SBookingWithRoomAndUser]:
     res = await BookingDAO.find_all_nearest_bookings(delta)
     return res
 
 @router.get("/past")
 async def get_past_bookings(
     user: Users = Depends(get_current_user),
-) -> SBookingWithRoom:
+) -> List[SBookingWithRoom]:
     past_book_query = await BookingDAO.find_all_past_bookings(user)
+    return past_book_query
+
+@router.get("/past_by_date")
+async def get_past_bookings_by_date(
+    date_from: date = Query(...,
+                            description=f"Например, {datetime.now().date()}"),
+    date_to: date = Query(
+        ..., description=f"Например, {(datetime.now() + timedelta(days=14)).date()}"),
+    user: Users = Depends(get_current_user),
+) -> List[SBookingWithRoom]:
+    past_book_query = await BookingDAO.find_all_past_bookings_by_date(user, date_from, date_to)
     return past_book_query
 
 

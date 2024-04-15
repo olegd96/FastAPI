@@ -372,7 +372,7 @@
 
 <div>
     {% if rooms %}
-    <div class="rooms_cart" id={{"rooms_cart" ~ rooms[0].hotel_id}}>
+    <div class="rooms_cart" id="rooms_cart{{rooms[0].hotel_id}}">
         <div class="rooms_head">
             <div class="rooms_label"><label class="hotel_rooms">Избранное</label></div>
         </div>
@@ -400,7 +400,7 @@
         {% for room in rooms|sort(attribute="hotel.name") %}
         <div class="room_cart" id="room_cart">
             <div class="hotel_img">
-                <img src={{"/static/images/resized_500_300_" ~ room.hotel.image_id ~ ".webp" }}
+                <img src="/static/images/resized_500_300_{{room.hotel.image_id}}.webp"
                     onerror="this.src='/static/images/simple-booking.jpg';">
             </div>
             <div class="composition1">

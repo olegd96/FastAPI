@@ -12,7 +12,7 @@ class HotelsDAO(BaseDAO):
     models = Hotels
 
     @classmethod
-    async def find_all(cls, location:str, date_from: date, date_to:date):
+    async def find_all(cls, location:str, date_from: date, date_to:date, limit=None, offset=None):
         """
         WITH booked_rooms AS (
         select room_id, COUNT(room_id) as rooms_booked
@@ -70,7 +70,8 @@ class HotelsDAO(BaseDAO):
                                             and_(booked_hotels.c.rooms_left>0,
                                                 Hotels.location.like(f"%{location}%")
                                                 )
-                                            )
+                                        ).limit(limit)
+                                        .offset(offset)
                                         )
         
         async with async_session_maker() as session:

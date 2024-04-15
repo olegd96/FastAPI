@@ -228,14 +228,12 @@
             <!-- <input type="text"  class="search_date" name="location"
             hx-get="/hotels/search" hx-trigger="input changed delay:500ms" hx-include="#location"
             hx-target="#hotel_list"> -->
-
             <div class="dropdown">
                 <input type="search"  class="dropbtn" name="location" id="loc" 
                 hx-get="/pages/loc_list" hx-trigger="input changed delay:500ms, search"
                 hx-indicator="#progress_1" 
                 hx-target="#myDropdown" hx-swap="innerHTML">
-                <div id="myDropdown" class="dropdown-content">
-                  
+                <div id="myDropdown" class="dropdown-content">                 
                 </div>
               </div>
             </div>

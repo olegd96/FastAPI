@@ -21,4 +21,7 @@ class Favourites(Base):
     __table_args__ = (
         (UniqueConstraint("user_id", "room_id", name="fav_room_uc"),)
         )
+    
+    def __str__(self):
+        return f"Отель {self.hotel_id}, комната {self.room_id}"
 

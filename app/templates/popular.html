@@ -308,7 +308,7 @@
         <div class="hotel_cart">
             <div class="hotel_img">
                 <div class="profile-pic">
-                <img src={{"/static/images/" ~ room.hotel.image_id ~ ".jpg" }}
+                <img src="/static/images/{{room.hotel.image_id}}.jpg"
                     onerror="this.src='/static/images/simple-booking.jpg';">
                     <div class="rate_box">
                         <label class="rate_label">
@@ -335,18 +335,13 @@
                 </div>
             </div>
             <div class="composition_block">
-                
                     <div class="descr">
                         <h3>{{room.hotel.name}}</h3>
-                        <div>{{room.hotel.location}}</div>
-                        
-                    </div>
-                   
+                        <div>{{room.hotel.location}}</div>   
+                    </div>                  
                     <div>{{room.name}}</div>
             </div>
-        
     </div>
 </div>
-
 {% endfor %}
 </div>

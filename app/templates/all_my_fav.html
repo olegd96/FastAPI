@@ -433,10 +433,10 @@
                     </div>
                 </div>
                     <div class="button_box">
-                        <button class="cart" hx-on:click={{"add_cart(" ~ room.room.id ~ "," ~ room.hotel.id
-                            ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>Добавить в корзину</button>
+                        <button class="cart" hx-on:click="add_cart({{room.room.id}},{{room.hotel.id}}
+                            ,'rooms_cart{{room.hotel_id}}')">Добавить в корзину</button>
                         <div class="room_like" 
-                        hx-on:click={{"add_fav_single(" ~ room.room.id ~ "," ~ room.hotel.id~ ")" }}>                            
+                        hx-on:click="add_fav_single({{room.room.id}},{{room.hotel.id}})">                            
                             <i class="fi fi-ss-heart" id={{room.room.id}}></i>       
                         </div>
                         <div class="clear_box"></div>

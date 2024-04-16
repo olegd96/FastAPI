@@ -315,18 +315,17 @@
     }
 </style>
 
-
-<div>
-    <div class="rooms_cart" id={{"rooms_cart" ~ rooms[0].hotel_id}}>
+    <div class="rooms_cart" id="rooms_cart{{rooms[0].hotel_id}}">
         <div class="rooms_head">
             <div class="rooms_label"><label class="hotel_rooms">Список доступных номеров</label></div>
-            <div class="cancel"><i class="fi fi-br-cross "  hx-on:click={{"cancel('rooms_cart" ~ rooms[0].hotel_id
-                    ~"')"}}></i></div>
+            <div class="cancel"><i class="fi fi-br-cross "  
+                    _="on click remove the closest .rooms_cart"
+                    ></i></div>
         </div>
         {% for room in rooms|sort(attribute="name") %}
         <div class="room_cart">
             <div class="hotel_img">
-                <img src={{"/static/images/resized_500_300_" ~ room.image_id ~ ".webp" }}
+                <img src="/static/images/resized_500_300_{{room.image_id}}.webp"
                     onerror="src='/static/images/simple-booking.jpg';">
             </div>
             <div class="composition1">
@@ -351,10 +350,10 @@
                     </div>
                 </div>
                     <div class="button_box">
-                        <button class="cart" hx-indicator="#progress_1" hx-on:click={{"add_cart(" ~ room.id ~ "," ~ room.hotel_id
-                            ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>Добавить в корзину</button>
-                        <div class="room_like" hx-indicator="#progress_1" hx-on:click={{"add_fav(" ~ room.id ~ "," ~ room.hotel_id
-                            ~ ",'rooms_cart" ~ room.hotel_id ~ "')" }}>
+                        <button class="cart" hx-indicator="#progress_1" hx-on:click="add_cart({{room.id}},{{room.hotel_id}}
+                            ,'rooms_cart{{room.hotel_id}}')">Добавить в корзину</button>
+                        <div class="room_like" hx-indicator="#progress_1"
+                        hx-on:click="add_fav({{room.id}},{{room.hotel_id}},'roomss_cart{{rooms[0].hotel_id}}')">
                             {% if room.id in fav %}
                             <i class="fi fi-ss-heart"></i>
                             {% else %}
@@ -370,4 +369,3 @@
         </div>
         {% endfor %}
     </div>
-</div>

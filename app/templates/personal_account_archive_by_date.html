@@ -2,13 +2,13 @@
     {% for book in past_book %}
     <div class="room_cart">
         <div class="hotel_img">
-            <img src={{"/static/images/resized_500_300_" ~ book.room.image_id ~ ".webp" }}
+            <img src="/static/images/resized_500_300_{{book.room.image_id}}.webp"
                 onerror="this.src='/static/images/simple-booking.jpg';">
         </div>
         <div class="composition1">
             <div class="all_descr">
                 <div class="text_descr">
-                <div class="descr" hx-get={{"/pages/hotel/id/" ~ book.room.hotel_id}} 
+                <div class="descr" hx-get="/pages/hotel/id/{{book.room.hotel_id}}" 
                 hx-indicator="#progress_1"
                 hx-trigger="load"></div>
                 <div class="descr">                   
@@ -30,9 +30,9 @@
                 </div>
             </div>               
                 <div class="button_box">
-                    <button class="cart" hx-indicator="#progress_1" hx-on:click={{"add_cart(" ~ book.room.id ~ "," ~ book.room.hotel_id
-                        ~ ",'rooms_cart" ~ book.room.hotel_id ~ "')" }}>Повторить</button>
-                    <div class="room_like" hx-indicator="#progress_1" hx-on:click={{"add_fav_single(" ~ book.room.id ~ "," ~ book.room.hotel_id~ ")" }}>
+                    <button class="cart" hx-indicator="#progress_1" hx-on:click="add_cart({{book.room.id}},{{book.room.hotel_id}}
+                        ,'rooms_cart{{book.room.hotel_id}}')">Повторить</button>
+                    <div class="room_like" hx-indicator="#progress_1" hx-on:click="add_fav_single({{book.room.id}},{{book.room.hotel_id}})">
                         {% if book.room.id in fav %}
                         <i class="fi fi-ss-heart" id={{book.room.id}}></i>
                         {% else %}

@@ -123,7 +123,9 @@
 </style>
 
 <div class="logpanel" id="logpanel">
-    <div class="log_cancel"><i class="fi fi-br-cross" hx-on:click='cancel("logpanel")'></i></div>
+    <div class="log_cancel"><i class="fi fi-br-cross"
+        _="on click toggle the *display of .logpanel" 
+        ></i></div>
     <div class="box">
         <label for="email" class="log_el">Email:</label>
         <input id="email" class="log" type="email">
@@ -138,6 +140,6 @@
         >Войти</button>
         <span class="reg" role="button" hx-get="/pages/reg_user" hx-target="#login_bar" hx-push-url="true"
         hx-indicator="#progress_1"
-            hx-swap="innerHTML transition:true" >Зарегистрироваться</span>
+        hx-swap="innerHTML transition:true" >Зарегистрироваться</span>
     </div>
 </div>

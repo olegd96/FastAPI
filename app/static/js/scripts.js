@@ -487,7 +487,7 @@ async function add_fav(room_id, hotel_id, block_id) {
             const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
             fetch(url_1, {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
-                .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1) });
+                .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1), _hyperscript.processNode(myDiv_1) });
             refresh_nav();
         }
         else if (response.status === 401) {
@@ -506,7 +506,7 @@ async function add_fav(room_id, hotel_id, block_id) {
                             const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
                             fetch(url_1, {headers: { 'myHeader': 'true' }})
                                 .then(response => response.text())
-                                .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1) });
+                                .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1), _hyperscript.processNode(myDiv_1) });
                             refresh_nav();
                         }
                     })   
@@ -523,7 +523,7 @@ async function add_fav(room_id, hotel_id, block_id) {
                             const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
                             fetch(url_1, {headers: { 'myHeader': 'true' }})
                                 .then(response => response.text())
-                                .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
+                                .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1), _hyperscript.processNode(myDiv_1) });
                             refresh_anon_nav();
                         }
                     });
@@ -695,22 +695,22 @@ function setLoc(loc) {
     cancel("loc_list");
 }
 
-function showChat() {
-    let myDiv = document.getElementById("chat");
+// function showChat() {
+//     let myDiv = document.getElementById("chat");
    
-    toggleTwoClasses(myDiv, "is-visible", "is-hidden", 300);
-    myDiv.style.visibility = "visible";
-}
+//     toggleTwoClasses(myDiv, "is-visible", "is-hidden", 300);
+//     myDiv.style.visibility = "visible";
+// }
 
-function hiddenChat() {
-    let myDiv = document.getElementById("chat");
+// function hiddenChat() {
+//     let myDiv = document.getElementById("chat");
     
-    toggleTwoClasses(myDiv, "is-visible", "is-hidden", 300);
-    window.setTimeout(function() {
-        myDiv.style.visibility = "hidden";
-        }, 200);
+//     toggleTwoClasses(myDiv, "is-visible", "is-hidden", 300);
+//     window.setTimeout(function() {
+//         myDiv.style.visibility = "hidden";
+//         }, 200);
     
-}
+// }
 
 // function toggleTwoClasses(element, first, second, timeOfAnimation) {
 //     if (!element.classList.contains(first)) {

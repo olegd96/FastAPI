@@ -352,9 +352,9 @@
                 </div>
                     <div class="button_box">
                         <button class="hotels_discover" hx-get="/pages/hotels/{{hotel.id}}/rooms"
-                            hx-include="#date_from, #date_to" hx-target="#rooms_cart{{hotel.id}}"
+                            hx-include="#date_from, #date_to" hx-target="#roomss_cart{{hotel.id}}"
                             hx-indicator="#progress_1"
-                            hx-swap="outerHTML transition:true show:#rooms_cart{{hotel.id}}:top" hx-push-url="true" hx-on::responseError="alert('Проверьте корректность дат')"
+                            hx-swap="innerHTML transition:true show:#roomss_cart{{hotel.id}}:top" hx-push-url="true" hx-on::responseError="alert('Проверьте корректность дат')"
                             >Посмотреть номера</button>
                         <div class="hotel_like" >
                            
@@ -366,6 +366,6 @@
         </div>
     </div>
 
-    <div class="rooms_sec" id="rooms_cart{{hotel.id }}"></div>
+    <div class="rooms_sec" id="roomss_cart{{hotel.id}}"></div>
     {% endfor %}
 </div>

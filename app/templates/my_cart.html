@@ -269,7 +269,7 @@
                 {% else %}
                 <input type="checkbox" name={{item.id}} value={{item.room_id}} class="choice" disabled="true">
                 {% endif %}
-                <img class="img_cart" src={{"/static/images/resized_500_300_" ~ item.image_id ~ ".webp" }}
+                <img class="img_cart" src="/static/images/resized_500_300_{{item.image_id}}.webp"
                     onerror="this.src='/static/images/simple-booking.jpg';">
             </div>
             {% if item.date_from < date %} <div class="unavailable">В данный момент вариант недоступен
@@ -294,14 +294,14 @@
     <div class="like_trash">
         <div class="room_like" 
         hx-indicator="#progress_1"
-        hx-on:click={{"add_fav_from_cart(" ~ item.room_id ~ "," ~ item.hotel_id ~ ")" }}>
+        hx-on:click="add_fav_from_cart({{item.room_id}},{{item.hotel_id}})">
             {% if item.room_id in fav %}
             <i class="fi fi-ss-heart"></i>
             {% else %}
             <i class="fi fi-rs-heart"></i>
             {% endif %}
         </div>
-        <div class="unbook" hx-delete={{"/cart/" ~ item.id ~ "" }} hx-confirm="Удалить позицию из корзины?"
+        <div class="unbook" hx-delete="/cart/{{item.id}}" hx-confirm="Удалить позицию из корзины?"
         hx-indicator="#progress_1"
             hx-on:htmx:after-request="refresh_nav(); refresh_my_cart()"
             ><i class="fi fi-rr-trash"></i></div>

@@ -25,7 +25,6 @@
     <script src="{{ url_for('static', path='js/class-tools.js') }}"></script>
     <script src="{{ url_for('static', path='js/hyperscript.js') }}"></script>
     <script src="{{ url_for('static', path='js/ws.js') }}"></script>
-    <!-- <script src="https://unpkg.com/hyperscript.org@0.9.12"></script> -->
     <title>ONBOOK</title>
 
 </head>
@@ -67,29 +66,6 @@
             </div>
         </nav>
         <nav class="burger">
-
-            <!-- <div class="brg_tab">
-                <label class="nav_lab" for="tab1" hx-get="/pages/search" hx-target="#bookings_list"
-                    hx-swap="innerHTML transition:true" hx-push-url="true">Поиск отелей</label>
-            </div>
-            <div class="brg_tab">
-                <label class="nav_lab" for="tab2" hx-get="/pages/anon_fav" hx-target="#bookings_list"
-                    hx-push-url="true">
-                    <div><i class="fi fi-rs-heart"></i><sup class="sup">{{fav_count}}</sup></div>
-                </label>
-            </div>
-            <div class="brg_tab">
-                <label class="nav_lab" for="tab3" hx-get="/pages/cart/anon" hx-target="#bookings_list"
-                    hx-swap="innerHTML transition:true" hx-push-url="true">
-                    <div>
-                        <i class="fi fi-rr-shopping-cart" id="cart"></i><sup class="sup">{{cart_count}}</sup>
-                    </div>
-                </label>
-            </div>
-            <div class="brg_tab">
-                <label class="nav_lab" for="tab4" hx-get="/pages/login" hx-target="#login_bar"
-                    hx-swap="innerHTML transition:true" hx-push-url="true">Войти</label>
-            </div> -->
             <span></span>
             <span></span>
             <span></span>
@@ -106,12 +82,15 @@
         </div>
     </div>
     </div>
-    <!-- <div class="prgrs"><img  src='/static/images/25.svg' id="progress_1" alt="Result loading..."  class="htmx-indicator"/></div> -->
     <div id="login_bar" class="login_bar"></div>
     <div id="bookings_list" class="bookings_list" hx-get="/pages/banners" hx-swap="innerHTML transition:true"
     hx-indicator="#progress_1" hx-trigger="load once"></div>
-    <div class="service" hx-ext="ws" ws-connect={{"/chat/ws/" ~ ids }}>
-        <div class="serv_name" onclick="showChat()">
+    <div class="service" hx-ext="ws" ws-connect="/chat/ws/{{ids}}">
+        <div class="serv_name" 
+        _="on click
+        add .is-visible to .chat
+        remove .is-hidden from .chat  
+        toggle *visibility of the .chat">
             <div class="sp"><i class="fi fi-rs-comment-alt"></i></div>
         </div>
         <div class="chat" id="chat">
@@ -124,7 +103,12 @@
                     </div>
                 </div>
                 <div>
-                    <i class="fi fi-rr-angle-small-down" onclick="hiddenChat()"></i>
+                    <i class="fi fi-rr-angle-small-down" 
+                    _="on click toggle .is-visible on .chat 
+                    add .is-hidden to .chat
+                    remove .is-visible from .chat
+                    wait 0.2s
+                    toggle *visibility of the .chat"></i>
                 </div>
             </div>
             <div class="chat_field" id="history">

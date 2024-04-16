@@ -27,7 +27,6 @@
         </form>
     </div>
     <script>
-        
         let par = document.getElementById("chat_room");
         document.body.addEventListener("htmx:wsBeforeMessage", (data) => {  
             par.insertAdjacentHTML('beforeend', data.detail.message);

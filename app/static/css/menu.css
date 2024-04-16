@@ -424,13 +424,13 @@ body {
   box-shadow: 0px 0px 5px 0px rgb(175, 174, 174);
 }
 
-.chat.is-visible {
+.is-visible {
   /* display: block; */
   animation: fadeInFromNone 0.3s ease-in-out;
   animation-fill-mode: forwards;
 }
 
-.chat.is-hidden {
+.is-hidden {
   animation: fadeOutFromBlock 0.3s ease-in-out;
   /* display: none; */
 }

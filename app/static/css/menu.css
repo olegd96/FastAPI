@@ -207,6 +207,11 @@
   font-family: "Montserrat", sans-serif;
   text-decoration: none;
   margin-left: 150px;
+  cursor: pointer;
+}
+
+.logo:hover {
+  color: rgb(171, 208, 229);
 }
 
 .logo_1 {
@@ -378,6 +383,7 @@ body {
   top: 90%;
   right: 3%;
   position: fixed;
+  cursor: pointer;
 }
 
 .service:hover {

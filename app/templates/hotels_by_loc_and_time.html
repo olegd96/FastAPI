@@ -113,7 +113,7 @@
         width: 40px;
         height: 30px;
         background-color: white;
-        z-index: 1000;
+        z-index: 4;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
@@ -321,7 +321,11 @@
     {% for hotel in hotels|sort(attribute="name") %}
     <div class="hotel_paragraph">
         <div class="hotel_cart">
-            <div class="hotel_img"><img src="/static/images/{{hotel.image_id}}.jpg"
+            <div class="hotel_img"
+            _="on intersection(intersecting) having threshold 0.5
+                    if intersecting transition opacity to 1
+                    else transition opacity to 0 " 
+            ><img src="/static/images/{{hotel.image_id}}.jpg"
                     onerror="src='/static/images/simple-booking.jpg';">
                 <div class="rate_box">
                     <label class="rate_label">
@@ -365,7 +369,16 @@
             </div>
         </div>
     </div>
-
     <div class="rooms_sec" id="roomss_cart{{hotel.id}}"></div>
     {% endfor %}
 </div>
+
+{% if count >= offset+3 %}
+<span hx-get="/pages/hotels"
+hx-include="#loc, #date_from, #date_to"
+hx-vals='{"offset": "{{offset + 3}}"}'
+hx-indicator="#progress_1"
+hx-swap="outerHTML"
+hx-trigger="revealed"
+></span>
+{% endif %}

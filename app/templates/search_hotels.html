@@ -246,7 +246,9 @@
             <input type="date" class="search_date" name="date_to" id="date_to">
         </div>
         </div>
-        <button class="search_button" hx-get="/pages/hotels" hx-include="*" hx-target="#hotels"
+        <button class="search_button" hx-get="/pages/hotels" 
+        hx-include="#loc, #date_from, #date_to" 
+        hx-target="#hotels"
         hx-indicator="#progress_1"
             hx-swap="innerHTML transition:true" hx-push-url="true" hx-indicator="#progress_1"
             >ПОИСК</button>

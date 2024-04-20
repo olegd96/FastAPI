@@ -1,26 +1,20 @@
 
-from datetime import timedelta
-from email.policy import EmailPolicy
-import re
 from typing import List
 import uuid
-from weakref import ref
 from fastapi import APIRouter, Depends, Request, Response
-from fastapi.responses import PlainTextResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import TypeAdapter
-from app.bookings.dao import BookingDAO
 from app.cart.dao import CartDao
 from app.exceptions import CannotAddDataToDatabase, IncorrectCurrentPasswordException, IncorrectEmailOrPasswordException, InvalidTokenException, PasswordNotConfirm, UnverifiedEmailException, UserAlreadyExistsException
 from app.favourites.dao import FavDao
 from app.tasks.tasks import send_registration_confirmation_email
 from app.users.dao import  UsersDAO
 from app.users.utils import get_password_hash
-from app.users.dependencies import get_current_active_user, get_current_admin_user, get_current_user
+from app.users.dependencies import get_current_admin_user, get_current_user
 from app.users.models import Users
 from app.config import settings
 
-from app.users.schemas import SRefreshSessionCreate, SToken, SUser, SUserAuth, SUserBase, SUserDB, SUserReAuth, SUserReg, SUserUpdate, SUserVerify
+from app.users.schemas import SToken, SUser, SUserDB, SUserReAuth, SUserReg, SUserUpdate, SUserVerify
 from app.users.service import AuthService
 
 router_users = APIRouter(

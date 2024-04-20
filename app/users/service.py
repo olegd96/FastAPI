@@ -33,7 +33,6 @@ class AuthService:
     @classmethod
     async def refresh_token(cls, token: uuid.UUID) -> SToken:
             refresh_session = await RefreshSessionDAO.find_one_or_none(refresh_token=token)
-            print(refresh_session)
             if refresh_session is None:
                 raise InvalidTokenException
             if datetime.now(timezone.utc) >= refresh_session.created_at + timedelta(seconds=refresh_session.expires_in):

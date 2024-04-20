@@ -464,6 +464,13 @@
             </div>
         </div>
         {% endfor %}
+        {% if count >= offset %}
+        <span hx-get="/pages/anon_fav_next"
+        hx-vals='{"offset": "{{offset + 3}}"}'
+        hx-swap="outerHTML transition:true"
+        hx-indicator="#progress_1"
+        hx-trigger="revealed"></span>
+        {% endif %}
     </div>
         {% else %}
         <div class="notice">Список избранного пуст</div>

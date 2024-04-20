@@ -95,6 +95,8 @@ class FavDao(BaseDAO):
     @classmethod
     async def get_all_fav(
         cls,
+        limit = None,
+        offset = None,
         **filter,
     ):
         # room_query = (
@@ -127,15 +129,30 @@ class FavDao(BaseDAO):
                         .options(joinedload(Favourites.hotel))
                         .options(joinedload(Favourites.room))
                         .filter_by(**filter)
+                        .limit(limit)
+                        .offset(offset)
                         )
 
         async with async_session_maker() as session:
             rooms = await session.execute(room_query_1)
             rooms_res = rooms.scalars().all()
-            # rooms_res = [SFavList.model_validate(room, from_attributes=True) for room in rooms_res]
             rooms_res = [TypeAdapter(SFavList).validate_python(
                 room).model_dump() for room in rooms_res]
             return rooms_res
+
+    @classmethod
+    async def count_all_fav(
+        cls,
+        **filter,
+    ):
+        room_query = (select(Favourites)
+                        .filter_by(**filter)
+                        )
+
+        async with async_session_maker() as session:
+            rooms = await session.execute(room_query)
+            count_res = len(rooms.scalars().all())
+            return count_res
 
     @classmethod
     async def get_fav_by_date(

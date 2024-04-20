@@ -319,12 +319,17 @@
         <div class="rooms_head">
             <div class="rooms_label"><label class="hotel_rooms">Список доступных номеров</label></div>
             <div class="cancel"><i class="fi fi-br-cross "  
-                    _="on click remove the closest .rooms_cart"
+                    _="on click add .is-hidden to the closest .rooms_cart
+                    wait 0.2s
+                    remove the closest .rooms_cart"
                     ></i></div>
         </div>
         {% for room in rooms|sort(attribute="name") %}
         <div class="room_cart">
-            <div class="hotel_img">
+            <div class="hotel_img"
+            _="on intersection(intersecting) having threshold 0.5
+                    if intersecting transition opacity to 1
+                    else transition opacity to 0 ">
                 <img src="/static/images/resized_500_300_{{room.image_id}}.webp"
                     onerror="src='/static/images/simple-booking.jpg';">
             </div>
@@ -337,7 +342,6 @@
                         <div>Цена: {{room.price}}/сутки</div>
                         <div>Общая стоимость: {{room.total_cost}}</div>
                         <div>Свободных номеров: {{room.rooms_left}}</div>
-                        <!-- <div><input id="room_id" value={{room.id}}></div> -->
                     </div>
                     <div class="serv">
                         <div>
@@ -360,8 +364,7 @@
                             <i class="fi fi-rs-heart"></i>
                             {% endif %}
                         </div>
-                        <div class="clear_box">
-                           
+                        <div class="clear_box">                           
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,4 @@
 "use strict";
-// document.addEventListener("htmx:confirm", function(e) {
-//     e.preventDefault()
-//     showMdAlrt(`${e.detail.question}`)
-//   })
 
 document.addEventListener('htmx:responseError', function(event){
     if (event.detail.xhr.status === 401){
@@ -44,70 +40,70 @@ document.addEventListener('htmx:configRequest', function(event) {
 }
 )
 
-async function add_booking(room_id, hotel_id, block_id) {
-    const url = "/bookings";
-    const date_from = document.getElementById("date_from").value;
-    const date_to = document.getElementById("date_to").value;
-    let myDiv = document.getElementById('nav_box');
-    let myDiv_1 = document.getElementById(block_id);
-    await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            room_id: room_id,
-            date_from: date_from,
-            date_to: date_to
-        }),
-    }).then(response => {
-        if (response.status === 200) {
+// async function add_booking(room_id, hotel_id, block_id) {
+//     const url = "/bookings";
+//     const date_from = document.getElementById("date_from").value;
+//     const date_to = document.getElementById("date_to").value;
+//     let myDiv = document.getElementById('nav_box');
+//     let myDiv_1 = document.getElementById(block_id);
+//     await fetch(url, {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/json' },
+//         body: JSON.stringify({
+//             room_id: room_id,
+//             date_from: date_from,
+//             date_to: date_to
+//         }),
+//     }).then(response => {
+//         if (response.status === 200) {
 
-            alert("Номер добавлен в корзину");
+//             alert("Номер добавлен в корзину");
 
-            const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
-            fetch('/pages/bookings', {headers: { 'myHeader': 'true' }})
-                .then(response => response.text())
-                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
-            fetch(url_1)
-                .then(response => response.text())
-                .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
+//             const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+//             fetch('/pages/bookings', {headers: { 'myHeader': 'true' }})
+//                 .then(response => response.text())
+//                 .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
+//             fetch(url_1)
+//                 .then(response => response.text())
+//                 .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
 
-        }
+//         }
 
-        else if (response.status === 409) {
-            alert("Не осталось свободных номеров");
-        }
+//         else if (response.status === 409) {
+//             alert("Не осталось свободных номеров");
+//         }
 
-        else if (response.status === 401) {
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    room_id: room_id,
-                    date_from: date_from,
-                    date_to: date_to
-                }),
-            }).then(response => {
-                if (response.status === 200) {
+//         else if (response.status === 401) {
+//             fetch(url, {
+//                 method: 'POST',
+//                 headers: { 'Content-Type': 'application/json' },
+//                 body: JSON.stringify({
+//                     room_id: room_id,
+//                     date_from: date_from,
+//                     date_to: date_to
+//                 }),
+//             }).then(response => {
+//                 if (response.status === 200) {
 
-                    alert("Номер добавлен в корзину");
+//                     alert("Номер добавлен в корзину");
 
-                    const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
-                    fetch('pages/bookings', {headers: { 'myHeader': 'true' }})
-                        .then(response => response.text())
-                        .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
-                    fetch(url_1)
-                        .then(response => response.text())
-                        .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
+//                     const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
+//                     fetch('pages/bookings', {headers: { 'myHeader': 'true' }})
+//                         .then(response => response.text())
+//                         .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
+//                     fetch(url_1)
+//                         .then(response => response.text())
+//                         .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
 
-                }
-            }
+//                 }
+//             }
 
-            );
-        }
+//             );
+//         }
 
-    });
-    refresh_nav();
-}
+//     });
+//     refresh_nav();
+// }
 
 
 function cancel(val) {
@@ -162,7 +158,7 @@ async function loginUser() {
             const url = "/pages/bookings";
             fetch(url, {headers: { 'myHeader': 'true' }})
                 .then(response => response.text())
-                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); booking_menu_scr();});
+                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); _hyperscript.processNode(myDiv);booking_menu_scr();});
             cancel("logpanel");
             refresh_panel();
         } 
@@ -172,17 +168,17 @@ async function loginUser() {
     });
 }
 
-async function logoutUser() {
-    const url = "/auth/logout";
+// async function logoutUser() {
+//     const url = "/auth/logout";
 
-    await fetch(url, {
-        method: 'POST',
-    }).then(response => {
-        if (response.status === 200) {
-            window.location.href = "/pages";
-        }
-    });
-}
+//     await fetch(url, {
+//         method: 'POST',
+//     }).then(response => {
+//         if (response.status === 200) {
+//             window.location.href = "/pages";
+//         }
+//     });
+// }
 
 
 async function regUser() {
@@ -228,7 +224,7 @@ async function refresh_nav() {
         .then(response => {
             if (response.status === 200) {            
                 (response.text())
-                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); booking_menu_scr();});}
+                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); _hyperscript.processNode(myDiv);booking_menu_scr();});}
                 
             else {
                 fetch('/auth/refresh', {method: 'POST'})
@@ -238,7 +234,7 @@ async function refresh_nav() {
                         .then(response => {
                             if (response.status === 200) {            
                                 (response.text())
-                                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv);booking_menu_scr(); });}                   
+                                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv);_hyperscript.processNode(myDiv);booking_menu_scr(); });}                   
                 })
             }})
 }
@@ -695,36 +691,6 @@ function setLoc(loc) {
     cancel("loc_list");
 }
 
-// function showChat() {
-//     let myDiv = document.getElementById("chat");
-   
-//     toggleTwoClasses(myDiv, "is-visible", "is-hidden", 300);
-//     myDiv.style.visibility = "visible";
-// }
-
-// function hiddenChat() {
-//     let myDiv = document.getElementById("chat");
-    
-//     toggleTwoClasses(myDiv, "is-visible", "is-hidden", 300);
-//     window.setTimeout(function() {
-//         myDiv.style.visibility = "hidden";
-//         }, 200);
-    
-// }
-
-// function toggleTwoClasses(element, first, second, timeOfAnimation) {
-//     if (!element.classList.contains(first)) {
-//         element.classList.add(first);
-//         element.classList.remove(second);
-//     } else {
-//         element.classList.add(second);
-//         window.setTimeout(function() {
-//         element.classList.remove(first);
-//         element.style.display = "";
-//         }, timeOfAnimation);
-//     }
-//     }
-
 function toggleTwoClasses(element, first, second, timeOfAnimation) {
     if (!element.classList.contains(first)) {
         element.classList.add(first);
@@ -744,7 +710,6 @@ window.onclick = function (event) {
     if (!event.target.matches('.dropbtn')) {
         cancel("loc_list");
     }
-
     else {
 
     }

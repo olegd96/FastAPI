@@ -94,15 +94,16 @@ async def my_bookings(
 
 @router.get("/hotels", response_class=HTMLResponse)
 async def get_hotels_by_loc_date(request: Request,
-    location: str, date_from: date, date_to: date,
+    location: str, date_from: date, date_to: date, limit: int = 3, offset: int = 0,
     valid = Depends(check_valid_request),
     ):
     if date_from > date_to:
         raise DateFromCannotBeAfterDateTo
     if (date_to - date_from).days > 31:
         raise CannotBookHotelForLongPeriod
-    res = await HotelsDAO.find_all(location, date_from, date_to)
-    return templates.TemplateResponse("hotels_by_loc_and_time.html", {"request": request, "hotels": res})
+    res = await HotelsDAO.find_all(location, date_from, date_to, limit, offset)
+    count = await HotelsDAO.hotels_count(location, date_from, date_to)
+    return templates.TemplateResponse("hotels_by_loc_and_time.html", {"request": request, "hotels": res, "offset": offset, "count": count})
 
 
 @router.get("/hotel/id/{hotel_id}", response_class=HTMLResponse)
@@ -174,24 +175,59 @@ async def get_anon_cart(
 @router.get("/my_fav", response_class=HTMLResponse)
 async def get_my_fav(
     request: Request,
+    limit: int = 3,
+    offset: int = 0,
     valid = Depends(check_valid_request),
     user: Users = Depends(get_current_user),
 ):
-    res = await FavDao.get_all_fav(user_id=user.id)
-    return templates.TemplateResponse("all_my_fav.html", {"request": request, "rooms": res})
+    res = await FavDao.get_all_fav(limit, offset, user_id=user.id)
+    count = await FavDao.count_all_fav(user_id = user.id)
+    return templates.TemplateResponse("all_my_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count})
+
+
+@router.get("/my_fav_next", response_class=HTMLResponse)
+async def get_my_fav(
+    request: Request,
+    limit: int = 3,
+    offset: int = 0,
+    valid = Depends(check_valid_request),
+    user: Users = Depends(get_current_user),
+):
+    res = await FavDao.get_all_fav(limit, offset, user_id=user.id)
+    count = await FavDao.count_all_fav(user_id = user.id)
+    return templates.TemplateResponse("next_my_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count})
 
 
 @router.get("/anon_fav", response_class=HTMLResponse)
 async def get_anon_fav(
     request: Request,
     response: Response,
+    limit: int = 3,
+    offset: int = 0,
     valid = Depends(check_valid_request),
 ):
     if not (anonimous_id := request.cookies.get("cart")):
         anonimous_id = str(uuid.uuid4())
         response.set_cookie("cart", anonimous_id, httponly=True)
-    res = await FavDao.get_all_fav(anonimous_id=anonimous_id)
-    return templates.TemplateResponse("all_anon_fav.html", {"request": request, "rooms": res})
+    res = await FavDao.get_all_fav(limit, offset, anonimous_id=anonimous_id)
+    count = await FavDao.count_all_fav(anonimous_id=anonimous_id)
+    return templates.TemplateResponse("all_anon_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count})
+
+
+@router.get("/anon_fav_next", response_class=HTMLResponse)
+async def get_my_fav(
+    request: Request,
+    response: Response,
+    limit: int = 3,
+    offset: int = 0,
+    valid = Depends(check_valid_request),
+):
+    if not (anonimous_id := request.cookies.get("cart")):
+        anonimous_id = str(uuid.uuid4())
+        response.set_cookie("cart", anonimous_id, httponly=True)
+    res = await FavDao.get_all_fav(limit, offset, anonimous_id=anonimous_id)
+    count = await FavDao.count_all_fav(anonimous_id=anonimous_id)
+    return templates.TemplateResponse("next_anon_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count})
 
 
 @router.get("/fav_by_date")

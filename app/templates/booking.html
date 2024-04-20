@@ -18,6 +18,7 @@
 
     }
 
+
     input[type="radio"] {
         display: none;
     }
@@ -290,11 +291,15 @@
                 <div>
                     <i class="fi fi-rr-shopping-cart" id="cart"></i><sup class="sup">{{cart_count}}</sup>
                 </div>
+                <!-- hx-on:click="logoutUser()" -->
             </label>
+            
             <input type="radio" name="tabs" checked id="tab6" >
-            <label class="nav_lab" for="tab6"  hx-on:click="logoutUser()"
-            hx-indicator="#progress_1"
-                hx-swap="innerHTML transition:true">Выйти</label>
+            <label class="nav_lab" for="tab6" 
+            _='on click fetch /auth/logout as json with method:"POST" 
+            then if result.message == "Logged out successfully"  reload() the location of window'
+            >Выйти
+            </label>
             <div class="glider"></div>
         </div>
     </div>

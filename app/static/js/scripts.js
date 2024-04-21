@@ -106,11 +106,11 @@ document.addEventListener('htmx:configRequest', function(event) {
 // }
 
 
-function cancel(val) {
-    let obj = document.getElementById(val);
-    if (obj) {
-    obj.style.display = "none"};
-}
+// function cancel(val) {
+//     let obj = document.getElementById(val);
+//     if (obj) {
+//     obj.style.display = "none"};
+// }
 
 
 function verify_password() {

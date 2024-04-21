@@ -1,6 +1,9 @@
 {% for room in rooms|sort(attribute="hotel.name") %}
         <div class="room_cart" id="room_cart">
-            <div class="hotel_img">
+            <div class="hotel_img"
+            _="on intersection(intersecting) having threshold 0.5
+                    if intersecting transition opacity to 1
+                    else transition opacity to 0 ">
                 <img src="/static/images/resized_500_300_{{room.hotel.image_id}}.webp"
                     onerror="this.src='/static/images/simple-booking.jpg';">
             </div>

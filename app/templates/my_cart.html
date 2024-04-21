@@ -262,7 +262,10 @@
     <div class="book_cart" id={{item.room_id}} style="background:rgb(244, 244, 244);">
         {% endif %}
         <div class="info">
-            <div class="pic">
+            <div class="pic"
+            _="on intersection(intersecting) having threshold 0.5
+                    if intersecting transition opacity to 1
+                    else transition opacity to 0 ">
                 {% if item.date_from >= date %}
                 <input type="checkbox" name={{item.id}} value={{item.room_id ~ '/' ~ item.date_from ~ '/' ~
                     item.date_to}} class="choice" checked="true">

@@ -319,13 +319,13 @@
 
 <div class="total">
     {% for hotel in hotels|sort(attribute="name") %}
-    <div class="hotel_paragraph">
-        <div class="hotel_cart">
-            <div class="hotel_img"
-            _="on intersection(intersecting) having threshold 0.5
+    <div class="hotel_paragraph" 
+    _="on intersection(intersecting) having threshold 0.5
                     if intersecting transition opacity to 1
-                    else transition opacity to 0 " 
-            ><img src="/static/images/{{hotel.image_id}}.jpg"
+                    else transition opacity to 0 ">
+        <div class="hotel_cart">
+            <div class="hotel_img">
+                <img src="/static/images/{{hotel.image_id}}.jpg"
                     onerror="src='/static/images/simple-booking.jpg';">
                 <div class="rate_box">
                     <label class="rate_label">

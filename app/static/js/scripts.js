@@ -11,24 +11,15 @@ document.addEventListener('htmx:responseError', function(event){
                 }, 1000);
             } 
             else {
-                // dialog.style.display = "block";
-                // message.textContent = "Войдите в систему";
-                // dialog.showModal();
                 showPopUp("Войдите в систему");
             }
         } 
         )            
     } else if (event.detail.xhr.status === 422) {
-            // dialog.style.display = "block";
-            //     message.textContent = "Проверьте корректность данных";
-            //     dialog.showModal();
             showPopUp("Проверьте корректность данных");
     }
     else {
         let res = JSON.parse(event.detail.xhr.responseText)
-        // dialog.style.display = "block";
-        // message.textContent = res.detail;
-        // dialog.showModal();
         showPopUp(res.detail);
     }
 
@@ -40,77 +31,14 @@ document.addEventListener('htmx:configRequest', function(event) {
 }
 )
 
-// async function add_booking(room_id, hotel_id, block_id) {
-//     const url = "/bookings";
-//     const date_from = document.getElementById("date_from").value;
-//     const date_to = document.getElementById("date_to").value;
-//     let myDiv = document.getElementById('nav_box');
-//     let myDiv_1 = document.getElementById(block_id);
-//     await fetch(url, {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/json' },
-//         body: JSON.stringify({
-//             room_id: room_id,
-//             date_from: date_from,
-//             date_to: date_to
-//         }),
-//     }).then(response => {
-//         if (response.status === 200) {
-
-//             alert("Номер добавлен в корзину");
-
-//             const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
-//             fetch('/pages/bookings', {headers: { 'myHeader': 'true' }})
-//                 .then(response => response.text())
-//                 .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
-//             fetch(url_1)
-//                 .then(response => response.text())
-//                 .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
-
-//         }
-
-//         else if (response.status === 409) {
-//             alert("Не осталось свободных номеров");
-//         }
-
-//         else if (response.status === 401) {
-//             fetch(url, {
-//                 method: 'POST',
-//                 headers: { 'Content-Type': 'application/json' },
-//                 body: JSON.stringify({
-//                     room_id: room_id,
-//                     date_from: date_from,
-//                     date_to: date_to
-//                 }),
-//             }).then(response => {
-//                 if (response.status === 200) {
-
-//                     alert("Номер добавлен в корзину");
-
-//                     const url_1 = '/pages/hotels/' + hotel_id + '/rooms?date_from=' + date_from + '&date_to=' + date_to;
-//                     fetch('pages/bookings', {headers: { 'myHeader': 'true' }})
-//                         .then(response => response.text())
-//                         .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
-//                     fetch(url_1)
-//                         .then(response => response.text())
-//                         .then(data => { myDiv_1.innerHTML = data, htmx.process(myDiv_1); });
-
-//                 }
-//             }
-
-//             );
-//         }
-
-//     });
-//     refresh_nav();
-// }
 
 
-// function cancel(val) {
-//     let obj = document.getElementById(val);
-//     if (obj) {
-//     obj.style.display = "none"};
-// }
+
+function cancel(val) {
+    let obj = document.getElementById(val);
+    if (obj) {
+    obj.style.display = "none"};
+}
 
 
 function verify_password() {
@@ -685,11 +613,10 @@ async function add_fav_single(room_id, hotel_id) {
 
 }
 
-function setLoc(loc) {
-    let myDiv = document.getElementById("loc");
-    myDiv.value = loc.replace(/_/gi, " ");
-    cancel("loc_list");
-}
+// function setLoc(loc) {
+//     let myDiv = document.getElementById("loc");
+//     myDiv.value = loc.replace(/_/gi, " ");
+// }
 
 function toggleTwoClasses(element, first, second, timeOfAnimation) {
     if (!element.classList.contains(first)) {
@@ -706,14 +633,14 @@ function toggleTwoClasses(element, first, second, timeOfAnimation) {
     }
 
 
-window.onclick = function (event) {
-    if (!event.target.matches('.dropbtn')) {
-        cancel("loc_list");
-    }
-    else {
+// window.onclick = function (event) {
+//     if (!event.target.matches('.dropbtn')) {
+//         cancel("loc_list");
+//     }
+//     else {
 
-    }
-}
+//     }
+// }
 
 function booking_menu_scr() {
     let brgr = document.querySelector('.burger');

@@ -12,6 +12,7 @@
 
 <div id="loc_list">
     {% for loc in loc_list %}
-    <div class="loc_pos" hx-on:click={{"setLoc('" ~ loc|replace(' ', '_') ~ "')" }}>{{loc}}</div>
+    <div class="loc_pos" _="on click set $pos to '{{loc}}'
+    then set #loc.value to $pos then hide #loc_list">{{loc}}</div>
     {% endfor %}
 </div>

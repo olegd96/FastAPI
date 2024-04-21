@@ -11,7 +11,7 @@
 6. HTML + CSS + Tailwind vs. DaisyUI + JS + HTMX + _hyperscript
 7. Prometheus + Grafana
 
-Фронтэнд представляет из себя SPA на основе HTML + HTMX.
+Фронтэнд представляет из себя SPA на основе HTML + HTMX с адаптивным дизайном
 Простые скрипты написаны на _hyperscript, остальные JS.
 
 ## Демо приложения:

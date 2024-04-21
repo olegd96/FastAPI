@@ -272,18 +272,18 @@
     {% if bookings %}
     {% for item in bookings|sort(attribute="id") %}
     {% if item.date_from >= date %}
-    <div class="book_cart" id={{item.room_id}}>
+    <div class="book_cart" id={{item.room_id}}
+    _="on intersection(intersecting) having threshold 0.5
+                    if intersecting transition opacity to 1
+                    else transition opacity to 0 ">
         {% else %}
         <div class="book_cart" id={{item.room_id}} style="background:rgb(244, 244, 244);">
             {% endif %}
             <div class="info">
-                <div class="pic"
-                _="on intersection(intersecting) having threshold 0.5
-                    if intersecting transition opacity to 1
-                    else transition opacity to 0 ">
+                <div class="pic">
                     {% if item.date_from >= date %}
-                    <input type="checkbox" name={{item.id}} value={{item.room_id ~ '/' ~ item.date_from ~ '/' ~
-                        item.date_to}} class="choice" checked="true">
+                    <input type="checkbox" name={{item.id}} value="{{item.room_id}}/{{item.date_from}}/
+                        {{item.date_to}}" class="choice" checked="true">
                     {% else %}
                     <input type="checkbox" name={{item.id}} value={{item.room_id}} class="choice" disabled="true">
                     {% endif %}
@@ -319,7 +319,7 @@
     {% endfor %}
     <div class="order_booking"><button class="onbk" hx-get="/pages/login" hx-target="#login_bar"
         hx-indicator="#progress_1"
-            hx-on:click="alert('Войдите или зарегистрируйтесь')" hx-swap="innerHTML transition:true">Оформить бронирование</button></div>
+            hx-on:click="showPopUp('Войдите или зарегистрируйтесь')" hx-swap="innerHTML transition:true">Оформить бронирование</button></div>
     {% else %}
     <div class="notice">Пустая корзина</div>
     {% endif %}

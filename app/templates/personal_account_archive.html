@@ -548,11 +548,11 @@
         <div id="past_book">
             {% if past_book %}
             {% for book in past_book %}
-            <div class="room_cart">
-                <div class="hotel_img"
-                _="on intersection(intersecting) having threshold 0.2
+            <div class="room_cart"
+            _="on intersection(intersecting) having threshold 0.2
                     if intersecting transition opacity to 1
                     else transition opacity to 0 ">
+                <div class="hotel_img">
                     <img src="/static/images/resized_500_300_{{book.room.image_id}}.webp"
                         onerror="this.src='/static/images/simple-booking.jpg';">
                 </div>
@@ -642,6 +642,13 @@
                 </div>
             </div>
             {% endfor %}
+            {% if count >= offset+3 %}
+            <span hx-get="/pages/personal_account_archive_next"
+            hx-vals='{"offset": "{{offset + 3}}"}'
+            hx-swap="outerHTML transition:true"
+            hx-indicator="#progress_1"
+            hx-trigger="revealed"></span>
+            {% endif %}
             {% else %}
             <div class="notice">Список прошедших бронирований пуст</div>
             {% endif %}

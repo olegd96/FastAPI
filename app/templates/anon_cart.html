@@ -282,8 +282,8 @@
             <div class="info">
                 <div class="pic">
                     {% if item.date_from >= date %}
-                    <input type="checkbox" name={{item.id}} value="{{item.room_id}}/{{item.date_from}}/
-                        {{item.date_to}}" class="choice" checked="true">
+                    <input type="checkbox" name={{item.id}} value="{{item.room_id}}/{{item.date_from}}/{{item.date_to}}" 
+                    class="choice" checked="true">
                     {% else %}
                     <input type="checkbox" name={{item.id}} value={{item.room_id}} class="choice" disabled="true">
                     {% endif %}

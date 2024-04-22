@@ -1,8 +1,21 @@
 import uuid
-from sqlalchemy import JSON, Boolean, Computed, Date, ForeignKey, Integer, Column, String, text
-from sqlalchemy.orm import mapped_column, Mapped, relationship
-from app.database import Base
 from datetime import date, datetime
+
+from sqlalchemy import (
+    JSON,
+    Boolean,
+    Column,
+    Computed,
+    Date,
+    ForeignKey,
+    Integer,
+    String,
+    text,
+)
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from app.database import Base
+
 
 class Bookings(Base):
     __tablename__ = "bookings"

@@ -33,7 +33,8 @@
     <div id="nav_box">
         <div class="invisible" hx-post="/auth/refresh" hx-swap="none" hx-trigger="load"
             hx-on::after-request="refresh_nav()"></div>
-        <nav id="nav" class="nav">
+        <nav id="nav" class="nav" _="on click from .nav_lab toggle .burger-close on .burger
+        then toggle .wrapper_show on .wrapper">
             <span class="logo" hx-get="/pages/banners" hx-swap="innerHTML transition:true"
             hx-indicator="#progress_1"
                 hx-target="#bookings_list">ONBOOK</span>
@@ -66,8 +67,8 @@
             </div>
         </nav>
         <nav class="burger"
-        _="on click add .burger-close to .burger
-                then add .wrapper_show to .wrapper">
+        _="on click toggle .burger-close on .burger
+                then toggle .wrapper_show on .wrapper">
             <span></span>
             <span></span>
             <span></span>

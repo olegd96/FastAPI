@@ -1,18 +1,24 @@
 import asyncio
-from datetime import date, timedelta, datetime
-
+from datetime import date, datetime, timedelta
 from typing import List
 from urllib import response
 
 from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi_versioning import version
 from pydantic import TypeAdapter
 from sqlalchemy import select
-from fastapi_versioning import version
 
 from app.bookings.dao import BookingDAO
 from app.bookings.models import Bookings
-from app.bookings.schemas import SBooking, SBookingInfo, SBookingRate, SBookingWithRoom, SBookingWithRoomAndUser, SNewBooking
+from app.bookings.schemas import (
+    SBooking,
+    SBookingInfo,
+    SBookingRate,
+    SBookingWithRoom,
+    SBookingWithRoomAndUser,
+    SNewBooking,
+)
 from app.exceptions import BookingMiss, RoomCannotBeBooked
 from app.hotels.rooms.schemas import SRoomWithHotel
 from app.tasks.scheduled import notice
@@ -70,6 +76,8 @@ async def get_notice_list(
 
 @router.get("/past")
 async def get_past_bookings(
+    limit=3,
+    offset=0,
     user: Users = Depends(get_current_user),
 ) -> List[SBookingWithRoom]:
     past_book_query = await BookingDAO.find_all_past_bookings(user)

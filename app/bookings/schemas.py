@@ -1,10 +1,12 @@
+import uuid
 from datetime import date
 from typing import Optional
-import uuid
+
 from pydantic import BaseModel, ConfigDict, EmailStr
 
 from app.hotels.rooms.schemas import SRoom
 from app.users.schemas import SUser
+
 
 class SBooking(BaseModel):
     id : int 

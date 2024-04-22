@@ -1,10 +1,11 @@
 from sqladmin import ModelView
+
 from app.bookings.models import Bookings
+from app.cart.models import Carts
 from app.favourites.models import Favourites
+from app.hotels.models import Hotels
 from app.hotels.rooms.models import Rooms
 from app.users.models import Users
-from app.hotels.models import Hotels
-from app.cart.models import Carts
 
 
 class UsersAdmin(ModelView, model=Users):

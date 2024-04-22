@@ -1,22 +1,27 @@
-from datetime import date, timedelta
 import uuid
+from datetime import date, timedelta
 
 from pydantic import TypeAdapter
-from app.bookings.schemas import SBooking, SBookingInfo, SBookingWithRoom, SBookingWithRoomAndUser
-from app.hotels.dao import HotelsDAO
-from app.hotels.rooms.schemas import SRoomWithHotel
-from app.loger import logger
-
-from sqlalchemy import Null, desc, insert, or_, select, delete, and_, func, update
+from sqlalchemy import Null, and_, delete, desc, func, insert, or_, select, update
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import joinedload
+
 from app.bookings.models import Bookings
+from app.bookings.schemas import (
+    SBooking,
+    SBookingInfo,
+    SBookingWithRoom,
+    SBookingWithRoomAndUser,
+)
 from app.dao.base import BaseDAO
+from app.database import async_session_maker, async_session_taskmaker
 from app.exceptions import UserIsNotPresentException
+from app.hotels.dao import HotelsDAO
 from app.hotels.models import Hotels
 from app.hotels.rooms.models import Rooms
+from app.hotels.rooms.schemas import SRoomWithHotel
+from app.loger import logger
 from app.users.models import Users
-from app.database import async_session_maker, async_session_taskmaker
 
 
 class BookingDAO(BaseDAO):
@@ -188,7 +193,7 @@ class BookingDAO(BaseDAO):
             return bookings
 
     @classmethod
-    async def find_all_past_bookings(cls, user: Users):
+    async def find_all_past_bookings(cls, user: Users, limit=None, offset=None):
         async with async_session_maker() as session:
             query = (
                 select(Bookings)
@@ -198,6 +203,8 @@ class BookingDAO(BaseDAO):
                          Bookings.deleted == False,
                          Bookings.user_id == user.id)
                 )
+                .limit(limit)
+                .offset(offset)
             )
 
             past_bookings = await session.execute(query)
@@ -206,6 +213,22 @@ class BookingDAO(BaseDAO):
                 book).model_dump() for book in past_bookings]
             return past_bookings
         
+    @classmethod
+    async def count_all_past(cls, user: Users):
+        async with async_session_maker() as session:
+            query = (
+                select(Bookings)
+                .filter(
+                    and_(Bookings.date_to <= date.today(),
+                         Bookings.deleted == False,
+                         Bookings.user_id == user.id)
+                )
+            )
+
+            past_bookings = await session.execute(query)
+            past_bookings = len(past_bookings.scalars().all())
+            return past_bookings
+
 
     @classmethod
     async def find_all_past_bookings_by_date(

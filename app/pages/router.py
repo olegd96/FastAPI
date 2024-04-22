@@ -275,13 +275,41 @@ async def personal_account(
 @router.get("/personal_account_archive", response_class=HTMLResponse)
 async def personal_account_archive(
     request: Request,
+    limit: int = 3,
+    offset: int = 0,
     valid = Depends(check_valid_request),
     user: Users = Depends(get_current_user),
 ):  
-    past_bookings = await BookingDAO.find_all_past_bookings(user=user)
+    past_bookings = await BookingDAO.find_all_past_bookings(user=user, limit=limit, offset=offset)
+    count_past_bookings = await BookingDAO.count_all_past(user=user)
     fav = await FavDao.find_all(user_id=user.id)
     fav = [f.room_id for f in fav]
-    return templates.TemplateResponse("personal_account_archive.html", {"request": request, "past_book": past_bookings, "fav": fav})
+    return templates.TemplateResponse("personal_account_archive.html", 
+                                      {"request": request, 
+                                       "past_book": past_bookings, 
+                                       "fav": fav, 
+                                       "count": count_past_bookings,
+                                       "offset": offset})
+
+@router.get("/personal_account_archive_next", response_class=HTMLResponse)
+async def personal_account_archive(
+    request: Request,
+    limit: int = 3,
+    offset: int = 0,
+    valid = Depends(check_valid_request),
+    user: Users = Depends(get_current_user),
+):  
+    past_bookings = await BookingDAO.find_all_past_bookings(user=user, limit=limit, offset=offset)
+    count_past_bookings = await BookingDAO.count_all_past(user=user)
+    fav = await FavDao.find_all(user_id=user.id)
+    fav = [f.room_id for f in fav]
+    return templates.TemplateResponse("personal_account_archive_next.html", 
+                                      {"request": request, 
+                                       "past_book": past_bookings, 
+                                       "fav": fav, 
+                                       "count": count_past_bookings,
+                                       "offset": offset})
+
 
 @router.get("/personal_account_archive_by_date", response_class=HTMLResponse)
 async def personal_account_by_date(

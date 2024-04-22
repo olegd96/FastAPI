@@ -1,42 +1,49 @@
-from asyncio import sleep
 import asyncio
-from contextlib import asynccontextmanager
 import time
 import uuid
-from fastapi.exceptions import RequestValidationError
-from fastapi.responses import PlainTextResponse, RedirectResponse
-import sentry_sdk
+from asyncio import sleep
+from contextlib import asynccontextmanager
 
+import sentry_sdk
 from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import PlainTextResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi_cache.decorator import cache
+from fastapi_versioning import VersionedFastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
 from pydantic import BaseModel
 from redis import asyncio as aioredis
 from sqladmin import Admin, ModelView
-from fastapi_versioning import VersionedFastAPI
-from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.admin.auth import authentication_backend
-from app.admin.views import BookingsAdmin, CartAdmin, FavourAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
+from app.admin.views import (
+    BookingsAdmin,
+    CartAdmin,
+    FavourAdmin,
+    HotelsAdmin,
+    RoomsAdmin,
+    UsersAdmin,
+)
 from app.bookings.router import router as router_bookings
+from app.cart.router import router as router_cart
 from app.config import settings
 from app.database import engine
 from app.exceptions import RequestAttorneyException
+from app.favourites.router import router as router_fav
+from app.hotels.rooms import router
 from app.hotels.router import router as router_hotels
 from app.images.router import router as router_images
-from app.pages.router import router as router_pages
 from app.importer.router import router as router_importer
+from app.loger import logger
+from app.pages.router import router as router_pages
 from app.prometheus.router import router as prometheus_router
-from app.cart.router import router as router_cart
-from app.favourites.router import router as router_fav
-from app.web_socket.router import router as router_chat
 from app.users.models import Users
 from app.users.router import router_auth, router_users
-from app.loger import logger
-from app.hotels.rooms import router
+from app.web_socket.router import router as router_chat
 
 
 @asynccontextmanager

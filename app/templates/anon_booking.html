@@ -217,7 +217,8 @@
 </style>
 
 
-<nav id="nav" class="nav">
+<nav id="nav" class="nav" _="on click from .nav_lab toggle .burger-close on .burger
+then toggle .wrapper_show on .wrapper">
     <span class="logo"  hx-get="/pages/banners" hx-swap="innerHTML transition:true"
     hx-target="#bookings_list">ONBOOK</span>
     <div class="wrapper">
@@ -250,7 +251,9 @@
         </div>
     </div>
 </nav>
-<nav class="burger">
+<nav class="burger"
+_="on click toggle .burger-close on .burger
+    then toggle .wrapper_show on .wrapper">
   <span></span>
   <span></span>
   <span></span>

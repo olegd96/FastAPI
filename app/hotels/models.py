@@ -1,8 +1,12 @@
+from typing import TYPE_CHECKING
 from sqlalchemy import JSON, Float, ForeignKey, Integer, Column, String
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from app.database import Base
 
-
+if TYPE_CHECKING:
+    from app.hotels.rooms.models import Rooms
+    from app.favourites.models import Favourites
+    
 class Hotels(Base):
     __tablename__ = "hotels"
 

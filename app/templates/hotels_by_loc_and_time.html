@@ -320,7 +320,7 @@
 <div class="total">
     {% for hotel in hotels|sort(attribute="name") %}
     <div class="hotel_paragraph" 
-    _="on intersection(intersecting) having threshold 0.5
+    _="on intersection(intersecting) having threshold 0.2
                     if intersecting transition opacity to 1
                     else transition opacity to 0 ">
         <div class="hotel_cart">

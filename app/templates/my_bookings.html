@@ -139,7 +139,7 @@
 {% for item in bookings|sort(attribute="id") %}
 <div class="book_cart">
     <div class="pic"
-    _="on intersection(intersecting) having threshold 0.5
+    _="on intersection(intersecting) having threshold 0.2
                     if intersecting transition opacity to 1
                     else transition opacity to 0 ">
     <img src="/static/images/resized_500_300_{{item.image_id}}.webp"

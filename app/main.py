@@ -37,7 +37,6 @@ from app.users.models import Users
 from app.users.router import router_auth, router_users
 from app.loger import logger
 from app.hotels.rooms import router
-from app.test_session.session import router as router_session
 
 
 @asynccontextmanager
@@ -62,7 +61,6 @@ app.include_router(router_pages)
 app.include_router(router_importer)
 app.include_router(prometheus_router)
 app.include_router(router_cart)
-app.include_router(router_session)
 app.include_router(router_fav)
 app.include_router(router_chat)
 

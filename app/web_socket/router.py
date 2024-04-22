@@ -63,6 +63,8 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
         </div>
         
     """
+    
+
     await manager.connect(websocket)
     await manager.send_personal_message(content1.format(message=start_message, time=datetime.strftime(datetime.now(), "%d.%m %H:%M")), websocket)
     try:

@@ -121,28 +121,19 @@
     }
 
     .burger-close span:first-child {
-        /* top: 6px;
-  transform: rotate(45deg); повернули на 45 градусов */
         opacity: 0;
-        /*скрыли среднюю полоску*/
-
     }
 
     .burger-close span:nth-child(2) {
         transform: rotate(45deg);
-        /*повернули на 45 градусов */
     }
 
     .burger-close span:nth-child(3) {
         transform: rotate(-45deg);
-        /*повернули на 45 градусов */
     }
 
     .burger-close span:last-child {
-        /* top: 6px;
-  transform: rotate(-45deg); повернули на 45 градусов */
         opacity: 0;
-        /*скрыли среднюю полоску*/
     }
 
     .burger span {
@@ -181,7 +172,7 @@
             opacity: 1;
         }
 
-        .wrapper.wrapper_show {
+        .wrapper_show {
             display: flex;
             animation: fadeInFromNone 0.3s ease-in-out;
         }
@@ -304,7 +295,9 @@
         </div>
     </div>
 </nav>
-<nav class="burger">
+<nav class="burger"
+_="on click toggle .burger-close on .burger
+                then toggle .wrapper_show on .wrapper">
     <span></span>
     <span></span>
     <span></span>

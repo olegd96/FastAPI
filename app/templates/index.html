@@ -29,9 +29,9 @@
 
 </head>
 
-<body id="main">
+<body id="main" hx-ext="ws" ws-connect="/chat/ws/{{ids}}">
     <div id="nav_box">
-        <div class="inisible" hx-post="/auth/refresh" hx-swap="none" hx-trigger="load"
+        <div class="invisible" hx-post="/auth/refresh" hx-swap="none" hx-trigger="load"
             hx-on::after-request="refresh_nav()"></div>
         <nav id="nav" class="nav">
             <span class="logo" hx-get="/pages/banners" hx-swap="innerHTML transition:true"
@@ -65,7 +65,9 @@
                 </div>
             </div>
         </nav>
-        <nav class="burger">
+        <nav class="burger"
+        _="on click add .burger-close to .burger
+                then add .wrapper_show to .wrapper">
             <span></span>
             <span></span>
             <span></span>
@@ -85,7 +87,7 @@
     <div id="login_bar" class="login_bar"></div>
     <div id="bookings_list" class="bookings_list" hx-get="/pages/banners" hx-swap="innerHTML transition:true"
     hx-indicator="#progress_1" hx-trigger="load once"></div>
-    <div class="service" hx-ext="ws" ws-connect="/chat/ws/{{ids}}">
+    <div class="service" >
         <div class="serv_name" 
         _="on click
         add .is-visible to .chat
@@ -158,24 +160,8 @@
         </div>
     </dialog>
 
-    <script>
-        // client_id = Date.now()
-        // ws = new WebSocket(`ws://localhost:8000/chat/ws/${client_id}`);
-
-        // ws.onmessage = function(event) {
-        //     let messages = document.getElementById('chat_field')
-        //     let message = document.createElement('li')
-        //     let mes_content = document.createElement('div')
-        //     let content = document.createTextNode(event.data)
-        //     mes_content.appendChild(content)
-        //     message.appendChild(mes_content)
-        //     messages.appendChild(message)
-        //     let chat = document.getElementById('history')
-        //     chat.scrollTop = chat.scrollHeight
-
-        // };
+    <script>      
         
-
         function clearInput() {
             var input = document.getElementById("chat_message");
             input.value = '';
@@ -204,6 +190,11 @@
                 toggleTwoClasses(dlg, "is-visible", "is-hidden", 500);
                 dlg.close();
                 dlg.style.display = "";
+            }
+            if (e.code === "Escape" && popup.classList.contains("is-visible")) {
+                toggleTwoClasses(popup, "is-visible", "is-hidden", 500);
+                popup.close();
+                popup.style.display = "";
             }
         });
 
@@ -334,18 +325,7 @@
             const handleModalClick = undefined;
         };
 
-        // let brgr = document.querySelector('.burger');
-        // let wrapper = document.querySelector('.wrapper');
-        // let nav_lab = document.getElementsByClassName('nav_lab');
-        document.addEventListener("DOMContentLoaded", booking_menu_scr());
-
-
-
-    // nav_box.addEventListener('DOMContentLoaded', () => {
-        
-    //     booking_menu_scr();
-    
-
+        // document.addEventListener("DOMContentLoaded", booking_menu_scr());
     </script>
 </body>
 

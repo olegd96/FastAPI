@@ -27,10 +27,12 @@
         </form>
     </div>
     <script>
-        let par = document.getElementById("chat_room");
+        let chat_field = document.getElementById("history");
         document.body.addEventListener("htmx:wsBeforeMessage", (data) => {  
             par.insertAdjacentHTML('beforeend', data.detail.message);
         })
+            
+        
     </script>
 </body>
 </html>

@@ -258,7 +258,7 @@
 {% for item in bookings|sort(attribute="id") %}
 {% if item.date_from >= date %}
 <div class="book_cart" id={{item.room_id}}
-_="on intersection(intersecting) having threshold 0.5
+_="on intersection(intersecting) having threshold 0.2
                     if intersecting transition opacity to 1
                     else transition opacity to 0 ">
     {% else %}
@@ -267,8 +267,8 @@ _="on intersection(intersecting) having threshold 0.5
         <div class="info">
             <div class="pic">
                 {% if item.date_from >= date %}
-                <input type="checkbox" name={{item.id}} value={{item.room_id ~ '/' ~ item.date_from ~ '/' ~
-                    item.date_to}} class="choice" checked="true">
+                <input type="checkbox" name={{item.id}} value="{{item.room_id}}/{{item.date_from}}/
+                    {{item.date_to}}" class="choice" checked="true">
                 {% else %}
                 <input type="checkbox" name={{item.id}} value={{item.room_id}} class="choice" disabled="true">
                 {% endif %}

@@ -151,8 +151,10 @@ class FavDao(BaseDAO):
 
         async with async_session_maker() as session:
             rooms = await session.execute(room_query)
-            count_res = rooms.scalars().one()
-            return count_res
+            count_res = rooms.scalars().one_or_none()
+            if count_res:
+                return count_res
+            return 0
 
     @classmethod
     async def get_fav_by_date(

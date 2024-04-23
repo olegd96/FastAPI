@@ -226,8 +226,10 @@ class BookingDAO(BaseDAO):
             )
 
             past_bookings = await session.execute(query)
-            past_bookings = past_bookings.scalars().one()
-            return past_bookings
+            past_bookings = past_bookings.scalars().one_or_none()
+            if past_bookings:
+                return past_bookings
+            return 0
 
 
     @classmethod

@@ -130,7 +130,10 @@ class HotelsDAO(BaseDAO):
         
         async with async_session_maker() as session:
             hotels_count = await session.execute(get_hotels_count)
-            return hotels_count.scalars().one()
+            hotels_res = hotels_count.scalars().one_or_none()
+            if hotels_res:
+                return hotels_res
+            return 0
 
 
     @classmethod

@@ -1,7 +1,7 @@
 venv
 .venv
 
-.env-non-dev
+
 __pycache__
 .vscode
 

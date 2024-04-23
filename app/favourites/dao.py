@@ -95,8 +95,8 @@ class FavDao(BaseDAO):
     @classmethod
     async def get_all_fav(
         cls,
-        limit = None,
-        offset = None,
+        limit=None,
+        offset=None,
         **filter,
     ):
         # room_query = (
@@ -146,8 +146,8 @@ class FavDao(BaseDAO):
         **filter,
     ):
         room_query = (select(func.count(Favourites.user_id))
-                        .filter_by(**filter)
-                        ).group_by(Favourites.user_id)
+                      .filter_by(**filter)
+                      ).group_by(Favourites.user_id)
 
         async with async_session_maker() as session:
             rooms = await session.execute(room_query)
@@ -164,7 +164,8 @@ class FavDao(BaseDAO):
         **filter_by,
     ):
         booked = select(Rooms.__table__.columns,
-                        (Rooms.quantity - func.count(Bookings.room_id)).label("rooms_left"),
+                        (Rooms.quantity - func.count(Bookings.room_id)
+                         ).label("rooms_left"),
                         ).select_from(Rooms).join(
             Bookings, Bookings.room_id == Rooms.id
         ).where(

@@ -86,8 +86,11 @@
     </div>
     </div>
     <div id="login_bar" class="login_bar"></div>
-    <div id="bookings_list" class="bookings_list" hx-get="/pages/banners" hx-swap="innerHTML transition:true"
-    hx-indicator="#progress_1" hx-trigger="load once"></div>
+    <div id="bookings_list" class="bookings_list" >
+        <div hx-get="/pages/banners" hx-swap="innerHTML transition:true"
+            hx-target="#bookings_list"
+                hx-indicator="#progress_1" hx-trigger="load once"></divhx-get></div>
+    </div>
     <div class="service" >
         <div class="serv_name" 
         _="on click

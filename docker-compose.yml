@@ -48,7 +48,7 @@ services:
       context: .
     container_name: booking_celery
     # command: ["/booking/docker/celery.sh", "celery"]
-    command: sh -c "celery --app=app.tasks.celery:celery worker -l INFO"
+    command: sh -c "celery --app=app.tasks.celery:celery worker  --workdir=.  -l INFO"
     env_file:
       - .env-non-dev
     depends_on:
@@ -60,7 +60,7 @@ services:
       context: .
     container_name: booking_celery_beat
     #command: ["/booking/docker/celery.sh", "celery_beat"]
-    command: sh -c "celery --app=app.tasks.celery:celery worker -l INFO -B"
+    command: sh -c "celery --app=app.tasks.celery:celery worker  --workdir=. -l INFO -B"
     env_file:
       - .env-non-dev
     depends_on:

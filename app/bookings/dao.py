@@ -217,16 +217,16 @@ class BookingDAO(BaseDAO):
     async def count_all_past(cls, user: Users):
         async with async_session_maker() as session:
             query = (
-                select(Bookings)
+                select(func.count(Bookings.user_id))
                 .filter(
                     and_(Bookings.date_to <= date.today(),
                          Bookings.deleted == False,
                          Bookings.user_id == user.id)
-                )
+                ).group_by(Bookings.user_id)
             )
 
             past_bookings = await session.execute(query)
-            past_bookings = len(past_bookings.scalars().all())
+            past_bookings = past_bookings.scalars().one()
             return past_bookings
 
 

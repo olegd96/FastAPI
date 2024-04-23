@@ -145,13 +145,13 @@ class FavDao(BaseDAO):
         cls,
         **filter,
     ):
-        room_query = (select(Favourites)
+        room_query = (select(func.count(Favourites.user_id))
                         .filter_by(**filter)
-                        )
+                        ).group_by(Favourites.user_id)
 
         async with async_session_maker() as session:
             rooms = await session.execute(room_query)
-            count_res = len(rooms.scalars().all())
+            count_res = rooms.scalars().one()
             return count_res
 
     @classmethod

@@ -126,9 +126,11 @@ class HotelsDAO(BaseDAO):
                                         )
                                         )
         
+        get_hotels_count = select(func.count()).select_from(get_hotels_with_rooms)
+        
         async with async_session_maker() as session:
-            hotels_count = await session.execute(get_hotels_with_rooms)
-            return len(hotels_count.scalars().all())
+            hotels_count = await session.execute(get_hotels_count)
+            return hotels_count.scalars().one()
 
 
     @classmethod

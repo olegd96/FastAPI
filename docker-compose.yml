@@ -48,6 +48,8 @@ services:
       context: .
     container_name: booking_celery
     # command: ["/booking/docker/celery.sh", "celery"]
+    volumes:
+      - .:/booking
     command: sh -c "celery --app=app.tasks.celery:celery worker -l INFO"
     env_file:
       - .env-non-dev

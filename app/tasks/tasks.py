@@ -28,8 +28,8 @@ def process_pic(
     im = Image.open(im_path)
     im_resized_500_300 = im.resize((500, 300))
     im_resized_200_100 = im.resize((200, 200))
-    im_resized_500_300.save(f"app/static/images/resized_500_300_{im_path.name}")
-    im_resized_200_100.save(f"app/static/images/resized_200_100_{im_path.name}")
+    im_resized_500_300.save(f"./static/images/resized_500_300_{im_path.name}")
+    im_resized_200_100.save(f"./static/images/resized_200_100_{im_path.name}")
 
 
 @celery.task

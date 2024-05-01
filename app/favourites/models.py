@@ -1,7 +1,13 @@
 import uuid
+from typing import TYPE_CHECKING
 from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint
 from app.database import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+if TYPE_CHECKING:
+    from app.hotels.models import Hotels
+    from app.users.models import Users
+    from app.hotels.rooms.models import Rooms
 
 
 class Favourites(Base):

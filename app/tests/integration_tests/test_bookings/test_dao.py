@@ -1,10 +1,10 @@
 from datetime import datetime
+from typing import Literal
 import uuid
 
 from app.bookings.dao import BookingDAO
 
 import pytest
-
 
 @pytest.mark.parametrize("user_id, room_id, date_from, date_to", [
     ("3ede3539-f445-44fc-a81a-d036672603c8", 2, "2030-06-15", "2030-06-20"),
@@ -13,7 +13,7 @@ import pytest
     ("3ede3539-f445-44fc-a81a-d036672603b9", 4, "2030-06-15", "2030-06-20"),
 
 ])
-async def test_bookings_crud(user_id, room_id, date_from, date_to):
+async def test_bookings_crud(user_id: Literal['3ede3539-f445-44fc-a81a-d036672603c8'] | Literal['3ede3539-f445-44fc-a81a-d036672603b9'], room_id: Literal[2] | Literal[3] | Literal[4], date_from: Literal['2030-06-15'], date_to: Literal['2030-06-20']):
     new_booking = await BookingDAO.add(
         user_id=uuid.UUID(user_id),
         room_id=room_id,

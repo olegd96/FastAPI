@@ -1,10 +1,11 @@
 from datetime import date, datetime, timedelta
 from fastapi_cache.decorator import cache
 from typing import List, Optional
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, BackgroundTasks, Query
 from app.hotels.dao import HotelsDAO
 from app.hotels.models import Hotels
 from app.hotels.schemas import SHotels, SHotelsInfo
+from app.tasks.scheduled import send_cities_to_broker
 
 
 
@@ -27,6 +28,10 @@ async def get_location(
     res = await HotelsDAO.find_location(location=location)
     return res
 
+@router.get("/find_all")
+async def find_all(background_task: BackgroundTasks):
+    await send_cities_to_broker()
+
 
 @router.get("/{location}")
 @cache(expire=150)
@@ -47,6 +52,8 @@ async def get_hotel_by_id(
     hotel_id: int) -> Optional[SHotels]:
     res = await HotelsDAO.find_one_or_none(id=hotel_id)
     return res
+
+
 
 
          

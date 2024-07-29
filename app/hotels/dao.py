@@ -142,10 +142,10 @@ class HotelsDAO(BaseDAO):
         location: str,
     ):
         location_query = (
-            select(Hotels.location)
-            .order_by(desc(Hotels.location))
+            select(Hotels.city)
+            .order_by(desc(Hotels.city))
             .filter(
-                Hotels.location.ilike(f"%{location}%")
+                Hotels.city.ilike(f"%{location}%")
             )
     
         )
@@ -153,6 +153,20 @@ class HotelsDAO(BaseDAO):
         async with async_session_maker() as session:
             locations = await session.execute(location_query)
             locations = locations.unique().scalars().all()
+            return locations
+        
+    @classmethod
+    async def find_all_location(
+        cls
+    ):
+        locations_query = (
+            select(Hotels.city)
+            .distinct()
+        )
+
+        async with async_session_maker() as session:
+            locations = await session.execute(locations_query)
+            locations = locations.scalars().all()
             return locations
 
     

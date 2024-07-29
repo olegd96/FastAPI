@@ -13,6 +13,11 @@ class Settings(BaseSettings):
     DB_PASS: str
     DB_NAME: str
 
+    BROKER_HOST: str
+    BROKER_PORT: str
+    BROKER_USER: str
+    BROKER_PASSWORD: str
+
     SECRET_KEY: str
     ALGORITHM: str
 
@@ -33,6 +38,17 @@ class Settings(BaseSettings):
     TEST_DB_PASS: str
     TEST_DB_NAME: str
 
+    MONGO_HOST: str
+    MONGO_PORT: int
+    MONGO_USER: str
+    MONGO_PASSWORD: str
+    MONGO_NAME: str
+
+    S3_HOST: str
+    S3_ACCESS_KEY: str
+    S3_SECRET_KEY: str
+    S3_BUCKET_NAME: str
+
     @property
     def DATABASE_URL(self):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
@@ -40,6 +56,22 @@ class Settings(BaseSettings):
     @property
     def TEST_DATABASE_URL(self):
         return f"postgresql+asyncpg://{self.TEST_DB_USER}:{self.TEST_DB_PASS}@{self.TEST_DB_HOST}:{self.TEST_DB_PORT}/{self.TEST_DB_NAME}"
+
+    @property
+    def BROKER_URL(self):
+        return f"amqp://{self.BROKER_USER}:{self.BROKER_PASSWORD}@{self.BROKER_HOST}:{self.BROKER_PORT}/"
+
+    @property
+    def MONGO_URL(self):
+        return f"{self.MONGO_NAME}://{self.MONGO_HOST}:{self.MONGO_PORT}"
+    
+    @property
+    def S3_URL(self):
+        return f"https://{self.S3_HOST}"
+    
+    @property
+    def S3_PREFIX(self):
+        return f"https://{self.S3_HOST}/{self.S3_BUCKET_NAME}/"
 
 
     model_config = SettingsConfigDict(env_file=".env")

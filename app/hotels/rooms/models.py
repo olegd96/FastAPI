@@ -4,10 +4,10 @@ from sqlalchemy.orm import mapped_column, Mapped, relationship
 from app.database import Base
 
 if TYPE_CHECKING:
-    from hotels.models import Hotels
-    from favourites.models import Favourites
-    from bookings.models import Bookings
-    from cart.models import Carts 
+    from app.hotels.models import Hotels
+    from app.favourites.models import Favourites
+    from app.bookings.models import Bookings
+    from app.cart.models import Carts 
 
 class Rooms(Base):
     __tablename__ = "rooms"

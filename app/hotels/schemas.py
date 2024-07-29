@@ -4,6 +4,7 @@ from typing import List
 class SHotels(BaseModel):
     id: int
     name: str
+    city: str
     location: str
     services: List[str]
     rooms_quantity: int

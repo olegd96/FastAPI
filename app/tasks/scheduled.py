@@ -1,5 +1,7 @@
 import celery
 from app.cart.dao import CartDao
+from app.hotels.dao import HotelsDAO
+from app.hotels.models import Hotels
 from app.tasks.celery import celery
 from app.bookings.dao import BookingDAO
 from app.tasks.email_templates import create_booking_notice_template
@@ -7,6 +9,7 @@ from app.config import settings
 from app.loger import logger
 import smtplib
 import asyncio
+import aio_pika
 
 from app.users.service import AuthService
 
@@ -32,6 +35,33 @@ async def notice(days: int):
             for msg_content in msgs:
                 server.send_message(msg_content)
         logger.info("Successfully sent reminding messages")
+
+async def send_cities_to_broker() -> None:
+        cities = await HotelsDAO.find_all_location()
+        if cities:
+        # cities = ['Vladivostok', 'Moscow', 'New York', 'London', 'Berlin', 'Madrid', 'Paris', 'Oslo', 'Stockholm', 'San Francisco', 'Amsterdam', 'Novosibirsk', 'Perm', 'Oslobn', 'Marcel']
+            connection: aio_pika.abc.AbstractRobustConnection = await aio_pika.connect_robust(settings.BROKER_URL)
+            queue_name = 'city_queue'
+            
+            async with connection:
+                channel = await connection.channel()
+                city_exchange = await channel.declare_exchange(name="city_exchange", 
+                                                        type=aio_pika.ExchangeType.DIRECT,
+                                                        durable=True)
+                cities_tasks = []
+                while cities:
+                        cities_tasks.append(asyncio.create_task(
+                        city_exchange.publish(
+                        aio_pika.Message(
+                        body=f"{cities.pop(0)}".encode(),
+                        delivery_mode=aio_pika.DeliveryMode.PERSISTENT),
+                        routing_key=queue_name
+                    ))
+                        )
+                await asyncio.gather(*cities_tasks)
+                channel.close()
+            connection.close()
+            logger.info("Successfully sent cities list") 
 
 async def del_old_tokens():
     logger.debug("delete_tokens=")
@@ -62,6 +92,10 @@ def periodic_task_3():
 @celery.task(name="delete_old_book_from_cart")
 def periodic_task_4():
     asyncio.run(del_book_from_cart(180))
+
+@celery.task(name="send_cities_to_broker")
+def periodic_task_5():
+    asyncio.run(send_cities_to_broker())
     
 
 

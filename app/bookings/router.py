@@ -1,7 +1,6 @@
 import asyncio
 from datetime import date, datetime, timedelta
 from typing import List
-from urllib import response
 
 from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse

@@ -4,9 +4,15 @@ RUN mkdir /booking
 
 WORKDIR /booking
 
-COPY requirements.txt .
+COPY pyproject.toml .
 
-RUN pip install -r requirements.txt
+COPY poetry.lock .
+
+RUN pip install poetry
+
+RUN poetry config virtualenvs.create false
+
+RUN poetry install --no-dev --no-interaction
 
 COPY . .
 

@@ -1,3 +1,4 @@
+from typing import TYPE_CHECKING
 import uuid
 from datetime import date, datetime
 
@@ -16,6 +17,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
 
+if TYPE_CHECKING:
+    from app.users.models import Users
+    from app.hotels.rooms.models import Rooms
 
 class Bookings(Base):
     __tablename__ = "bookings"

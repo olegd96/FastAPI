@@ -44,6 +44,7 @@ from app.prometheus.router import router as prometheus_router
 from app.users.models import Users
 from app.users.router import router_auth, router_users
 from app.web_socket.router import router as router_chat
+from app.S3.router import router as router_s3
 
 
 @asynccontextmanager
@@ -70,6 +71,7 @@ app.include_router(prometheus_router)
 app.include_router(router_cart)
 app.include_router(router_fav)
 app.include_router(router_chat)
+app.include_router(router_s3)
 
 
 sentry_sdk.init(
@@ -81,6 +83,7 @@ sentry_sdk.init(
 origins = [
     # 3000 - порт, на котором работает фронтенд на React.js
     "http://localhost:3000",
+    "http://localhost",
 ]
 
 app.add_middleware(

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "fastapi"
+name = "fastapi_app"
 version = "0.1.0"
 description = ""
 authors = ["olegd96 <chepalin@yandex.ru>"]
@@ -36,6 +36,7 @@ distlib = "0.3.7"
 dnspython = "2.4.2"
 ecdsa = "0.18.0"
 email-validator = "2.1.0.post1"
+fastapi = "0.104.1"
 fastapi-cache2 = "0.2.1"
 fastui = "0.2.0"
 filelock = "3.13.1"
@@ -116,6 +117,12 @@ wcwidth = "0.2.12"
 websockets = "12.0"
 wtforms = "3.1.1"
 yarl = "1.9.4"
+aiobotocore = "2.12.3"
+fastapi-cli = "^0.0.4"
+aio-pika = "^9.4.2"
+motor = "^3.5.1"
+fastapi-versioning = "^0.10.0"
+prometheus-fastapi-instrumentator = "6.1.0"
 
 
 

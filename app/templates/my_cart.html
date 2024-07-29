@@ -272,7 +272,7 @@ _="on intersection(intersecting) having threshold 0.2
                 {% else %}
                 <input type="checkbox" name={{item.id}} value={{item.room_id}} class="choice" disabled="true">
                 {% endif %}
-                <img class="img_cart" src="/static/images/resized_500_300_{{item.image_id}}.webp"
+                <img class="img_cart" src="{{s3}}resized_500_300_{{item.image_id}}.webp"
                     onerror="this.src='/static/images/simple-booking.jpg';">
             </div>
             {% if item.date_from < date %} <div class="unavailable">В данный момент вариант недоступен

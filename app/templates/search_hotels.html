@@ -214,6 +214,14 @@
     justify-content:space-between;
     margin:5px;
   }
+
+  .red {
+    background-color: #FFE3E3;
+  }
+
+  .white {
+    background-color: white;
+  }
 }
 
 </style>
@@ -246,7 +254,9 @@
             <input type="date" class="search_date" name="date_to" id="date_to">
         </div>
         </div>
-        <button class="search_button" hx-get="/pages/hotels" 
+        <button class="search_button"
+        _='on click if #loc.value is empty add .red to #loc else remove .red from #loc end'
+        hx-get="/pages/hotels" 
         hx-include="#loc, #date_from, #date_to" 
         hx-target="#hotels"
         hx-indicator="#progress_1"

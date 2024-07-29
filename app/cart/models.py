@@ -3,7 +3,11 @@ import uuid
 from sqlalchemy import Boolean, Integer, ForeignKey, Date, Computed, String, text
 from app.database import Base
 from sqlalchemy.orm import Mapped, relationship, mapped_column
-from app.bookings.models import Bookings
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from app.users.models import Users
+    from app.hotels.rooms.models import Rooms
 
 class Carts(Base):
 

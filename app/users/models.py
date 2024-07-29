@@ -1,13 +1,17 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 import uuid
 from sqlalchemy import JSON, ForeignKey, Integer, Column, String
 from sqlalchemy.orm import mapped_column, Mapped, relationship
 from sqlalchemy.dialects.postgresql import UUID
 import sqlalchemy as sa
 from sqlalchemy.sql import func
-
 from app.database import Base
 
+if TYPE_CHECKING:
+    from app.bookings.models import Bookings
+    from app.cart.models import Carts
+    from app.favourites.models import Favourites
 
 class Users(Base):
     __tablename__= "users"

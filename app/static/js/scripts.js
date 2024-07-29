@@ -163,7 +163,7 @@ async function refresh_nav() {
                         .then(response => {
                             if (response.status === 200) {            
                                 (response.text())
-                                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv);_hyperscript.processNode(myDiv); });} 
+                                .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); _hyperscript.processNode(myDiv); });} 
                                 // booking_menu_scr();                  
                 })
             }})
@@ -178,7 +178,7 @@ async function refresh_anon_nav() {
         .then(response => {
             if (response.status === 200) {
             (response.text())
-            .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); });
+            .then(data => { myDiv.innerHTML = data, htmx.process(myDiv); _hyperscript.processNode(myDiv); });
             // booking_menu_scr();
         }   
     })

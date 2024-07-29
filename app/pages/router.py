@@ -5,6 +5,7 @@ import uuid
 from fastapi import APIRouter, Depends, Request, Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
+from pydantic import TypeAdapter
 from app.bookings.dao import BookingDAO
 from app.bookings.models import Bookings
 from app.bookings.schemas import SBookingInfo, SBookingRate
@@ -23,6 +24,9 @@ from app.users.models import Users
 
 
 from app.users.models import Users
+from app.weather.schemas import Location, Weather
+from app.weather.service import WeatherService
+from app.config import settings
 
 router = APIRouter(
     prefix="/pages",
@@ -44,7 +48,7 @@ async def start_page(
             response.set_cookie("cart", anonimous_id, httponly=True)
     len_cart = len(await CartDao.find_all_with_images(anonimous_id=anonimous_id))
     len_fav = len(await FavDao.find_all(anonimous_id=anonimous_id))
-    return templates.TemplateResponse("index.html", {"request": request, "cart_count": len_cart, "fav_count": len_fav, "ids":anonimous_id})
+    return templates.TemplateResponse("index.html", {"request": request, "cart_count": len_cart, "fav_count": len_fav, "ids":anonimous_id, "s3": settings.S3_PREFIX})
 
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request, valid = Depends(check_valid_request)):
@@ -89,7 +93,7 @@ async def my_bookings(
     user: Users = Depends(get_current_user),
     ):
     res = await BookingDAO.find_all_with_images(user_id=user.id)
-    return templates.TemplateResponse("my_bookings.html", {"request": request, "bookings": res})
+    return templates.TemplateResponse("my_bookings.html", {"request": request, "bookings": res, "s3": settings.S3_PREFIX})
 
 
 @router.get("/hotels", response_class=HTMLResponse)
@@ -103,7 +107,11 @@ async def get_hotels_by_loc_date(request: Request,
         raise CannotBookHotelForLongPeriod
     res = await HotelsDAO.find_all(location, date_from, date_to, limit, offset)
     count = await HotelsDAO.hotels_count(location, date_from, date_to)
-    return templates.TemplateResponse("hotels_by_loc_and_time.html", {"request": request, "hotels": res, "offset": offset, "count": count})
+    if location:
+        weather = await WeatherService.get_weather(location)
+    else:
+        weather = Weather(location='', temp=0, condition_text='', condition_img='')
+    return templates.TemplateResponse("hotels_by_loc_and_time.html", {"request": request, "hotels": res, "offset": offset, "count": count, 'weather': weather, "s3": settings.S3_PREFIX})
 
 
 @router.get("/hotel/id/{hotel_id}", response_class=HTMLResponse)
@@ -113,7 +121,7 @@ async def get_hotel_by_id(
     valid = Depends(check_valid_request),
 ):  
     res = await HotelsDAO.find_one_or_none(id=hotel_id)
-    return templates.TemplateResponse("hotel.html", {"request": request, "hotel": res})
+    return templates.TemplateResponse("hotel.html", {"request": request, "hotel": res, "s3": settings.S3_PREFIX})
 
 
 @router.get("/search", response_class=HTMLResponse)
@@ -144,7 +152,7 @@ async def get_rooms_by__date(
         fav = await FavDao.find_all(anonimous_id=anonimous_id)
     fav = [f.room_id for f in fav]
     res = await RoomsDAO.find_all(hotel_id, date_from, date_to)
-    return templates.TemplateResponse("rooms_by__time.html", {"request": request, "rooms": res, "fav": fav})
+    return templates.TemplateResponse("rooms_by__time.html", {"request": request, "rooms": res, "fav": fav, "s3": settings.S3_PREFIX})
 
     
 @router.get("/cart", response_class=HTMLResponse)
@@ -156,7 +164,7 @@ async def get_my_cart(
     res = await CartDao.find_all_with_images(user_id=user.id)
     fav = await FavDao.find_all(user_id=user.id)
     fav = [f.room_id for f in fav]
-    return templates.TemplateResponse("my_cart.html", {"request": request, "bookings": res, "date": datetime.now().date(), "fav": fav})
+    return templates.TemplateResponse("my_cart.html", {"request": request, "bookings": res, "date": datetime.now().date(), "fav": fav, "s3": settings.S3_PREFIX})
 
 
 @router.get("/cart/anon", response_class=HTMLResponse)
@@ -169,7 +177,7 @@ async def get_anon_cart(
         anonimous_id = str(uuid.uuid4())
         response.set_cookie("cart", anonimous_id, httponly=True)
     res = await CartDao.find_all_with_images(anonimous_id=anonimous_id)
-    return templates.TemplateResponse("anon_cart.html", {"request": request, "bookings": res, "date": datetime.now().date()})
+    return templates.TemplateResponse("anon_cart.html", {"request": request, "bookings": res, "date": datetime.now().date(), "s3": settings.S3_PREFIX})
 
 
 @router.get("/my_fav", response_class=HTMLResponse)
@@ -182,7 +190,7 @@ async def get_my_fav(
 ):
     res = await FavDao.get_all_fav(limit, offset, user_id=user.id)
     count = await FavDao.count_all_fav(user_id = user.id)
-    return templates.TemplateResponse("all_my_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count})
+    return templates.TemplateResponse("all_my_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count, "s3": settings.S3_PREFIX})
 
 
 @router.get("/my_fav_next", response_class=HTMLResponse)
@@ -195,7 +203,7 @@ async def get_my_fav(
 ):
     res = await FavDao.get_all_fav(limit, offset, user_id=user.id)
     count = await FavDao.count_all_fav(user_id = user.id)
-    return templates.TemplateResponse("next_my_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count})
+    return templates.TemplateResponse("next_my_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count, "s3": settings.S3_PREFIX})
 
 
 @router.get("/anon_fav", response_class=HTMLResponse)
@@ -211,7 +219,7 @@ async def get_anon_fav(
         response.set_cookie("cart", anonimous_id, httponly=True)
     res = await FavDao.get_all_fav(limit, offset, anonimous_id=anonimous_id)
     count = await FavDao.count_all_fav(anonimous_id=anonimous_id)
-    return templates.TemplateResponse("all_anon_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count})
+    return templates.TemplateResponse("all_anon_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count, "s3": settings.S3_PREFIX})
 
 
 @router.get("/anon_fav_next", response_class=HTMLResponse)
@@ -227,7 +235,7 @@ async def get_my_fav(
         response.set_cookie("cart", anonimous_id, httponly=True)
     res = await FavDao.get_all_fav(limit, offset, anonimous_id=anonimous_id)
     count = await FavDao.count_all_fav(anonimous_id=anonimous_id)
-    return templates.TemplateResponse("next_anon_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count})
+    return templates.TemplateResponse("next_anon_fav.html", {"request": request, "rooms": res, "offset": offset, "count": count, "s3": settings.S3_PREFIX})
 
 
 @router.get("/fav_by_date")
@@ -243,7 +251,7 @@ async def get_fav_by_date(
     if (date_to - date_from).days > 31:
         raise CannotBookHotelForLongPeriod 
     res = await FavDao.get_fav_by_date(date_from, date_to, user_id=user.id)
-    return templates.TemplateResponse("all_my_fav_by_date.html", {"request": request, "rooms": res})
+    return templates.TemplateResponse("all_my_fav_by_date.html", {"request": request, "rooms": res, "s3": settings.S3_PREFIX})
 
 @router.get("/anon_fav_by_date", response_class=HTMLResponse)
 async def get_anon_fav_by_date(
@@ -261,7 +269,7 @@ async def get_anon_fav_by_date(
         anonimous_id = str(uuid.uuid4())
         response.set_cookie("cart", anonimous_id, httponly=True)
     res = await FavDao.get_fav_by_date(date_from, date_to, anonimous_id=anonimous_id)
-    return templates.TemplateResponse("all_my_fav_by_date.html", {"request": request, "rooms": res})
+    return templates.TemplateResponse("all_my_fav_by_date.html", {"request": request, "rooms": res, "s3": settings.S3_PREFIX})
 
 @router.get("/personal_account", response_class=HTMLResponse)
 async def personal_account(
@@ -289,7 +297,8 @@ async def personal_account_archive(
                                        "past_book": past_bookings, 
                                        "fav": fav, 
                                        "count": count_past_bookings,
-                                       "offset": offset})
+                                       "offset": offset,
+                                       "s3": settings.S3_PREFIX})
 
 @router.get("/personal_account_archive_next", response_class=HTMLResponse)
 async def personal_account_archive(
@@ -308,7 +317,8 @@ async def personal_account_archive(
                                        "past_book": past_bookings, 
                                        "fav": fav, 
                                        "count": count_past_bookings,
-                                       "offset": offset})
+                                       "offset": offset,
+                                       "s3": settings.S3_PREFIX})
 
 
 @router.get("/personal_account_archive_by_date", response_class=HTMLResponse)
@@ -329,7 +339,7 @@ async def personal_account_by_date(
         date_to=date_to)
     fav = await FavDao.find_all(user_id=user.id)
     fav = [f.room_id for f in fav]
-    return templates.TemplateResponse("personal_account_archive_by_date.html", {"request": request, "past_book": past_bookings_by_date, "fav": fav})
+    return templates.TemplateResponse("personal_account_archive_by_date.html", {"request": request, "past_book": past_bookings_by_date, "fav": fav, "s3": settings.S3_PREFIX})
 
 @router.get("/loc_list", response_class=HTMLResponse)
 async def get_loc_list(
@@ -338,8 +348,8 @@ async def get_loc_list(
     valid = Depends(check_valid_request),
 ):  
     loc_list = await HotelsDAO.find_location(location=location)
-    if len(loc_list) > 0:
-        loc_list = [re.search(rf"([^,]*{location}[^,]*)", loc, re.IGNORECASE).group() for loc in loc_list]
+    # if len(loc_list) > 0:
+    #     loc_list = [re.search(rf"([^,]*{location}[^,]*)", loc, re.IGNORECASE).group() for loc in loc_list]
     return templates.TemplateResponse("loc_list.html", {"request": request, "loc_list": set(loc_list)})
 
 
@@ -350,7 +360,7 @@ async def get_most_popular(
 ):  
 
     popular_hotels = await BookingDAO.get_most_popular_location()
-    return templates.TemplateResponse("popular.html", {"request": request, "rooms_hotels": popular_hotels})
+    return templates.TemplateResponse("popular.html", {"request": request, "rooms_hotels": popular_hotels, "s3": settings.S3_PREFIX})
 
 
 @router.get("/editor", response_class=HTMLResponse)

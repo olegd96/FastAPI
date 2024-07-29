@@ -192,6 +192,22 @@
 
     .clear_box {
         height: 120px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .temp {
+        font-size: 20px;
+        font-weight: bold;
+        color: rgb(85, 85, 107);
+    }
+
+    .notice {
+        font-family: 'Montserrat', sans-serif;
+        align-items: center;
+        width: fit-content;
+        margin: auto;
     }
 
     @media screen and (max-width:680px) {
@@ -318,6 +334,7 @@
 </style>
 
 <div class="total">
+    {% if hotels %}
     {% for hotel in hotels|sort(attribute="name") %}
     <div class="hotel_paragraph" 
     _="on intersection(intersecting) having threshold 0.2
@@ -325,7 +342,7 @@
                     else transition opacity to 0 ">
         <div class="hotel_cart">
             <div class="hotel_img">
-                <img src="/static/images/resized_500_300_{{hotel.image_id}}.webp"
+                <img src="{{s3}}resized_500_300_{{hotel.image_id}}.webp"
                     onerror="src='/static/images/simple-booking.jpg';">
                 <div class="rate_box">
                     <label class="rate_label">
@@ -342,7 +359,7 @@
                     <div class="text_descr">
                     <div class="descr">
                         <h3>{{hotel.name}}</h3>
-                        <div>{{hotel.rate}}</div>
+                        <div>&#9733; {{hotel.rate}}</div>
                         <div>{{hotel.location}}</div>
                         <div><label>Свободных комнат: </label>{{hotel.rooms_left}}</div>
                     </div>
@@ -363,7 +380,14 @@
                         <div class="hotel_like" >
                            
                         </div>
-                        <div class="clear_box"></div>
+                        <div class="clear_box">
+                            {% if weather.location != '' %}
+                            <label class="temp">{{weather.temp}} &#176;C</label>
+                            <img alt="{{weather.condition_text}}"   src="{{weather.condition_img}}">
+                            {% else %}
+                            <div></div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -371,6 +395,9 @@
     </div>
     <div class="rooms_sec" id="roomss_cart{{hotel.id}}"></div>
     {% endfor %}
+    {% else %}
+    <label class="notice">Предложений не найдено</label>
+    {% endif %}
 </div>
 
 {% if count >= offset+3 %}

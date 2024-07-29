@@ -1,7 +1,7 @@
 from celery import Celery
-
-from app.config import settings
 from celery import schedules
+from app.config import settings
+
 
 celery = Celery(
     "tasks",
@@ -32,5 +32,10 @@ celery.conf.beat_schedule = {
     "app_periodic_tasks_3": {
         "task": "delete_old_book_from_cart",
         "schedule": schedules.crontab(minute="00", hour="23", day_of_month="1")
+    },
+
+    "app_periodic_tasks_3": {
+        "task": "send_cities_to_broker",
+        "schedule": schedules.crontab(minute=0, hour='*/1')
     },
 }

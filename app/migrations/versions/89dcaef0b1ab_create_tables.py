@@ -1,18 +1,18 @@
-"""Create all tables
+"""Create tables
 
-Revision ID: 90adf8ac3bdc
+Revision ID: 89dcaef0b1ab
 Revises: 
-Create Date: 2024-02-22 21:44:31.763628
+Create Date: 2024-07-30 23:02:36.397391
 
 """
 from typing import Sequence, Union
 
 from alembic import op
 import sqlalchemy as sa
-
+from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision: str = '90adf8ac3bdc'
+revision: str = '89dcaef0b1ab'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -23,12 +23,24 @@ def upgrade() -> None:
     op.create_table('hotels',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
+    sa.Column('city', sa.String(), nullable=False),
     sa.Column('location', sa.String(), nullable=False),
     sa.Column('services', sa.JSON(), nullable=False),
     sa.Column('rooms_quantity', sa.Integer(), nullable=False),
     sa.Column('image_id', sa.Integer(), nullable=False),
+    sa.Column('rate', sa.Float(), nullable=False),
+    sa.Column('tsv', postgresql.TSVECTOR(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
+    op.execute('''
+        CREATE OR REPLACE TRIGGER search_location
+        BEFORE INSERT OR UPDATE 
+        ON public.hotels
+        FOR EACH ROW
+        EXECUTE FUNCTION tsvector_update_trigger('tsv', 'pg_catalog.russian', 'city');
+               '''
+    )
+    op.create_index('ts_city', 'hotels', ['tsv'], unique=False, postgresql_using='gin')
     op.create_table('users',
     sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
@@ -76,6 +88,7 @@ def upgrade() -> None:
     sa.Column('total_days', sa.Integer(), sa.Computed('date_to - date_from', ), nullable=False),
     sa.Column('deleted', sa.Boolean(), nullable=False),
     sa.Column('created', sa.DateTime(), server_default=sa.text("TIMEZONE('utc', now())"), nullable=False),
+    sa.Column('rate', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['room_id'], ['rooms.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
@@ -123,5 +136,7 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_users_id'), table_name='users')
     op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_table('users')
+    op.drop_index('ts_city', table_name='hotels', postgresql_using='gin')
     op.drop_table('hotels')
+    op.execute('DROP TRIGGER IF EXISTS search_location')
     # ### end Alembic commands ###

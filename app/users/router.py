@@ -45,8 +45,8 @@ async def register_user(user: SUserReg):
             hashed_password=hashed_password).model_dump())
     if not new_user:
         raise CannotAddDataToDatabase
-    send_registration_confirmation_email.delay(new_user.id,
-                                               user.email,
+    send_registration_confirmation_email.delay(user_id=new_user.id,
+                                               email_to=user.email,
                                                )
     return new_user
 

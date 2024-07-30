@@ -48,6 +48,7 @@ def process_pic(
 
 @celery.task
 def send_booking_confirmation_email(
+    *args, 
     booking: dict,
     email_to: EmailStr,
 ):
@@ -58,6 +59,7 @@ def send_booking_confirmation_email(
 
 @celery.task(bind=True, default_retry_delay=300, max_retries=5)
 def send_registration_confirmation_email(
+    *args, 
     user_id: uuid.UUID,
     email_to: EmailStr,
 ):

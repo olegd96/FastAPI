@@ -123,6 +123,7 @@ aio-pika = "^9.4.2"
 motor = "^3.5.1"
 fastapi-versioning = "^0.10.0"
 prometheus-fastapi-instrumentator = "6.1.0"
+pytest-cov = "^5.0.0"
 
 
 

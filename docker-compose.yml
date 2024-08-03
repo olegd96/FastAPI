@@ -12,6 +12,8 @@ services:
       - booking
       - flower
       - celery
+      # - elasticsearch
+      # - kibana
     networks:
       - booking_network
 
@@ -41,12 +43,14 @@ services:
       context: .
     container_name: booking_app
     volumes:
+      - ./fastapi-logs:/booking/app/logs
       - shared-volume:/booking
     env_file:
       - .env
     depends_on:
       - db
       - redis
+      - elasticsearch
     # command: ["/booking/docker/app.sh"]
     command: sh -c "alembic upgrade head && gunicorn app.main:app --workers 1 --worker-class uvicorn.workers.UvicornWorker --bind=0.0.0.0:8000"
     # ports:
@@ -102,6 +106,38 @@ services:
     networks:
       - booking_network
 
+  elasticsearch:
+    image: elasticsearch:7.17.23
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+    networks:
+      - booking_network
+
+  kibana:
+    image: kibana:7.17.23
+    container_name: kibana
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    networks:
+      - booking_network
+
+  filebeat:
+    build:
+      context: ./filebeat
+    container_name: filebeat
+    volumes:
+      - ./fastapi-logs:/booking/app/logs
+    depends_on:
+      - elasticsearch
+      - kibana
+    networks:
+      - booking_network
+
   # prometheus:
   #   image: prom/prometheus:v2.43.0
   #   container_name: prometheus
@@ -126,6 +162,8 @@ volumes:
   # grafanadata:
   # prometheusdata:
   shared-volume:
+  elasticsearch_data:
+    driver: local
 
 networks:
   booking_network:

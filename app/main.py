@@ -45,13 +45,16 @@ from app.users.models import Users
 from app.users.router import router_auth, router_users
 from app.web_socket.router import router as router_chat
 from app.S3.router import router as router_s3
+from app.loger import logger
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}")
     FastAPICache.init(RedisBackend(redis), prefix="cache")
+    logger.info(msg="start_app")
     yield
+    logger.info(msg="shutdown_app")
 
 app = FastAPI(lifespan=lifespan)
 

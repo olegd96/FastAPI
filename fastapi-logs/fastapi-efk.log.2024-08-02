@@ -1,0 +1,7 @@
+{"timestamp": "2024-08-02T19:57:00.194489Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-08-02T19:59:21.687106Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-08-02T19:59:43.934658Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-08-02T19:59:49.775290Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-08-02T20:21:46.979736Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-08-02T20:21:53.019351Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-08-02T20:22:28.057085Z", "level": "INFO", "name": "root", "message": "shutdown_app"}

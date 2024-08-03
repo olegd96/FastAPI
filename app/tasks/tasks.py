@@ -12,7 +12,6 @@ from app.loger import logger
 from app.S3.s3client import s3_client
 import os
 
-
 from app.tasks.email_templates import create_booking_confirmation_templates, create_booking_notice_template, create_registration_confirmation_templates
 import smtplib
 

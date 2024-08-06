@@ -28,6 +28,7 @@ from app.admin.views import (
     RoomsAdmin,
     UsersAdmin,
 )
+
 from app.bookings.router import router as router_bookings
 from app.cart.router import router as router_cart
 from app.config import settings

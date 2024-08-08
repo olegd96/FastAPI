@@ -6,7 +6,7 @@ services:
         dockerfile: "Dockerfile.nginx"
     container_name: booking_nginx
     ports:
-      - 80:80
+      - 70:80
       - 443:443
     links:
       - booking
@@ -110,9 +110,10 @@ services:
     image: elasticsearch:7.17.23
     container_name: elasticsearch
     ports:
-      - 9200:9200
+      - 9100:9200
     environment:
       - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
     networks:
       - booking_network
 
@@ -167,4 +168,6 @@ volumes:
 
 networks:
   booking_network:
+
+
 

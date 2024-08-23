@@ -1,0 +1,21 @@
+{"timestamp": "2024-08-11T17:23:41.332326Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-08-11T17:27:27.690023Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0974}
+{"timestamp": "2024-08-11T17:27:27.738641Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.011}
+{"timestamp": "2024-08-11T17:27:27.739481Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0115}
+{"timestamp": "2024-08-11T17:27:27.739909Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0115}
+{"timestamp": "2024-08-11T17:27:27.740452Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0116}
+{"timestamp": "2024-08-11T17:27:27.741499Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0122}
+{"timestamp": "2024-08-11T17:27:27.741889Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.017}
+{"timestamp": "2024-08-11T17:27:27.759001Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0077}
+{"timestamp": "2024-08-11T17:27:27.759361Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0067}
+{"timestamp": "2024-08-11T17:27:27.759697Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0073}
+{"timestamp": "2024-08-11T17:27:28.379107Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0098}
+{"timestamp": "2024-08-11T17:27:28.380090Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0181}
+{"timestamp": "2024-08-11T17:27:28.380586Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0189}
+{"timestamp": "2024-08-11T17:27:28.393371Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0019}
+{"timestamp": "2024-08-11T17:27:28.394184Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0023}
+{"timestamp": "2024-08-11T17:27:28.406521Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0339}
+{"timestamp": "2024-08-11T17:27:28.411539Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0004}
+{"timestamp": "2024-08-11T17:27:29.299887Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0009}
+{"timestamp": "2024-08-11T17:29:56.787192Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0459}
+{"timestamp": "2024-08-11T17:29:56.867104Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0028}

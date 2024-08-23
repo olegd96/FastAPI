@@ -53,8 +53,6 @@ class BaseDAO:
             logger.error(msg, extra={"table": cls.models.__tablename__}, exc_info=True)
             return None
 
-
-
     @classmethod
     async def delete(cls, **filter_by):
         try:

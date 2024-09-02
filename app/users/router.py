@@ -131,7 +131,7 @@ async def read_users_all(
 @router_users.get("/verify/{user_id}")
 async def verify_new_user(user_id: uuid.UUID):
     res = await UsersDAO.update(
-        Users.id == user_id,
+        Users.id == uuid.UUID(user_id),
         data=SUserVerify(is_verified=True))
     if res:
         return 'Ваша регистрация подтверждена'

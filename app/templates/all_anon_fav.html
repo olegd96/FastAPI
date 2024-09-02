@@ -467,7 +467,7 @@
             </div>
         </div>
         {% endfor %}
-        {% if count >= offset %}
+        {% if count >= offset and count > 0 %}
         <span hx-get="/pages/anon_fav_next"
         hx-vals='{"offset": "{{offset + 3}}"}'
         hx-swap="outerHTML transition:true"

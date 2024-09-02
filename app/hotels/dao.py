@@ -68,7 +68,8 @@ class HotelsDAO(BaseDAO):
                                        ).join(booked_hotels, booked_hotels.c.hotel_id == Hotels.id , isouter=True)
                                         .where(
                                             and_(booked_hotels.c.rooms_left>0,
-                                                Hotels.location.like(f"%{location}%")
+                                                # Hotels.location.like(f"%{location}%")
+                                                func.to_tsquery('russian', location).bool_op("@@")(Hotels.tsv)
                                                 )
                                                 
                                         )
@@ -121,7 +122,8 @@ class HotelsDAO(BaseDAO):
                                        ).join(booked_hotels, booked_hotels.c.hotel_id == Hotels.id , isouter=True)
                                         .where(
                                             and_(booked_hotels.c.rooms_left>0,
-                                                Hotels.location.like(f"%{location}%")
+                                                #Hotels.location.like(f"%{location}%")
+                                                func.to_tsquery('russian', location).bool_op("@@")(Hotels.tsv)
                                                 )     
                                         )
                                         )

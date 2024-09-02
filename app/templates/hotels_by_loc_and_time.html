@@ -400,7 +400,7 @@
     {% endif %}
 </div>
 
-{% if count >= offset+3 %}
+{% if count >= offset+3 and count > 0 %}
 <span hx-get="/pages/hotels"
 hx-include="#loc, #date_from, #date_to"
 hx-vals='{"offset": "{{offset + 3}}"}'

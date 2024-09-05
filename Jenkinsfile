@@ -13,7 +13,6 @@ pipeline {
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
                     poetry new fastapi_project
-                    poetry init
                     poetry shell
                     poetry install
                     '''

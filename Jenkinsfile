@@ -13,7 +13,7 @@ pipeline {
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
                     poetry install
-                    poetry shell
+                    . /var/lib/jenkins/workspace/fast_pipeline/.venv/bin/activate
                     
                     '''
                 }

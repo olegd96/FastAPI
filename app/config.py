@@ -49,6 +49,8 @@ class Settings(BaseSettings):
     S3_SECRET_KEY: str
     S3_BUCKET_NAME: str
 
+    FLOWER_BASIC_AUTH: str
+
     @property
     def DATABASE_URL(self):
         return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"

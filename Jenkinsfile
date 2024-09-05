@@ -23,6 +23,7 @@ pipeline {
             steps {
                 withPythonEnv('python3.11') {
                     sh '''export PATH="$HOME/.local/bin:$PATH"
+                    . /var/lib/jenkins/workspace/fast_pipeline/.venv/bin/activate
                     pytest'''
                 }
             }

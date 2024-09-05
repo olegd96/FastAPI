@@ -13,7 +13,7 @@ pipeline {
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
                     poetry install
-                    . /var/lib/jenkins/workspace/fast_pipeline/.venv/bin/activate
+                    . /var/lib/jenkins/workspace/fastpipeline/.venv/bin/activate
                     
                     '''
                 }
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 withPythonEnv('python3.11') {
                     sh '''export PATH="$HOME/.local/bin:$PATH"
-                    . /var/lib/jenkins/workspace/fast_pipeline/.venv/bin/activate
+                    . /var/lib/jenkins/workspace/fastpipeline/.venv/bin/activate
                     pytest'''
                 }
             }

@@ -12,7 +12,7 @@ pipeline {
                     sh '''python3 --version pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
-                    poetry new fastapi_project
+                    poetry init
                     poetry shell
                     poetry install
                     '''

@@ -1,6 +1,13 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
     agent any
+    options {
+        timestamps()
+        buildDiscarder logRotator(daysToKeepStr: '3',
+                                  numToKeepStr: '3')
+        timeout(time: 20, unit: 'MINUTES')
+    }
+
     parameters {
         text(name: 'PyEnvr', defaultValue: 'python3.11')
     }
@@ -28,6 +35,15 @@ pipeline {
                     sh 'pytest'
             }
         }
-}
+    }
+        post {
+            success {
+                emailext body: "Build ${currentBuild.fullDisplayName} succeeded",
+                subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - Successful",
+                to: 'chepalin@yandex.ru',
+                attachLog: true
+            }
+        }
+
     }
 }

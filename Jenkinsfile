@@ -2,7 +2,7 @@
 pipeline {
     agent any
     parameters {
-        string(name: "PyEnv")
+        string(name: 'PyEnv')
     }
     stages {
         stage('GIT') {
@@ -12,22 +12,22 @@ pipeline {
         }
         stage('BUILD') {
             steps {
-                withPythonEnv($(params.PyEnv)) {
+                withPythonEnv($ { params.PyEnv }) {
                     sh '''python3 --version pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
                     poetry install
                     sudo cp -t . /home/oleg96d/IT/FastAPI/FastAPI/.env
                     '''
-                }
             }
         }
+    }
         stage('TEST') {
             steps {
-                withPythonEnv($(params.PyEnv)) {
+                withPythonEnv($ { params.PyEnv }) {
                     sh 'pytest'
-                }
             }
         }
+}
     }
 }

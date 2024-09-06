@@ -1,5 +1,9 @@
+/* groovylint-disable-next-line CompileStatic */
 pipeline {
     agent any
+    parameters {
+        string(name: 'PyEnv')
+    }
     stages {
         stage('GIT') {
             steps {
@@ -8,7 +12,7 @@ pipeline {
         }
         stage('BUILD') {
             steps {
-                withPythonEnv('python3.11') {
+                withPythonEnv($(params.PyEnv)) {
                     sh '''python3 --version pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
@@ -20,7 +24,7 @@ pipeline {
         }
         stage('TEST') {
             steps {
-                withPythonEnv('python3.11') {
+                withPythonEnv($(params.PyEnv)) {
                     sh 'pytest'
                 }
             }

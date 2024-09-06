@@ -1,13 +1,10 @@
 /* groovylint-disable-next-line CompileStatic */
-properties([
-  parameters([
-    choice(
-      name: 'PyEnvr',
-      description: 'Choose Python version',
-      choices: ["python2.7", "python3.6", "python3.7", "python3.8", "python3.9", "python3.10", "python3.11"].join("\n")
+properties(
+  parameters(
+    text(name: 'PyEnvr', defaultValue: 'python3.11')
     )
-  ])
-])
+  )
+
 
 pipeline {
     agent any

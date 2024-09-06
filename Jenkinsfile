@@ -11,6 +11,7 @@ pipeline {
                 withPythonEnv('python3.11') {
                     sh '''python3 --version pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"
+                    echo $PATH
                     poetry config virtualenvs.in-project true
                     poetry install
             

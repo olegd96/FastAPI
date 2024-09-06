@@ -22,9 +22,7 @@ pipeline {
         stage('TEST') {
             steps {
                 withPythonEnv('python3.11') {
-                    sh '''export PATH="$HOME/.local/bin:$PATH"
-                    
-                    pytest'''
+                    sh 'pytest'  
                 }
             }
         }

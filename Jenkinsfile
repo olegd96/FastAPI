@@ -2,7 +2,7 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'PyEnv')
+        string(name: "PyEnv")
     }
     stages {
         stage('GIT') {

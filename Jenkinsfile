@@ -1,11 +1,4 @@
 /* groovylint-disable-next-line CompileStatic */
-properties(
-  parameters(
-    text(name: 'PyEnvr', defaultValue: 'python3.11')
-    )
-  )
-
-
 pipeline {
     agent any
     // parameters {
@@ -19,7 +12,7 @@ pipeline {
         }
         stage('BUILD') {
             steps {
-                withPythonEnv(${params.PyEnvr}) {
+                withPythonEnv('python3.11') {
                     sh '''python3 --version pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
@@ -31,7 +24,7 @@ pipeline {
     }
         stage('TEST') {
             steps {
-                withPythonEnv(${params.PyEnvr}) {
+                withPythonEnv('python3.11') {
                     sh 'pytest'
             }
         }

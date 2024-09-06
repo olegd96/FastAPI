@@ -10,7 +10,6 @@ pipeline {
             steps {
                 withPythonEnv('python3.11') {
                     sh '''python3 --version pip3 install poetry
-                    poetry config virtualenvs.in-project true
                     poetry install
             
                     

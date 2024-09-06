@@ -13,7 +13,7 @@ pipeline {
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
                     poetry install
-                    cp -t . /home/oleg96d/IT/FastAPI/FastAPI/.env
+                    sudo cp -t . /home/oleg96d/IT/FastAPI/FastAPI/.env
                     '''
                 }
             }

@@ -36,14 +36,13 @@ pipeline {
             }
         }
     }
-        post {
+    }
+    post {
             success {
                 emailext body: "Build ${currentBuild.fullDisplayName} succeeded",
                 subject: "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - Successful",
                 to: 'chepalin@yandex.ru',
                 attachLog: true
             }
-        }
-
-    }
+    }  
 }

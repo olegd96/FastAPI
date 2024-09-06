@@ -2,7 +2,7 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'PyEnvr', defaultValue: 'python3.11')
+        text(name: 'PyEnvr', defaultValue: 'python3.11')
     }
     stages {
         stage('GIT') {

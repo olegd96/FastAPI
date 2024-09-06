@@ -2,7 +2,7 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'PyEnv', defaultValue: 'python3.11')
+        string(name: 'PyEnvr', defaultValue: 'python3.11')
     }
     stages {
         stage('GIT') {
@@ -12,7 +12,7 @@ pipeline {
         }
         stage('BUILD') {
             steps {
-                withPythonEnv(${params.PyEnv}) {
+                withPythonEnv(${params.PyEnvr}) {
                     sh '''python3 --version pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
@@ -24,7 +24,7 @@ pipeline {
     }
         stage('TEST') {
             steps {
-                withPythonEnv(${params.PyEnv}) {
+                withPythonEnv(${params.PyEnvr}) {
                     sh 'pytest'
             }
         }

@@ -17,6 +17,9 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/olegd96/FastAPI.git'
             }
         }
+        stage('Install Python') {
+            sh 'apt install python3'
+        }
         stage('BUILD') {
             steps {
                 withPythonEnv("${params.PyEnvr}") {

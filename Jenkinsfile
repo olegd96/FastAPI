@@ -1,6 +1,10 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'kubeagent'
+        }
+    }
     options {
         timestamps()
         buildDiscarder logRotator(daysToKeepStr: '3',

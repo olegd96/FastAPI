@@ -19,7 +19,7 @@ pipeline {
         }
         stage('BUILD') {
             steps {
-                sh 'apt add --update --no-cache python3 && ln -sf python3 /usr/bin/python'
+                sh 'apt add --no-cache python3 && ln -sf python3 /usr/bin/python'
                 withPythonEnv("${params.PyEnvr}") {
                     sh '''python3 --version pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"

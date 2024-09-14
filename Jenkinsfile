@@ -16,12 +16,12 @@ pipeline {
             steps {
                 sh 'apt install python3'
             }
-        // }
-        // stage('GIT') {
-        //     steps {
-        //         git branch: 'main', url: 'https://github.com/olegd96/FastAPI.git'
-        //     }
-        // }
+        }
+        stage('GIT') {
+            steps {
+                git branch: 'main', url: 'https://github.com/olegd96/FastAPI.git'
+            }
+        }
         
         stage('BUILD') {
             steps {

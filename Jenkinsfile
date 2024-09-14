@@ -19,6 +19,7 @@ pipeline {
         }
         stage('BUILD') {
             steps {
+                sh 'apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python'
                 withPythonEnv("${params.PyEnvr}") {
                     sh '''python3 --version pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"
@@ -44,5 +45,5 @@ pipeline {
                 to: 'chepalin@yandex.ru',
                 attachLog: true
             }
-    }  
+    }
 }

@@ -19,7 +19,6 @@ pipeline {
         }
         stage('BUILD') {
             steps {
-                sh 'apt install python3 -y'
                 withPythonEnv("${params.PyEnvr}") {
                     sh '''python3 --version pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"

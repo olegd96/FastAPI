@@ -12,11 +12,6 @@ pipeline {
         text(name: 'PyEnvr', defaultValue: 'python3.11')
     }
     stages {
-        stage('Install Python') {
-            steps {
-                sh 'apt install python3'
-            }
-        }
         stage('GIT') {
             steps {
                 git branch: 'main', url: 'https://github.com/olegd96/FastAPI.git'

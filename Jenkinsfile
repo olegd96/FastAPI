@@ -20,7 +20,8 @@ pipeline {
         stage('BUILD') {
             steps {
                 withPythonEnv("${params.PyEnvr}") {
-                    sh '''python3 --version pip3 install poetry
+                    sh '''
+                    python3 --version pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
                     poetry install
@@ -40,8 +41,7 @@ pipeline {
             steps {
                 sh '''
                 export PATH="$HOME/.local/bin:$PATH" 
-                
-                docker build .
+                docker build . -t localhost:32000/booking_app
                 '''
                 }
         }

@@ -38,7 +38,7 @@ pipeline {
     }
         stage('DOCKER') {
             steps {
-                docker.build('booking_image')
+                def bookingImage = docker.build('booking_image')
                 }
     }
     }

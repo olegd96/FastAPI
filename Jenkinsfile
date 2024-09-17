@@ -37,12 +37,8 @@ pipeline {
         }
     }
         stage('DOCKER') {
-            steps {
-                docker {
-                    docker.build('booking_image')
+                docker.build('booking_image')
                 }
-            }
-    }
     }
     post {
             success {

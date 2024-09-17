@@ -41,6 +41,7 @@ pipeline {
                 docker.build('booking_image')
                 }
     }
+    }
     post {
             success {
                 emailext body: "Build ${currentBuild.fullDisplayName} succeeded",
@@ -49,5 +50,5 @@ pipeline {
                 attachLog: true
             }
     }
-}
+
 }

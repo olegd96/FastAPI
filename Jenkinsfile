@@ -41,8 +41,8 @@ pipeline {
             steps {
                 sh '''
                 export PATH="$HOME/.local/bin:$PATH" 
-                docker build . -t localhost:32000/booking_app
-                docker push localhost:3200/booking_app
+                docker build . -t 127.0.0.1:32000/booking_app:registry
+                docker push 127.0.0.1:32000/booking_app
                 '''
                 }
         }

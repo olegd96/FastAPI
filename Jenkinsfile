@@ -38,10 +38,8 @@ pipeline {
     }
         stage('DOCKER') {
             steps {
-                def customImage = docker.build('booking_image')
+                docker.build('booking_image')
                 }
-            }
-        }
     }
     post {
             success {
@@ -51,4 +49,5 @@ pipeline {
                 attachLog: true
             }
     }
+}
 }

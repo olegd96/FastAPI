@@ -42,7 +42,7 @@ pipeline {
                 sh '''
                 export PATH="$HOME/.local/bin:$PATH" 
                 docker build . -t 127.0.0.1:32000/booking_app:registry
-                docker push 127.0.0.1:32000/booking_app
+                docker push 127.0.0.1:32000/booking_app:latest
                 '''
                 }
         }

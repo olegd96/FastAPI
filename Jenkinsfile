@@ -39,8 +39,7 @@ pipeline {
     }
         stage('DOCKER') {
             steps {
-                sh '''
-                export PATH="$HOME/.local/bin:$PATH" 
+                sh ''' 
                 docker build -t 127.0.0.1:32000/booking_app:latest .
                 docker push 127.0.0.1:32000/booking_app:latest
                 '''

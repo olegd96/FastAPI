@@ -38,9 +38,8 @@ pipeline {
     }
         stage('DOCKER') {
             steps {
-                sh '''
-                    podman build --network=host -t booking_app
-                '''
+                def customImage = docker.build('booking_image')
+                }
             }
         }
     }

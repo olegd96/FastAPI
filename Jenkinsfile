@@ -38,7 +38,7 @@ pipeline {
         }
     }
         stage('DOCKER') {
-            steps {
+            // steps {
                 // sh ''' 
                 // docker build -t 127.0.0.1:32000/booking_app:latest .
                 // docker push 127.0.0.1:32000/booking_app:latest
@@ -47,7 +47,7 @@ pipeline {
                     {
                         docker.build('booking_app').push('latest')
                     }
-                }
+                // }
         }
     }
     post {

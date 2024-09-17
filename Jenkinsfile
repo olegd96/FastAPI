@@ -37,7 +37,7 @@ pipeline {
         }
     }
         stage('DOCKER') {
-                docker.build('booking_image')
+                sh 'export PATH="$HOME/.local/bin:$PATH" docker build'
                 }
     }
     post {

@@ -40,7 +40,7 @@ pipeline {
             steps {
                 sh '''
                 export PATH="$HOME/.local/bin:$PATH" 
-                docker build
+                
                 cat Dockerfile
                 '''
                 }

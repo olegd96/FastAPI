@@ -37,8 +37,10 @@ pipeline {
         }
     }
         stage('DOCKER') {
+            steps {
                 sh 'export PATH="$HOME/.local/bin:$PATH" docker build'
                 }
+        }
     }
     post {
             success {

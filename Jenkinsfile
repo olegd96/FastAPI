@@ -38,8 +38,8 @@ pipeline {
     }
         stage('DOCKER') {
             steps {
-                node('linux') {
-                    def bookingImage = docker.build('booking_image')
+                docker {
+                    docker.build('booking_image')
                 }
             }
     }

@@ -1,6 +1,10 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'kubeagent'
+        }
+    }
     options {
         timestamps()
         buildDiscarder logRotator(daysToKeepStr: '3',
@@ -17,7 +21,6 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/olegd96/FastAPI.git'
             }
         }
-        
         stage('BUILD') {
             steps {
                 withPythonEnv("${params.PyEnvr}") {
@@ -37,6 +40,13 @@ pipeline {
             }
         }
     }
+        stage('DOCKER') {
+            steps {
+                sh '''
+                    podman build --network=host -t booking_app
+                '''
+            }
+        }
     }
     post {
             success {

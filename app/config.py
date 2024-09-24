@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = Field(alias='ALGORITHM')
 
     ACCESS_TOKEN_EXPIRE_MINUTES: int = Field(alias='ACCESS_TOKEN_EXPIRE_MINUTES')
-    REFRESH_TOKEN_EXPIRE_DAYS: int = Field(alias='REFRESH_TOKEN_EXPIRE_MINUTES')
+    REFRESH_TOKEN_EXPIRE_DAYS: int = Field(alias='REFRESH_TOKEN_EXPIRE_DAYS')
 
     SMTP_HOST: str = Field(alias='SMTP_HOST')
     SMTP_PORT: int = Field(alias='SMTP_PORT')

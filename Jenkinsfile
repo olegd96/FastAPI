@@ -13,8 +13,10 @@ pipeline {
     }
     stages {
         stage('CLEAN') {
-            script {
-                cleanWs()
+            steps {
+                script {
+                    cleanWs()
+                }
             }
         }
         stage('GIT') {

@@ -12,7 +12,7 @@ pipeline {
         text(name: 'PyEnvr', defaultValue: 'python3.11')
     }
     stages {
-        stage(CLEAN) {
+        stage('CLEAN') {
             script {
                 cleanWs()
             }

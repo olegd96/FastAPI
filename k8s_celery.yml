@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-celery-app
+  labels:
+    tier: booking-celery-app
+spec:
+  selector:
+    matchLabels:
+      tier: booking-celery-app
+  template:
+    metadata:
+      labels:
+        tier: booking-celery-app
+    spec:
+      volumes:
+        - name: booking-pv-storage-1
+          persistentVolumeClaim:
+            claimName: booking-pv-claim-1
+      containers:
+        - name: booking-celery
+          image: localhost:32000/booking_app:latest
+          envFrom:
+            - configMapRef:
+                name: booking-config
+          command: ["/bin/sh", "-c"]
+          args: ['celery --app=app.tasks.celery:celery worker -l INFO']
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          readinessProbe:
+            exec:
+              command:
+                - celery
+                - inspect
+                - ping
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          volumeMounts:
+            - name: booking-pv-storage-1
+              mountPath: ~/booking      
+        - name: booking-celery-beat
+          image: localhost:32000/booking_app:latest
+          envFrom:
+            - configMapRef:
+                name: booking-config
+          command: ["/bin/sh", "-c"]
+          args: ['celery --app=app.tasks.celery:celery worker -l INFO -B']
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: booking-pv-storage-1
+              mountPath: ~/booking
+        - name: booking-flower
+          image: localhost:32000/booking_app:latest
+          envFrom:
+            - configMapRef:
+                name: booking-config
+          command: ["/bin/sh", "-c"]
+          args: ['celery --app=app.tasks.celery:celery flower --url_prefix=/flower']
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5555
+              protocol: TCP

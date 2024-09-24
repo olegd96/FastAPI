@@ -1,5 +1,6 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
+    cleanWs()
     agent any
     options {
         timestamps()
@@ -21,7 +22,8 @@ pipeline {
             steps {
                 withPythonEnv("${params.PyEnvr}") {
                     sh '''
-                    python3 --version pip3 install poetry
+                    python3 --version 
+                    pip3 install poetry
                     export PATH="$HOME/.local/bin:$PATH"
                     poetry config virtualenvs.in-project true
                     poetry install
@@ -37,13 +39,14 @@ pipeline {
             }
         }
     }
-        stage('DOCKER') {
+        stage('DOCKER IMAGE') {
             steps {
                 // sh ''' 
                 // docker build -t 127.0.0.1:32000/booking_app:latest .
                 // docker push 127.0.0.1:32000/booking_app:latest
                 // '''
                 script {
+                    /* groovylint-disable-next-line NestedBlockDepth */
                     docker.withRegistry('http://localhost:32000') {
                         docker.build('booking_app').push('latest')
                     }

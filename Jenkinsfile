@@ -12,6 +12,11 @@ pipeline {
         text(name: 'PyEnvr', defaultValue: 'python3.11')
     }
     stages {
+        stage(CLEAN) {
+            script {
+                cleanWs()
+            }
+        }
         stage('GIT') {
             steps {
                 git branch: 'main', url: 'https://github.com/olegd96/FastAPI.git'

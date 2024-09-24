@@ -77,7 +77,7 @@ class Settings(BaseSettings):
         return f"https://{self.S3_HOST}/{self.S3_BUCKET_NAME}/"
 
     
-    model_config = SettingsConfigDict(env_file=".env")
+    model_config = SettingsConfigDict(env_file=".env", extra='allow')
 
 
 settings = Settings()

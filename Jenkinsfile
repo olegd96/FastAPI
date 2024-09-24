@@ -1,6 +1,5 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
-    cleanWs()
     agent any
     options {
         timestamps()

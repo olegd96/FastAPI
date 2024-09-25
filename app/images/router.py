@@ -17,7 +17,6 @@ router = APIRouter(
 @router.post("/hotels")
 async def add_hotel_images(name: int, file: UploadFile):
     im_path = f"app/static/images/{name}.webp"
-   
     im_path_1 = f"/{settings.S3_PREFIX}{name}.webp"
     with open(im_path, "wb+") as file_object:
         shutil.copyfileobj(file.file, file_object)

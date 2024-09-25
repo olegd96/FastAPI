@@ -35,6 +35,20 @@ class S3client:
                 Key=object_name,
                 Body=file,
             )
+                
+    async def download_file(
+            self,
+            file_path: str,
+    ):
+        object_name = file_path.split("/")[-1]
+        async with self.get_client() as client:
+            with open(file_path, "wb") as file:
+                response = await client.get_object(
+                Bucket=settings.S3_BUCKET_NAME,
+                Key=object_name,
+                )
+                file.write(response)
+        
   
 
 s3_client = S3client(

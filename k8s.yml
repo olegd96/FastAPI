@@ -86,7 +86,7 @@ metadata:
     nginx.org/proxy-connect-timeout: "30s"
     nginx.org/proxy-read-timeout: "20s"
     nginx.org/proxy-set-headers: "Host: $http_host, X-Forwarded-For: $proxy_add_x_forwarded_for, X-Forwarded-Proto: $scheme, Upgrade: $http_upgrade"
-    nginx.ingress.kubernetes.io/proxy-buffering: "off"
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
     nginx.ingress.kubernetes.io/proxy-redirect-from: "off"
     nginx.ingress.kubernetes.io/proxy-redirect-to: "off"
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"

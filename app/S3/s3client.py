@@ -50,7 +50,7 @@ class S3client:
             data = await response['Body'].read()
         with open(file_path, "wb") as file:
             file.write(data)
-        im = Image.open(f"./app/static/images/{object_name}")
+        im = Image.open(f"/app/static/images/{object_name}")
         
   
 

@@ -41,7 +41,7 @@ class S3client:
             self,
             object_name: str,
     ):
-        file_path = f"app/static/images/{object_name}"
+        file_path = f"./booking/app/static/images/{object_name}"
         async with self.get_client() as client:
             response = await client.get_object(
             Bucket=self.bucket_name,
@@ -50,7 +50,7 @@ class S3client:
             data = await response['Body'].read()
         with open(file_path, "wb") as file:
             file.write(data)
-        im = Image.open(f"app/static/images/{object_name}")
+        im = Image.open(file_path)
         
   
 

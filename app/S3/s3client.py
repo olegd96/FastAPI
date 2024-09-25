@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from aiobotocore.session import get_session
 from app.config import settings
+from PIL import Image
 
 class S3client:
     def __init__(
@@ -49,6 +50,7 @@ class S3client:
             data = await response['Body'].read()
         with open(file_path, "wb") as file:
             file.write(data)
+        im = Image.open(f"./app/static/images/{object_name}")
         
   
 

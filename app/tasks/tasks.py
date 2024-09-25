@@ -40,7 +40,7 @@ async def main_1(im_path: str):
 def download_pic(
     *args, path: str, 
 ):
-    obj_name = path.split('/')[-1]
+    obj_name = path
     asyncio.run(main_1(f"app/static/images/{obj_name}"))
 
 
@@ -48,7 +48,7 @@ def download_pic(
 def process_pic(
     *args, path: str, 
 ):
-    obj_name = path.split('/')[-1]
+    obj_name = path
     im = Image.open(f"app/static/images/{obj_name}")
     im_resized_500_300 = im.resize((500, 300))
     im_resized_200_100 = im.resize((200, 200))

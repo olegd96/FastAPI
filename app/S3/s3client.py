@@ -38,9 +38,9 @@ class S3client:
                 
     async def download_file(
             self,
-            file_path: str,
+            object_name: str,
     ):
-        object_name = file_path.split("/")[-1]
+        file_path = f"app/static/images/{object_name}"
         async with self.get_client() as client:
             response = await client.get_object(
             Bucket=self.bucket_name,

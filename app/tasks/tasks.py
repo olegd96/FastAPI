@@ -41,7 +41,7 @@ def download_pic(
     *args, path: str, 
 ):
     obj_name = path
-    asyncio.run(main_1(f"app/static/images/{obj_name}"))
+    asyncio.run(main_1(obj_name))
 
 
 @celery.task(bind=True, default_retry_delay=300, max_retries=5)

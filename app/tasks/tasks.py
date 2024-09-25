@@ -36,13 +36,19 @@ async def main_1(im_path: str):
      await asyncio.gather(download_task)
 
 
+@celery.task(bind=True, default_retry_delay=300, max_retries=5)
+def download_pic(
+    *args, path: str, 
+):
+    obj_name = path.split('/')[-1]
+    asyncio.run(main_1(f"app/static/images/{obj_name}"))
+
 
 @celery.task(bind=True, default_retry_delay=300, max_retries=5)
 def process_pic(
     *args, path: str, 
 ):
     obj_name = path.split('/')[-1]
-    asyncio.run(main_1(f"app/static/images/{obj_name}"))
     im = Image.open(f"app/static/images/{obj_name}")
     im_resized_500_300 = im.resize((500, 300))
     im_resized_200_100 = im.resize((200, 200))

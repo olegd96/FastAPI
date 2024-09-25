@@ -46,6 +46,7 @@ class S3client:
             Bucket=settings.S3_BUCKET_NAME,
             Key=object_name,
             )
+        print(response)
         async with response['Body'] as stream:
             resp = await stream.read()
         with open(file_path, "wb") as file:

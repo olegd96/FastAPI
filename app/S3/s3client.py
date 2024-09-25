@@ -46,7 +46,7 @@ class S3client:
             Bucket=self.bucket_name,
             Key=object_name,
             )
-            data = response['Body'].read()
+            data = await response['Body'].read()
         with open(file_path, "wb") as file:
             file.write(data)
         

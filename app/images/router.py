@@ -4,6 +4,7 @@ import shutil
 from pathlib import Path
 from app.tasks.tasks import process_pic
 from app.S3.s3client import s3_client
+from app.config import settings
 
 
 
@@ -17,8 +18,8 @@ router = APIRouter(
 async def add_hotel_images(name: int, file: UploadFile):
     im_path = f"app/static/images/{name}.webp"
    
-    im_path_1 = f"/mnt/images/{name}.webp"
+    im_path_1 = f"/{settings.S3_PREFIX}{name}.webp"
     with open(im_path, "wb+") as file_object:
         shutil.copyfileobj(file.file, file_object)
     await s3_client.upload_file(im_path)
-    #process_pic.delay(path=im_path_1)
+    process_pic.delay(path=im_path_1)

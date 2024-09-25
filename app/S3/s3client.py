@@ -42,12 +42,14 @@ class S3client:
     ):
         object_name = file_path.split("/")[-1]
         async with self.get_client() as client:
-            with open(file_path, "wb") as file:
-                response = await client.get_object(
-                Bucket=settings.S3_BUCKET_NAME,
-                Key=object_name,
-                )
-                file.write(response)
+            response = await client.get_object(
+            Bucket=settings.S3_BUCKET_NAME,
+            Key=object_name,
+            )
+        async with response['Body'] as stream:
+            resp = await stream.read()
+        with open(file_path, "wb") as file:
+            file.write(resp)
         
   
 

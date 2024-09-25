@@ -441,7 +441,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: booking-pv-storage-1
-              mountPath: ~/booking/app/static/images
+              mountPath: ~/booking
 
 
 ---
@@ -491,7 +491,7 @@ spec:
           #   periodSeconds: 60     
           volumeMounts:
             - name: booking-pv-storage-1
-              mountPath: ~/booking/app/static/images     
+              mountPath: ~/booking    
         - name: booking-celery-beat
           image: localhost:32000/booking_app:latest
           imagePullPolicy: Always

@@ -20,7 +20,7 @@ async def s3_1(im_path: Path):
         await s3_client.upload_file(f"/mnt/images/resized_500_300_{im_path.name}")
 
 async def s3_2(im_path: Path):
-    await s3_client.upload_file(f"mnt/images/resized_200_100_{im_path.name}")
+    await s3_client.upload_file(f"/mnt/images/resized_200_100_{im_path.name}")
 
 async def main(im_path: Path):
     upload_task_500_300 = asyncio.create_task(s3_1(im_path))
@@ -37,11 +37,11 @@ def process_pic(
     im = Image.open(im_path)
     im_resized_500_300 = im.resize((500, 300))
     im_resized_200_100 = im.resize((200, 200))
-    im_resized_500_300.save(f"mnt/images/resized_500_300_{im_path.name}")
-    im_resized_200_100.save(f"mnt/images/resized_200_100_{im_path.name}")
+    im_resized_500_300.save(f"/mnt/images/resized_500_300_{im_path.name}")
+    im_resized_200_100.save(f"/mnt/images/resized_200_100_{im_path.name}")
     asyncio.run(main(im_path))
-    os.remove(f"mnt/images/resized_500_300_{im_path.name}")
-    os.remove(f"mnt/images/resized_200_100_{im_path.name}")
+    os.remove(f"/mnt/images/resized_500_300_{im_path.name}")
+    os.remove(f"/mnt/images/resized_200_100_{im_path.name}")
     os.remove(im_path)
 
 

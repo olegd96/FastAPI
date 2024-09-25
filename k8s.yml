@@ -162,7 +162,7 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/mnt/data_1"
+    path: "/mnt/images"
 
 ---
 
@@ -441,7 +441,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: booking-pv-storage-1
-              mountPath: ~/booking
+              mountPath: ~/booking/app/static/images
 
 
 ---
@@ -491,7 +491,7 @@ spec:
           #   periodSeconds: 60     
           volumeMounts:
             - name: booking-pv-storage-1
-              mountPath: ~/booking      
+              mountPath: ~/booking/app/static/images     
         - name: booking-celery-beat
           image: localhost:32000/booking_app:latest
           imagePullPolicy: Always

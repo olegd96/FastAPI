@@ -17,10 +17,10 @@ import smtplib
 
 
 async def s3_1(path: str):
-        await s3_client.upload_file(f"app/static/images/resized_500_300_{path}")
+        await s3_client.upload_file(f"/static/images/resized_500_300_{path}")
 
 async def s3_2(path: str):
-    await s3_client.upload_file(f"app/static/images/resized_200_100_{path}")
+    await s3_client.upload_file(f"/static/images/resized_200_100_{path}")
 
 async def s3_download(im_path: str):
      await s3_client.download_file(im_path)
@@ -49,14 +49,14 @@ def process_pic(
     *args, path: str, 
 ):
     obj_name = path
-    im = Image.open(f"app/static/images/{obj_name}")
+    im = Image.open(f"/static/images/{obj_name}")
     im_resized_500_300 = im.resize((500, 300))
     im_resized_200_100 = im.resize((200, 200))
-    im_resized_500_300.save(f"app/static/images/resized_500_300_{obj_name}")
-    im_resized_200_100.save(f"app/static/images/resized_200_100_{obj_name}")
+    im_resized_500_300.save(f"/static/images/resized_500_300_{obj_name}")
+    im_resized_200_100.save(f"/static/images/resized_200_100_{obj_name}")
     asyncio.run(main(obj_name))
-    os.remove(f"app/static/images/resized_500_300_{obj_name}")
-    os.remove(f"app/static/images/resized_200_100_{obj_name}")
+    os.remove(f"/static/images/resized_500_300_{obj_name}")
+    os.remove(f"/static/images/resized_200_100_{obj_name}")
 
 
 @celery.task

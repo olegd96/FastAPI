@@ -23,7 +23,7 @@ async def s3_2(path: str):
     await s3_client.upload_file(f"app/static/images/resized_200_100_{path}")
 
 async def s3_download(im_path: str):
-     await s3_client.download_file(im_path.name)
+     await s3_client.download_file(im_path)
      
 
 async def main(path: str):

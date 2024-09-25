@@ -413,10 +413,10 @@ spec:
         tier: booking
     spec:
       
-      volumes:
-        - name: booking-pv-storage-1
-          persistentVolumeClaim:
-            claimName: booking-pv-claim-1
+      # volumes:
+      #   - name: booking-pv-storage-1
+      #     persistentVolumeClaim:
+      #       claimName: booking-pv-claim-1
       containers:
         - name: booking
           image: localhost:32000/booking_app:latest
@@ -439,9 +439,9 @@ spec:
           ports:
             - containerPort: 8000
               protocol: TCP
-          volumeMounts:
-            - name: booking-pv-storage-1
-              mountPath: ~/booking
+          # volumeMounts:
+          #   - name: booking-pv-storage-1
+          #     mountPath: ~/booking
 
 
 ---
@@ -462,10 +462,10 @@ spec:
       labels:
         tier: booking-celery-app
     spec:
-      volumes:
-        - name: booking-pv-storage-1
-          persistentVolumeClaim:
-            claimName: booking-pv-claim-1
+      # volumes:
+      #   - name: booking-pv-storage-1
+      #     persistentVolumeClaim:
+      #       claimName: booking-pv-claim-1
       containers:
         - name: booking-celery
           imagePullPolicy: Always
@@ -489,9 +489,9 @@ spec:
           #     ]
           #   initialDelaySeconds: 30
           #   periodSeconds: 60     
-          volumeMounts:
-            - name: booking-pv-storage-1
-              mountPath: ~/booking    
+          # volumeMounts:
+          #   - name: booking-pv-storage-1
+          #     mountPath: ~/booking    
         - name: booking-celery-beat
           image: localhost:32000/booking_app:latest
           imagePullPolicy: Always
@@ -504,9 +504,9 @@ spec:
             limits:
               memory: "3Gi"
               cpu: "500m"
-          volumeMounts:
-            - name: booking-pv-storage-1
-              mountPath: ~/booking
+          # volumeMounts:
+          #   - name: booking-pv-storage-1
+          #     mountPath: ~/booking
         - name: booking-flower
           image: localhost:32000/booking_app:latest
           imagePullPolicy: Always

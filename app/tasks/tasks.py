@@ -49,7 +49,7 @@ def process_pic(
     *args, path: str, 
 ):
     obj_name = path
-    im = Image.open(f"./app/static/images/{obj_name}")
+    im = Image.open(f"app/static/images/{obj_name}")
     im_resized_500_300 = im.resize((500, 300))
     im_resized_200_100 = im.resize((200, 200))
     im_resized_500_300.save(f"app/static/images/resized_500_300_{obj_name}")

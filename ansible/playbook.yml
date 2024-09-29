@@ -15,4 +15,7 @@
         kind: Namespace
         state: present
     - name: deploy booking at k8s
-      command: 'microk8s kubectl apply -f ~/IT/FastAPI/FastAPI/k8s.yml'
+      # command: 'microk8s kubectl apply -f ~/IT/FastAPI/FastAPI/k8s.yml'
+      k8s:
+      state: present
+      src: /ansible/k8s.yml

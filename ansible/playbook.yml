@@ -1,22 +1,23 @@
 -
   name: booking_deploy
   hosts: localhost
+  user: root
   tasks:
     - name: get k8s
       ansible.builtin.service:
         name: snap.microk8s.daemon-cluster-agent
         state: started
         enabled: true
-    # - name: create namespace
-    #   k8s:
-    #     name: booking
-    #     kubeconfig: /home/oleg96d/.kube/config
-    #     api_version: v1
-    #     kind: Namespace
-    #     state: present
+    - name: create namespace
+      k8s:
+        name: booking
+        kubeconfig: /home/oleg96d/.kube/config
+        api_version: v1
+        kind: Namespace
+        state: present
     - name: deploy booking at k8s
-      command: 'microk8s kubectl apply -f ~/IT/FastAPI/FastAPI/k8s.yml'
-      # k8s:
-      #   state: present
-      #   kubeconfig: /home/oleg96d/.kube/config
-      #   src: /ansible/k8s.yml
+      # command: 'microk8s kubectl apply -f ~/IT/FastAPI/FastAPI/k8s.yml'
+      k8s:
+        state: present
+        kubeconfig: /home/oleg96d/.kube/config
+        src: /ansible/k8s.yml

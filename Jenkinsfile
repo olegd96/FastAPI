@@ -59,7 +59,9 @@ pipeline {
             }
         }
         stage('Deploy to k8s') {
-            ansiblePlaybook(inventory: 'inventory', playbook: 'k8s.yml')
+            steps {
+                ansiblePlaybook(inventory: 'inventory', playbook: 'k8s.yml')
+            }
         }
     }
     post {

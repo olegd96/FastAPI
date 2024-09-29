@@ -60,7 +60,7 @@ async def send_cities_to_broker() -> None:
                         )
                 await asyncio.gather(*cities_tasks)
                 channel.close()
-            connection.close()
+            await connection.close()
             logger.info("Successfully sent cities list") 
 
 async def del_old_tokens():

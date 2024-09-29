@@ -52,12 +52,14 @@ pipeline {
                 // docker push 127.0.0.1:32000/booking_app:latest
                 // '''
                 script {
-                    /* groovylint-disable-next-line NestedBlockDepth */
                     docker.withRegistry('http://localhost:32000') {
                         docker.build('booking_app').push('latest')
                     }
                 }
             }
+        }
+        stage('Deploy to k8s') {
+            ansiblePlaybook(inventory: 'inventory', playbook: 'k8s.yml')
         }
     }
     post {

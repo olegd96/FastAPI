@@ -10,7 +10,7 @@
     - name: create namespace
       k8s:
         name: booking
-        kubeconfig: ~/.kube/config
+        kubeconfig: /home/oleg96d/.kube/config
         api_version: v1
         kind: Namespace
         state: present

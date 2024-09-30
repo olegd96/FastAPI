@@ -21,4 +21,4 @@
         namespace: booking
         kubeconfig: /var/snap/microk8s/current/credentials/client.config
         state: present
-        src: ~/k8s.yml
+        src: ~/booking/k8s.yml

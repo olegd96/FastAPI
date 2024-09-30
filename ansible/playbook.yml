@@ -19,5 +19,5 @@
       # command: 'microk8s kubectl apply -f ~/IT/FastAPI/FastAPI/k8s.yml'
       k8s:
         state: present
-        kubeconfig: /home/oleg96d/.kube/config
-        src: /ansible/k8s.yml
+        kubeconfig: ~/.kube/config
+        src: ~/IT/FastAPI/FastAPI/k8s.yml

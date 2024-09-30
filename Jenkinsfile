@@ -60,6 +60,7 @@ pipeline {
         }
         stage('Deploy to k8s') {
             steps {
+                sh 'sudo cp -t . /var/snap/microk8s/current/credentials/client.config'
                 ansiblePlaybook(inventory: 'ansible/inventory', playbook: 'ansible/playbook.yml')
             }
         }

@@ -51,6 +51,7 @@ pipeline {
                 // docker build -t 127.0.0.1:32000/booking_app:latest .
                 // docker push 127.0.0.1:32000/booking_app:latest
                 // '''
+                sh 'sudo chmod 777 /var/run/docker.sock'
                 script {
                     docker.withRegistry('http://localhost:32000') {
                         docker.build('booking_app').push('latest')

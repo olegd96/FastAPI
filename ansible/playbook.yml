@@ -9,4 +9,4 @@
         state: started
         enabled: true
     - name: deploy booking at k8s
-      command: 'microk8s kubectl apply -f ~/k8s.yml'
+      command: 'microk8s kubectl apply -f ~/workspaces/booking/k8s.yml'

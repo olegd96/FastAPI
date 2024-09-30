@@ -8,17 +8,5 @@
         name: snap.microk8s.daemon-cluster-agent
         state: started
         enabled: true
-    - name: create namespace
-      k8s:
-        name: booking
-        kubeconfig: ~/kubelet.config
-        api_version: v1
-        kind: Namespace
-        state: present
     - name: deploy booking at k8s
-      # command: 'microk8s kubectl apply -f ~/IT/FastAPI/FastAPI/k8s.yml'
-      k8s:
-        namespace: booking
-        kubeconfig: ~/kubelet.config
-        state: present
-        src: ~/booking/k8s.yml
+      command: 'microk8s kubectl apply -f ~/IT/FastAPI/FastAPI/k8s.yml'

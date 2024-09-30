@@ -11,7 +11,7 @@
     - name: create namespace
       k8s:
         name: booking
-        kubeconfig: ~/client.config
+        kubeconfig: ~/kubelet.config
         api_version: v1
         kind: Namespace
         state: present
@@ -19,6 +19,6 @@
       # command: 'microk8s kubectl apply -f ~/IT/FastAPI/FastAPI/k8s.yml'
       k8s:
         namespace: booking
-        kubeconfig: ~/client.config
+        kubeconfig: ~/kubelet.config
         state: present
         src: ~/booking/k8s.yml

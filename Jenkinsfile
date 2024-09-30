@@ -58,11 +58,11 @@ pipeline {
                 // }
             }
         }
-        // stage('Deploy to k8s') {
-        //     steps {
-        //         ansiblePlaybook(inventory: 'ansible/inventory', playbook: 'ansible/playbook.yml')
-        //     }
-        // }
+        stage('Deploy to k8s') {
+            steps {
+                ansiblePlaybook(inventory: 'ansible/inventory', playbook: 'ansible/playbook.yml')
+            }
+        }
     }
     post {
             success {

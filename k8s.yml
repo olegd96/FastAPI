@@ -135,6 +135,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongodb
+  namespace: booking
 spec:
   ports:
     - name: mongodb
@@ -149,6 +150,7 @@ kind: Endpoints
 apiVersion: v1
 metadata:
   name: mongodb
+  namespace: booking
 subsets:
   - addresses:
         - ip: 10.1.179.64
@@ -162,6 +164,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: rabbit
+  namespace: booking
 spec:
   ports:
     - name: rabbit
@@ -176,6 +179,7 @@ kind: Endpoints
 apiVersion: v1
 metadata:
   name: rabbit
+  namespace: booking
 subsets:
   - addresses:
         - ip: 10.1.179.64
@@ -225,6 +229,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: booking-pv-claim
+  namespace: booking
 spec:
   storageClassName: manual
   accessModes:
@@ -240,6 +245,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: booking-pv-claim-1
+  namespace: booking
 spec:
   storageClassName: manual
   accessModes:
@@ -279,6 +285,7 @@ metadata:
     tier: booking-db
     app: booking-app
   name: booking-db
+  namespace: booking
 spec:
   selector:
     tier: booking-db
@@ -298,6 +305,7 @@ metadata:
     tier: booking-redis
     app: booking-app
   name: booking-redis
+  namespace: booking
 spec:
   selector:
     tier: booking-redis
@@ -315,6 +323,7 @@ metadata:
     tier: booking
     app: booking-app
   name: booking
+  namespace: booking
 spec:
   selector:
     tier: booking
@@ -334,6 +343,7 @@ metadata:
     tier: booking-celery-app
     app: booking-app
   name: booking-celery-app
+  namespace: booking
 spec:
   selector:
     tier: booking-celery-app
@@ -380,6 +390,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: booking
   name: booking-db
   labels:
     tier: booking-db
@@ -419,6 +430,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: booking
   name: booking-redis
   labels:
     tier: booking-redis
@@ -453,6 +465,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: booking
+  namespace: booking
   labels:
     tier: booking
     app: booking-app
@@ -503,6 +516,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: booking
   name: booking-celery-app
   labels:
     tier: booking-celery-app

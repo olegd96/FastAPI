@@ -47,15 +47,15 @@ pipeline {
     }
         stage('DOCKER IMAGE') {
             steps {
-                sh ''' 
-                sudo docker build -t 127.0.0.1:32000/booking_app:latest .
-                sudo docker push 127.0.0.1:32000/booking_app:latest
-                '''
-                // script {
-                //     docker.withRegistry('http://localhost:32000') {
-                //         docker.build('booking_app').push('latest')
-                //     }
-                // }
+                // sh ''' 
+                // sudo docker build -t 127.0.0.1:32000/booking_app:latest .
+                // sudo docker push 127.0.0.1:32000/booking_app:latest
+                // '''
+                script {
+                    docker.withRegistry('http://localhost:32000') {
+                        docker.build('booking_app').push('latest')
+                    }
+                }
             }
         }
         stage('Deploy to k8s') {

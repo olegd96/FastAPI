@@ -7,6 +7,7 @@ from app.exceptions import DateFromCannotBeAfterDateTo
 from app.hotels.models import Hotels
 from app.hotels.rooms.models import Rooms
 
+
 class HotelsDAO(BaseDAO):
 
     models = Hotels

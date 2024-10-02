@@ -9,13 +9,13 @@
         state: started
         enabled: true
     - name: copy k8s file to ~/workspace/f_pipe/k8s.yml'
-      template:
-        src: oleg96d@localhost:/home/oleg96d/IT/FastAPI/FastAPI/k8s.yml
-        dest: /var/lib/jenkins/workspace/f_pipe/k8s.yml
+      command: '''sudo cp -t 
+        /home/oleg96d/IT/FastAPI/FastAPI/k8s.yml 
+        /var/lib/jenkins/workspace/f_pipe/k8s.yml'''
     - name: copy k8s_config file to ~/workspace/f_pipe/k8s_config.yml'
-      template:
-        src: oleg96d@localhost:/home/oleg96d/IT/FastAPI/FastAPI/k8s_config.yml
-        dest: /var/lib/jenkins/workspace/f_pipe/k8s_config.yml
+      command: '''sudo cp -t
+        /home/oleg96d/IT/FastAPI/FastAPI/k8s_config.yml
+        /var/lib/jenkins/workspace/f_pipe/k8s_config.yml'''
     - name: apply configmap at k8s
       command: 'microk8s kubectl apply -f /var/lib/jenkins/workspace/f_pipe/k8s.yml'
     - name: deploy booking at k8s

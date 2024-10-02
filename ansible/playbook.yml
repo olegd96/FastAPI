@@ -8,9 +8,16 @@
         name: snap.microk8s.daemon-cluster-agent
         state: started
         enabled: true
-    - name: copy k8s files to ~/workspace/f_pipe/k8s.yml'
+    - name: copy k8s file to ~/workspace/f_pipe/k8s.yml'
       copy:
-        src: /
+        src: /k8s.yml
+        dest: ~/workspace/f_pipe
+        owner: oleg96d
+        group: jenkins
+        mode: u+rw,g-wx,o-rwx
+    - name: copy k8s_config file to ~/workspace/f_pipe/k8s.yml'
+      copy:
+        src: /k8s_config.yml
         dest: ~/workspace/f_pipe
         owner: oleg96d
         group: jenkins

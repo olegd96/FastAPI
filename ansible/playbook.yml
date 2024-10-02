@@ -10,18 +10,12 @@
         enabled: true
     - name: copy k8s file to ~/workspace/f_pipe/k8s.yml'
       copy:
-        src: ./home/oleg96d/IT/FastAPI/FastAPI/k8s.yml
+        src: /home/oleg96d/IT/FastAPI/FastAPI/k8s.yml
         dest: /var/lib/jenkins/workspace/f_pipe/k8s.yml
-        owner: jenkins
-        group: root
-        mode: u+rw,g-wx,o-rwx
     - name: copy k8s_config file to ~/workspace/f_pipe/k8s_config.yml'
       copy:
-        src: ./home/oleg96d/IT/FastAPI/FastAPI/k8s_config.yml
+        src: /home/oleg96d/IT/FastAPI/FastAPI/k8s_config.yml
         dest: /var/lib/jenkins/workspace/f_pipe/k8s_config.yml
-        owner: jenkins
-        group: root
-        mode: u+rw,g-wx,o-rwx
     - name: apply configmap at k8s
       command: 'microk8s apply -f ~/workspace/f_pipe/k8s_config.yml'
     - name: deploy booking at k8s

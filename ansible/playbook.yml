@@ -11,7 +11,7 @@
     - name: copy k8s file to ~/workspace/f_pipe/k8s.yml'
       copy:
         src: /k8s.yml
-        dest: ~/workspace/f_pipe/k8s.yml
+        dest: /var/lib/jenkins/workspace/f_pipe/k8s.yml
         owner: oleg96d
         group: jenkins
         mode: u+rw,g-wx,o-rwx

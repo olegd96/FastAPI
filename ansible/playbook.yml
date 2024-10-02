@@ -8,5 +8,14 @@
         name: snap.microk8s.daemon-cluster-agent
         state: started
         enabled: true
+    - name: copy k8s files to ~/workspace/f_pipe/k8s.yml'
+      copy:
+        src: /
+        dest: ~/workspace/f_pipe
+        owner: oleg96d
+        group: jenkins
+        mode: u+rw,g-wx,o-rwx
+    - name: apply configmap at k8s
+      command: 'microk8s apply -f ~/workspace/f_pipe/k8s_config.yml'
     - name: deploy booking at k8s
       command: 'microk8s kubectl apply -f ~/workspace/f_pipe/k8s.yml'

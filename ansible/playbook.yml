@@ -19,7 +19,6 @@
         decrypt: yes
         owner: root
         group: root
-        mode: 0640
         backup: no
     - name: apply configmap at k8s
       command: 'microk8s kubectl apply -f /var/lib/jenkins/workspace/f_pipe/k8s.yml'

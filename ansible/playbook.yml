@@ -13,7 +13,7 @@
         src: /var/lib/jenkins/k8s.yml
         dest: /var/lib/jenkins/workspace/f_pipe/k8s.yml
     - name: copy k8s_config file to ~/workspace/f_pipe/k8s_config.yml'
-      copy-vault:
+      copy:
         src: /var/lib/jenkins/k8s_config.yml
         dest: /var/lib/jenkins/workspace/f_pipe/k8s_config.yml
     - name: apply configmap at k8s

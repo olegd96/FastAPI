@@ -60,7 +60,7 @@ pipeline {
         }
         stage('Deploy to k8s') {
             steps {
-                ansiblePlaybook(inventory: 'ansible/inventory', playbook: 'ansible/playbook.yml')
+                ansiblePlaybook(inventory: 'ansible/inventory', playbook: 'ansible/playbook.yml', credentialsId: 'vault')
             }
         }
     }

@@ -4,7 +4,7 @@
   user: oleg96d
   tasks:
     - name: get k8s
-      ansible.builtin.service:
+      service:
         name: snap.microk8s.daemon-cluster-agent
         state: started
         enabled: true

@@ -4,7 +4,7 @@ from app.S3.s3client import s3_client
 
 router = APIRouter(
     prefix="/S3",
-    tags = ['S3 хранилище'],
+    tags=["S3 хранилище"],
 )
 
 

@@ -1,0 +1,8 @@
+{"timestamp": "2024-09-25T18:00:41.092006Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-09-25T18:01:00.811868Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0005}
+{"timestamp": "2024-09-25T18:01:02.877025Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0203}
+{"timestamp": "2024-09-25T18:01:27.426857Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.4666}
+{"timestamp": "2024-09-25T18:03:47.877625Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0005}
+{"timestamp": "2024-09-25T18:03:54.804480Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0008}
+{"timestamp": "2024-09-25T18:04:03.209074Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0005}
+{"timestamp": "2024-09-25T18:04:59.671244Z", "level": "INFO", "name": "root", "message": "shutdown_app"}

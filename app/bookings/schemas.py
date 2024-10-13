@@ -9,16 +9,16 @@ from app.users.schemas import SUser
 
 
 class SBooking(BaseModel):
-    id : int 
-    room_id : int
-    user_id : uuid.UUID
-    date_from : date
-    date_to : date
-    price : int
-    total_cost : int
-    total_days : int
+    id: int
+    room_id: int
+    user_id: uuid.UUID
+    date_from: date
+    date_to: date
+    price: int
+    total_cost: int
+    total_days: int
     rate: Optional[int]
-    
+
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -26,10 +26,10 @@ class SBookingInfo(SBooking):
     image_id: int
     name: str
     description: Optional[str]
-    services: list[str]   
+    services: list[str]
     name_1: str
     location: str
-   
+
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -44,11 +44,13 @@ class SBookingWithRoom(SBooking):
 
     model_config = ConfigDict(from_attributes=True)
 
+
 class SBookingWithRoomAndUser(SBooking):
     room: "SRoom"
     user: "SUser"
 
     model_config = ConfigDict(from_attributes=True)
+
 
 class SBookingRate(BaseModel):
     rate: str

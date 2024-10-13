@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+message WeatherRequest {
+    string location = 1;
+}
+
+message WeatherLocation {
+    float temp = 1;
+    string condition_text = 2;
+    string condition_img = 3;
+}
+
+message WeatherResponse {
+    repeated WeatherLocation location = 1; 
+}
+
+service WeatherGrpcService {
+    rpc Weather (WeatherRequest) returns (WeatherResponse);
+}

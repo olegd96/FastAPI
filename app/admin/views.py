@@ -22,7 +22,6 @@ class BookingsAdmin(ModelView, model=Bookings):
     name = "Бронь"
     name_plural = "Брони"
     icon = "fa-solid fa-book"
-    
 
 
 class HotelsAdmin(ModelView, model=Hotels):
@@ -38,17 +37,21 @@ class RoomsAdmin(ModelView, model=Rooms):
     name_plural = "Номера"
     icon = "fa-solid fa-bed"
 
+
 class CartAdmin(ModelView, model=Carts):
     column_list = [c.name for c in Carts.__table__.c] + [Carts.user] + [Carts.room]
     name = "Корзина"
     name_plural = "Корзина"
     icon = "fa-solid fa-cart"
 
+
 class FavourAdmin(ModelView, model=Favourites):
-    column_list = [c.name for c in Favourites.__table__.c] + [Favourites.user] + [Favourites.room] + [Favourites.hotel]
+    column_list = (
+        [c.name for c in Favourites.__table__.c]
+        + [Favourites.user]
+        + [Favourites.room]
+        + [Favourites.hotel]
+    )
     name = "Избранное"
     name_plural = "Избранное"
     icon = ""
-
-    
-    

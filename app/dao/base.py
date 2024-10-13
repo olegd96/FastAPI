@@ -10,12 +10,12 @@ from sqlalchemy.exc import SQLAlchemyError
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 ModelType = TypeVar("ModelType", bound=Base)
 
+
 class BaseDAO:
     models = None
 
-
     @classmethod
-    async def find_by_id(cls, model_id: int|uuid.UUID):
+    async def find_by_id(cls, model_id: int | uuid.UUID):
         async with async_session_maker() as session:
             query = select(cls.models).filter_by(id=model_id)
             result = await session.execute(query)
@@ -27,14 +27,14 @@ class BaseDAO:
             query = select(cls.models.__table__.columns).filter_by(**filter_by)
             result = await session.execute(query)
             return result.mappings().one_or_none()
-        
+
     @classmethod
     async def find_all(cls, **filter_by):
         async with async_session_maker() as session:
             query = select(cls.models.__table__.columns).filter_by(**filter_by)
             result = await session.execute(query)
             return result.mappings().all()
-        
+
     @classmethod
     async def add(cls, **data):
         try:
@@ -69,8 +69,6 @@ class BaseDAO:
             logger.error(msg, extra={"table": cls.models.__tablename__}, exc_info=True)
             return None
 
-
-
     @classmethod
     async def add_bulk(cls, *data):
         try:
@@ -87,20 +85,22 @@ class BaseDAO:
 
             logger.error(msg, extra={"table": cls.models.__tablename__}, exc_info=True)
             return None
-        
+
     @classmethod
-    async def update(cls, 
-                    *where, 
-                    data: Union[UpdateSchemaType, Dict[str, Any]]) -> Optional[ModelType]:
+    async def update(
+        cls, *where, data: Union[UpdateSchemaType, Dict[str, Any]]
+    ) -> Optional[ModelType]:
         if isinstance(data, dict):
             update_data = data
         else:
             update_data = data.model_dump(exclude_unset=True)
         try:
-            stmt = (update(cls.models)
-                    .where(*where)
-                    .values(**update_data)
-                    .returning(cls.models.__table__.columns))
+            stmt = (
+                update(cls.models)
+                .where(*where)
+                .values(**update_data)
+                .returning(cls.models.__table__.columns)
+            )
             async with async_session_maker() as session:
                 res = await session.execute(stmt)
                 await session.commit()
@@ -113,5 +113,3 @@ class BaseDAO:
 
             logger.error(msg, extra={"table": cls.models.__tablename__}, exc_info=True)
             return None
-                
-                            

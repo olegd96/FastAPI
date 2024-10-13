@@ -9,46 +9,47 @@ from pydantic import EmailStr
 
 from app.users.models import Users
 
-attachment = 'app/static/images/simple-booking.jpg'
+attachment = "app/static/images/simple-booking.jpg"
 
 
 def create_booking_confirmation_templates(
-        booking: dict,
-        email_to: EmailStr,
+    booking: dict,
+    email_to: EmailStr,
 ):
     email = MIMEMultipart()
 
     email["Subject"] = "Подтверждение бронирования"
     email["From"] = settings.SMTP_USER
     email["To"] = email_to
-    
+
     body = f"""
         <h1>Подтвердите бронирование</h1>
         Вы забронировали отель с {booking["date_from"]} по {booking["date_to"]}
         """
-    msgText = MIMEText('<b>%s</b><br/><img src="cid:%s"/><br/>' % (body, attachment), 'html')
+    msgText = MIMEText(
+        '<b>%s</b><br/><img src="cid:%s"/><br/>' % (body, attachment), "html"
+    )
     email.attach(msgText)
-    email.add_header('Content-Disposition', 'attachment', filename='app/static/images/simple-booking.jpg')
+    email.add_header(
+        "Content-Disposition",
+        "attachment",
+        filename="app/static/images/simple-booking.jpg",
+    )
     with open(attachment, "rb") as file:
         image = MIMEImage(file.read())
-    
-    image.add_header('Content-ID', '<{}>'.format(attachment))
-    email.attach(image)
 
+    image.add_header("Content-ID", "<{}>".format(attachment))
+    email.attach(image)
 
     return email
 
+
 def create_booking_notice_template(
-        booking: dict,
-        email_to: EmailStr,
-        days: int,
-
-
+    booking: dict,
+    email_to: EmailStr,
+    days: int,
 ):
-    alph = {
-        1: "день",
-        3: "дня"
-    }
+    alph = {1: "день", 3: "дня"}
 
     email = EmailMessage()
 
@@ -64,22 +65,22 @@ def create_booking_notice_template(
          <img src='/static/images/resized_200_100_'{booking['img']}'.webp'
                     onerror="this.src='static/images/simple-booking.jpg';">
         """,
-        subtype="html"
+        subtype="html",
     )
 
     return email
 
 
 def create_registration_confirmation_templates(
-        user_id: uuid.UUID,
-        email_to: EmailStr,
+    user_id: uuid.UUID,
+    email_to: EmailStr,
 ):
     email = MIMEMultipart()
 
     email["Subject"] = "Подтверждение регистрации"
     email["From"] = settings.SMTP_USER
     email["To"] = email_to
-    
+
     body = f"""
         <h1>Подтвердите регистрацию</h1>
         Вы зарегистрировались на ONBOOK,
@@ -88,14 +89,19 @@ def create_registration_confirmation_templates(
         <a href="http://94.241.143.220/auth/verify/{user_id}" style="color: blue;">ссылкe</a>.
         Если это были не вы, не отвечайте на данное сообщение.
         """
-    msgText = MIMEText('<b>%s</b><br/><img src="cid:%s"/><br/>' % (body, attachment), 'html')
+    msgText = MIMEText(
+        '<b>%s</b><br/><img src="cid:%s"/><br/>' % (body, attachment), "html"
+    )
     email.attach(msgText)
-    email.add_header('Content-Disposition', 'attachment', filename='app/static/images/simple-booking.jpg')
+    email.add_header(
+        "Content-Disposition",
+        "attachment",
+        filename="app/static/images/simple-booking.jpg",
+    )
     with open(attachment, "rb") as file:
         image = MIMEImage(file.read())
-    
-    image.add_header('Content-ID', '<{}>'.format(attachment))
-    email.attach(image)
 
+    image.add_header("Content-ID", "<{}>".format(attachment))
+    email.attach(image)
 
     return email

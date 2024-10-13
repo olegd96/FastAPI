@@ -7,11 +7,7 @@ from app.S3.s3client import s3_client
 from app.config import settings
 
 
-
-router = APIRouter(
-    prefix="/images",
-    tags=["Загрузка изображений"]
-)
+router = APIRouter(prefix="/images", tags=["Загрузка изображений"])
 
 
 @router.post("/hotels")

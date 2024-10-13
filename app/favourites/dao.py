@@ -1,5 +1,3 @@
-
-
 from datetime import date
 import uuid
 from fastapi import Depends
@@ -20,7 +18,6 @@ from app.users.models import Users
 
 
 class FavDao(BaseDAO):
-
     models = Favourites
 
     @classmethod
@@ -32,41 +29,35 @@ class FavDao(BaseDAO):
         anonimous_id: str | None = None,
     ):
         if user_id:
-            room_query = (select(Favourites)
-                          .filter_by(user_id=user_id, room_id=room_id)
-                          )
+            room_query = select(Favourites).filter_by(user_id=user_id, room_id=room_id)
 
-            stmt_like = (insert(Favourites)
-                         .values(user_id=user_id,
-                                 room_id=room_id,
-                                 hotel_id=hotel_id)
-                         .returning(Favourites.room_id,
-                                    Favourites.user_id)
-                         )
+            stmt_like = (
+                insert(Favourites)
+                .values(user_id=user_id, room_id=room_id, hotel_id=hotel_id)
+                .returning(Favourites.room_id, Favourites.user_id)
+            )
 
-            stmt_dislike = (delete(Favourites)
-                            .filter_by(user_id=user_id, room_id=room_id)
-                            .returning(Favourites.room_id,
-                                       Favourites.user_id)
-                            )
+            stmt_dislike = (
+                delete(Favourites)
+                .filter_by(user_id=user_id, room_id=room_id)
+                .returning(Favourites.room_id, Favourites.user_id)
+            )
         else:
-            room_query = (select(Favourites)
-                          .filter_by(anonimous_id=anonimous_id, room_id=room_id)
-                          )
+            room_query = select(Favourites).filter_by(
+                anonimous_id=anonimous_id, room_id=room_id
+            )
 
-            stmt_like = (insert(Favourites)
-                         .values(anonimous_id=anonimous_id,
-                                 room_id=room_id,
-                                 hotel_id=hotel_id)
-                         .returning(Favourites.room_id,
-                                    Favourites.anonimous_id)
-                         )
+            stmt_like = (
+                insert(Favourites)
+                .values(anonimous_id=anonimous_id, room_id=room_id, hotel_id=hotel_id)
+                .returning(Favourites.room_id, Favourites.anonimous_id)
+            )
 
-            stmt_dislike = (delete(Favourites)
-                            .filter_by(anonimous_id=anonimous_id, room_id=room_id)
-                            .returning(Favourites.room_id,
-                                       Favourites.anonimous_id)
-                            )
+            stmt_dislike = (
+                delete(Favourites)
+                .filter_by(anonimous_id=anonimous_id, room_id=room_id)
+                .returning(Favourites.room_id, Favourites.anonimous_id)
+            )
         try:
             async with async_session_maker() as session:
                 room = await session.execute(room_query)
@@ -125,19 +116,22 @@ class FavDao(BaseDAO):
         #     )
         # )
 
-        room_query_1 = (select(Favourites)
-                        .options(joinedload(Favourites.hotel))
-                        .options(joinedload(Favourites.room))
-                        .filter_by(**filter)
-                        .limit(limit)
-                        .offset(offset)
-                        )
+        room_query_1 = (
+            select(Favourites)
+            .options(joinedload(Favourites.hotel))
+            .options(joinedload(Favourites.room))
+            .filter_by(**filter)
+            .limit(limit)
+            .offset(offset)
+        )
 
         async with async_session_maker() as session:
             rooms = await session.execute(room_query_1)
             rooms_res = rooms.scalars().all()
-            rooms_res = [TypeAdapter(SFavList).validate_python(
-                room).model_dump() for room in rooms_res]
+            rooms_res = [
+                TypeAdapter(SFavList).validate_python(room).model_dump()
+                for room in rooms_res
+            ]
             return rooms_res
 
     @classmethod
@@ -145,9 +139,9 @@ class FavDao(BaseDAO):
         cls,
         **filter,
     ):
-        room_query = (select(func.count(Favourites.user_id))
-                      .filter_by(**filter)
-                      ).group_by(Favourites.user_id)
+        room_query = (
+            select(func.count(Favourites.user_id)).filter_by(**filter)
+        ).group_by(Favourites.user_id)
 
         async with async_session_maker() as session:
             rooms = await session.execute(room_query)
@@ -163,57 +157,65 @@ class FavDao(BaseDAO):
         date_to: date,
         **filter_by,
     ):
-        booked = select(Rooms.__table__.columns,
-                        (Rooms.quantity - func.count(Bookings.room_id)
-                         ).label("rooms_left"),
-                        ).select_from(Rooms).join(
-            Bookings, Bookings.room_id == Rooms.id
-        ).where(
-                            or_(
-                                and_(
-                                    Bookings.date_from >= date_from,
-                                    Bookings.date_from <= date_to,
-                                ),
-                                and_(
-                                    Bookings.date_from <= date_from,
-                                    Bookings.date_to > date_from,
-                                ),
-                            ),
-        ).group_by(Bookings.room_id, Rooms.id).cte("booked")
-
-        rooms_left = (select(Rooms.__table__.columns,
-                             Rooms.quantity.label("rooms_left")).select_from(Rooms)
-                      .where(
-            Rooms.name.not_in(select(booked.c.name))
+        booked = (
+            select(
+                Rooms.__table__.columns,
+                (Rooms.quantity - func.count(Bookings.room_id)).label("rooms_left"),
+            )
+            .select_from(Rooms)
+            .join(Bookings, Bookings.room_id == Rooms.id)
+            .where(
+                or_(
+                    and_(
+                        Bookings.date_from >= date_from,
+                        Bookings.date_from <= date_to,
+                    ),
+                    and_(
+                        Bookings.date_from <= date_from,
+                        Bookings.date_to > date_from,
+                    ),
+                ),
+            )
+            .group_by(Bookings.room_id, Rooms.id)
+            .cte("booked")
         )
-            .union_all(select(booked)
-                       .where(booked.c.rooms_left > 0))
+
+        rooms_left = (
+            select(Rooms.__table__.columns, Rooms.quantity.label("rooms_left"))
+            .select_from(Rooms)
+            .where(Rooms.name.not_in(select(booked.c.name)))
+            .union_all(select(booked).where(booked.c.rooms_left > 0))
         ).cte("rooms_left")
 
-        room_query_1 = (select(Favourites)
-                        .options(joinedload(Favourites.hotel))
-                        .options(joinedload(Favourites.room))
-                        .filter_by(**filter_by)
-                        .where(Favourites.room_id.in_(select(rooms_left.c.id)))
-                        )
+        room_query_1 = (
+            select(Favourites)
+            .options(joinedload(Favourites.hotel))
+            .options(joinedload(Favourites.room))
+            .filter_by(**filter_by)
+            .where(Favourites.room_id.in_(select(rooms_left.c.id)))
+        )
 
         async with async_session_maker() as session:
             rooms = await session.execute(room_query_1)
             rooms_res = rooms.scalars().all()
-            rooms_res = [TypeAdapter(SFavList).validate_python(
-                room).model_dump() for room in rooms_res]
+            rooms_res = [
+                TypeAdapter(SFavList).validate_python(room).model_dump()
+                for room in rooms_res
+            ]
             return rooms_res
 
     @classmethod
     async def from_anon_to_reg(cls, anonimous_id: str, user: Users):
-        query = (update(Favourites)
-                 .where(
-            and_(
-                Favourites.anonimous_id == anonimous_id,
-                Favourites.room_id.not_in(
-                    select(Favourites.room_id).filter_by(user_id=user.id))
+        query = (
+            update(Favourites)
+            .where(
+                and_(
+                    Favourites.anonimous_id == anonimous_id,
+                    Favourites.room_id.not_in(
+                        select(Favourites.room_id).filter_by(user_id=user.id)
+                    ),
+                )
             )
-        )
             .values(user_id=user.id, anonimous_id="")
             .returning(Favourites.user_id)
         )

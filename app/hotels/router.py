@@ -8,10 +8,7 @@ from app.hotels.schemas import SHotels, SHotelsInfo
 from app.tasks.scheduled import send_cities_to_broker
 
 
-
-
 from app.exceptions import DateFromCannotBeAfterDateTo, CannotBookHotelForLongPeriod
-
 
 
 router = APIRouter(
@@ -28,6 +25,7 @@ async def get_location(
     res = await HotelsDAO.find_location(location=location)
     return res
 
+
 @router.get("/find_all")
 async def find_all(background_task: BackgroundTasks):
     await send_cities_to_broker()
@@ -35,26 +33,24 @@ async def find_all(background_task: BackgroundTasks):
 
 @router.get("/{location}")
 @cache(expire=150)
-async def get_hotels_by_location_and_time(location: str,
-    date_from: date = Query(...,description=f"Например, {datetime.now().date()}"),
-    date_to: date = Query(...,description=f"Например, {(datetime.now() + timedelta(days=14)).date()}"),
-    ) -> List[SHotelsInfo]:
+async def get_hotels_by_location_and_time(
+    location: str,
+    date_from: date = Query(..., description=f"Например, {datetime.now().date()}"),
+    date_to: date = Query(
+        ..., description=f"Например, {(datetime.now() + timedelta(days=14)).date()}"
+    ),
+) -> List[SHotelsInfo]:
     if date_from > date_to:
         raise DateFromCannotBeAfterDateTo
     if (date_to - date_from).days > 31:
         raise CannotBookHotelForLongPeriod
     return await HotelsDAO.find_all(
-        location=location, date_from=date_from, date_to=date_to)
+        location=location, date_from=date_from, date_to=date_to
+    )
+
 
 @router.get("/id/{hotel_id}")
 @cache(expire=150)
-async def get_hotel_by_id(
-    hotel_id: int) -> Optional[SHotels]:
+async def get_hotel_by_id(hotel_id: int) -> Optional[SHotels]:
     res = await HotelsDAO.find_one_or_none(id=hotel_id)
     return res
-
-
-
-
-         
-    

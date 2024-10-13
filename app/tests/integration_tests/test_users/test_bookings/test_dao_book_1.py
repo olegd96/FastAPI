@@ -1,8 +1,7 @@
-
-
 from datetime import datetime
 from app.bookings.dao import BookingDAO
 import uuid
+
 
 async def test_and_get_booking():
     new_booking = await BookingDAO.add(

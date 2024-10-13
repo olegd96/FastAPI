@@ -124,6 +124,7 @@ motor = "^3.5.1"
 fastapi-versioning = "^0.10.0"
 prometheus-fastapi-instrumentator = "6.1.0"
 pytest-cov = "^5.0.0"
+grpcio-tools = "^1.66.2"
 
 
 

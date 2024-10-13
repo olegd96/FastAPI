@@ -12,6 +12,7 @@ TABLE_MODEL_MAP = {
     "bookings": BookingDAO,
 }
 
+
 def convert_csv_to_postgres_format(csv_iterable: Iterable):
     try:
         data = []

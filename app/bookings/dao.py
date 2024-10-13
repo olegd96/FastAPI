@@ -54,15 +54,15 @@ class BookingDAO(BaseDAO):
                     and_(
                         Bookings.room_id == room_id,
                         or_(
-                                and_(
-                                    Bookings.date_from >= date_from,
-                                    Bookings.date_from <= date_to,
-                                ),
-                                and_(
-                                    Bookings.date_from <= date_from,
-                                    Bookings.date_to > date_from,
-                                ),
+                            and_(
+                                Bookings.date_from >= date_from,
+                                Bookings.date_from <= date_to,
                             ),
+                            and_(
+                                Bookings.date_from <= date_from,
+                                Bookings.date_to > date_from,
+                            ),
+                        ),
                     )
                 )
                 .cte("booked_rooms")
@@ -134,8 +134,11 @@ class BookingDAO(BaseDAO):
                 b_user_id = b_user_id.scalar()
                 if b_user_id != user_id:
                     raise UserIsNotPresentException
-                delete_booking = delete(Bookings).where(
-                    Bookings.id == booking_id).returning(Bookings.id)
+                delete_booking = (
+                    delete(Bookings)
+                    .where(Bookings.id == booking_id)
+                    .returning(Bookings.id)
+                )
                 res = await session.execute(delete_booking)
                 await session.commit()
                 return res.mappings().one()
@@ -164,9 +167,11 @@ class BookingDAO(BaseDAO):
             .join(Rooms, Rooms.id == Bookings.room_id, isouter=True)
             .join(Hotels, Hotels.id == Rooms.hotel_id)
             .where(
-                and_(Bookings.user_id == user_id,
-                     Bookings.deleted == False,
-                     Bookings.date_to > date.today())
+                and_(
+                    Bookings.user_id == user_id,
+                    Bookings.deleted == False,
+                    Bookings.date_to > date.today(),
+                )
             )
         )
         async with async_session_maker() as session:
@@ -181,15 +186,19 @@ class BookingDAO(BaseDAO):
                 .options(joinedload(Bookings.user))
                 .options(joinedload(Bookings.room))
                 .filter(
-                    and_(date.today() <= Bookings.date_from - timedelta(days=day_delta),
-                         Bookings.deleted == False)
+                    and_(
+                        date.today() <= Bookings.date_from - timedelta(days=day_delta),
+                        Bookings.deleted == False,
+                    )
                 )
             )
-            
+
             bookings = await session.execute(book_query)
             bookings = bookings.scalars().all()
-            bookings = [TypeAdapter(SBookingWithRoomAndUser).validate_python(
-                book).model_dump() for book in bookings]
+            bookings = [
+                TypeAdapter(SBookingWithRoomAndUser).validate_python(book).model_dump()
+                for book in bookings
+            ]
             return bookings
 
     @classmethod
@@ -199,9 +208,11 @@ class BookingDAO(BaseDAO):
                 select(Bookings)
                 .options(joinedload(Bookings.room))
                 .filter(
-                    and_(Bookings.date_to <= date.today(),
-                         Bookings.deleted == False,
-                         Bookings.user_id == user.id)
+                    and_(
+                        Bookings.date_to <= date.today(),
+                        Bookings.deleted == False,
+                        Bookings.user_id == user.id,
+                    )
                 )
                 .limit(limit)
                 .offset(offset)
@@ -209,20 +220,25 @@ class BookingDAO(BaseDAO):
 
             past_bookings = await session.execute(query)
             past_bookings = past_bookings.scalars().all()
-            past_bookings = [TypeAdapter(SBookingWithRoom).validate_python(
-                book).model_dump() for book in past_bookings]
+            past_bookings = [
+                TypeAdapter(SBookingWithRoom).validate_python(book).model_dump()
+                for book in past_bookings
+            ]
             return past_bookings
-        
+
     @classmethod
     async def count_all_past(cls, user: Users):
         async with async_session_maker() as session:
             query = (
                 select(func.count(Bookings.user_id))
                 .filter(
-                    and_(Bookings.date_to <= date.today(),
-                         Bookings.deleted == False,
-                         Bookings.user_id == user.id)
-                ).group_by(Bookings.user_id)
+                    and_(
+                        Bookings.date_to <= date.today(),
+                        Bookings.deleted == False,
+                        Bookings.user_id == user.id,
+                    )
+                )
+                .group_by(Bookings.user_id)
             )
 
             past_bookings = await session.execute(query)
@@ -231,7 +247,6 @@ class BookingDAO(BaseDAO):
                 return past_bookings
             return 0
 
-
     @classmethod
     async def find_all_past_bookings_by_date(
         cls,
@@ -239,38 +254,44 @@ class BookingDAO(BaseDAO):
         date_from: date,
         date_to: date,
     ):
-        booked = select(Rooms.__table__.columns,
-                        (Rooms.quantity - func.count(Bookings.room_id)).label("rooms_left"),
-                        ).select_from(Rooms).join(
-                            Bookings, Bookings.room_id == Rooms.id
-        ).where(
-            or_(
-                                and_(
-                                    Bookings.date_from >= date_from,
-                                    Bookings.date_from <= date_to,
-                                ),
-                                and_(
-                                    Bookings.date_from <= date_from,
-                                    Bookings.date_to > date_from,
-                                ),
-                            ),
-        ).group_by(Bookings.room_id, Rooms.id).cte("booked")
-
-        rooms_left = (select(Rooms.__table__.columns,
-                             Rooms.quantity.label("rooms_left")).select_from(Rooms)
-                      .where(
-            Rooms.name.not_in(select(booked.c.name))
+        booked = (
+            select(
+                Rooms.__table__.columns,
+                (Rooms.quantity - func.count(Bookings.room_id)).label("rooms_left"),
+            )
+            .select_from(Rooms)
+            .join(Bookings, Bookings.room_id == Rooms.id)
+            .where(
+                or_(
+                    and_(
+                        Bookings.date_from >= date_from,
+                        Bookings.date_from <= date_to,
+                    ),
+                    and_(
+                        Bookings.date_from <= date_from,
+                        Bookings.date_to > date_from,
+                    ),
+                ),
+            )
+            .group_by(Bookings.room_id, Rooms.id)
+            .cte("booked")
         )
-        ).union_all(select(booked)
-                    .where(booked.c.rooms_left > 0))
+
+        rooms_left = (
+            select(Rooms.__table__.columns, Rooms.quantity.label("rooms_left"))
+            .select_from(Rooms)
+            .where(Rooms.name.not_in(select(booked.c.name)))
+        ).union_all(select(booked).where(booked.c.rooms_left > 0))
 
         room_query = (
             select(Bookings)
             .options(joinedload(Bookings.room))
             .filter(
-                and_(Bookings.date_to <= date.today(),
-                     Bookings.deleted == False,
-                     Bookings.user_id == user.id)
+                and_(
+                    Bookings.date_to <= date.today(),
+                    Bookings.deleted == False,
+                    Bookings.user_id == user.id,
+                )
             )
             .where(Bookings.room_id.in_(select(rooms_left.c.id)))
         )
@@ -278,35 +299,36 @@ class BookingDAO(BaseDAO):
         async with async_session_maker() as session:
             past_bookings_by_date = await session.execute(room_query)
             past_bookings_by_date = past_bookings_by_date.scalars().all()
-            past_bookings_by_date = [TypeAdapter(SBookingWithRoom).validate_python(
-                book).model_dump() for book in past_bookings_by_date]
+            past_bookings_by_date = [
+                TypeAdapter(SBookingWithRoom).validate_python(book).model_dump()
+                for book in past_bookings_by_date
+            ]
             return past_bookings_by_date
 
     @classmethod
     async def get_most_popular_location(
         cls,
     ):
-        bookings = (select(Bookings.room_id,
-                           func.count(Bookings.room_id)
-                           .label("book_count")
-                           )
-                    .order_by(desc("book_count"))
-                    .group_by(Bookings.room_id)
-                    .limit(6)
-                    ).cte("bookings")
+        bookings = (
+            select(Bookings.room_id, func.count(Bookings.room_id).label("book_count"))
+            .order_by(desc("book_count"))
+            .group_by(Bookings.room_id)
+            .limit(6)
+        ).cte("bookings")
 
-        hotels = (select(Rooms)
-                  .options(joinedload(Rooms.hotel))
-                  .filter(Rooms.id.in_(select(bookings.c.room_id)))
-                  )
+        hotels = (
+            select(Rooms)
+            .options(joinedload(Rooms.hotel))
+            .filter(Rooms.id.in_(select(bookings.c.room_id)))
+        )
 
         async with async_session_maker() as session:
             res = await session.execute(hotels)
             res = res.scalars().all()
-            rooms_hotels = [TypeAdapter(SRoomWithHotel).validate_python(
-                r).model_dump() for r in res]
+            rooms_hotels = [
+                TypeAdapter(SRoomWithHotel).validate_python(r).model_dump() for r in res
+            ]
             return rooms_hotels
-
 
     @classmethod
     async def set_avg_by_room_id(
@@ -315,26 +337,29 @@ class BookingDAO(BaseDAO):
     ):
         try:
             rooms_avg = (
-                select(Bookings.room_id, Rooms.hotel_id.label("hotel_id"), func.round((func.avg(Bookings.rate)), 3).label("avg_rate"))
-                .where(
-                    and_(Bookings.rate != 0,
-                        Bookings.room_id == room_id))
+                select(
+                    Bookings.room_id,
+                    Rooms.hotel_id.label("hotel_id"),
+                    func.round((func.avg(Bookings.rate)), 3).label("avg_rate"),
+                )
+                .where(and_(Bookings.rate != 0, Bookings.room_id == room_id))
                 .join(Rooms, Rooms.id == Bookings.room_id)
                 .group_by(Bookings.room_id, Rooms.hotel_id)
             ).cte("rooms_avg")
 
             hotels_avg = (
-                select(rooms_avg.c.hotel_id, func.round(func.avg(rooms_avg.c.avg_rate), 3).label("hotel_avg"))
-                .group_by(rooms_avg.c.hotel_id)
+                select(
+                    rooms_avg.c.hotel_id,
+                    func.round(func.avg(rooms_avg.c.avg_rate), 3).label("hotel_avg"),
+                ).group_by(rooms_avg.c.hotel_id)
             ).cte("hotels_avg")
-            
-            hotel_rate = (update(Hotels)
-                        .where(Hotels.id == hotels_avg.c.hotel_id)
-                        .values(rate=hotels_avg.c.hotel_avg)
-                        .returning(
-                            Hotels.id,
-                            Hotels.rate)
-                            )
+
+            hotel_rate = (
+                update(Hotels)
+                .where(Hotels.id == hotels_avg.c.hotel_id)
+                .values(rate=hotels_avg.c.hotel_avg)
+                .returning(Hotels.id, Hotels.rate)
+            )
 
             async with async_session_maker() as session:
                 res = await session.execute(hotel_rate)

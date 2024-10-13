@@ -33,7 +33,7 @@ class CartDao(BaseDAO):
         date_from: date,
         date_to: date,
         anonimous_id: str = "",
-        user_id: uuid.UUID|None = None,
+        user_id: uuid.UUID | None = None,
     ):
         """
         WITH booked_rooms AS (
@@ -45,7 +45,7 @@ class CartDao(BaseDAO):
         SELECT rooms.quantity - COUNT(booked_rooms.room_id) FROM rooms
         LEFT JOIN booked_rooms ON booked_rooms.room_id = rooms.id
         WH
-        
+
         ERE rooms.id = 1
         GROUP BY rooms.quantity, booked_rooms.room_id
         """
@@ -56,15 +56,15 @@ class CartDao(BaseDAO):
                     and_(
                         Bookings.room_id == room_id,
                         or_(
-                                and_(
-                                    Bookings.date_from >= date_from,
-                                    Bookings.date_from <= date_to,
-                                ),
-                                and_(
-                                    Bookings.date_from <= date_from,
-                                    Bookings.date_to > date_from,
-                                ),
+                            and_(
+                                Bookings.date_from >= date_from,
+                                Bookings.date_from <= date_to,
                             ),
+                            and_(
+                                Bookings.date_from <= date_from,
+                                Bookings.date_to > date_from,
+                            ),
+                        ),
                     )
                 )
                 .cte("booked_rooms")
@@ -131,7 +131,12 @@ class CartDao(BaseDAO):
             logger.error(msg, extra=extra, exc_info=True)
 
     @classmethod
-    async def delete(cls, booking_id: int, user_id: uuid.UUID|None = None, anonimous_id: str = "",):
+    async def delete(
+        cls,
+        booking_id: int,
+        user_id: uuid.UUID | None = None,
+        anonimous_id: str = "",
+    ):
         try:
             b_user_id = select(Carts.user_id).where(Carts.id == booking_id)
             async with async_session_maker() as session:
@@ -139,11 +144,12 @@ class CartDao(BaseDAO):
                 b_user_id = b_user_id.scalar()
                 if b_user_id != user_id:
                     raise UserIsNotPresentException
-                delete_booking = (update(Carts)
-                                .values(deleted=True)
-                                .where(Carts.id == booking_id)
-                                .returning(Carts.id)
-                                )
+                delete_booking = (
+                    update(Carts)
+                    .values(deleted=True)
+                    .where(Carts.id == booking_id)
+                    .returning(Carts.id)
+                )
                 res = await session.execute(delete_booking)
                 await session.commit()
                 return res.mappings().one()
@@ -162,7 +168,11 @@ class CartDao(BaseDAO):
             logger.error(msg, extra=extra, exc_info=True)
 
     @classmethod
-    async def find_all_with_images(cls, user_id: uuid.UUID|None = None, anonimous_id: str = "",):
+    async def find_all_with_images(
+        cls,
+        user_id: uuid.UUID | None = None,
+        anonimous_id: str = "",
+    ):
         if user_id:
             query = (
                 select(
@@ -172,9 +182,7 @@ class CartDao(BaseDAO):
                 )
                 .join(Rooms, Rooms.id == Carts.room_id, isouter=True)
                 .join(Hotels, Hotels.id == Rooms.hotel_id)
-                .where(
-                    and_(Carts.user_id == user_id, 
-                         Carts.deleted == False))
+                .where(and_(Carts.user_id == user_id, Carts.deleted == False))
             )
         else:
             query = (
@@ -185,20 +193,19 @@ class CartDao(BaseDAO):
                 )
                 .join(Rooms, Rooms.id == Carts.room_id, isouter=True)
                 .join(Hotels, Hotels.id == Rooms.hotel_id)
-                .where(
-                    and_(Carts.anonimous_id == anonimous_id,
-                         Carts.deleted == False))
+                .where(and_(Carts.anonimous_id == anonimous_id, Carts.deleted == False))
             )
         async with async_session_maker() as session:
             result = await session.execute(query)
             return result.mappings().all()
-    
+
     @classmethod
     async def from_anon_to_reg(cls, anonimous_id: str, user: Users):
-        query = (update(Carts)
-                .where(Carts.anonimous_id == anonimous_id)
-                .values(user_id=user.id, anonimous_id="")
-                .returning(Carts.user_id)
+        query = (
+            update(Carts)
+            .where(Carts.anonimous_id == anonimous_id)
+            .values(user_id=user.id, anonimous_id="")
+            .returning(Carts.user_id)
         )
         try:
             async with async_session_maker() as session:
@@ -217,17 +224,15 @@ class CartDao(BaseDAO):
             }
             logger.error(msg, extra=extra, exc_info=True)
 
-    
     @classmethod
     async def delete_old_book_from_cart(cls, days: int):
-        stmt = (delete(Carts)
-                .where(
-                    and_(
-                        Carts.deleted == True,
-                        func.current_timestamp(timezone='utc') - Carts.created >= func.make_interval(0, 0, 0, days, 0, 0, 0)
-                    )
-                )
-                )
+        stmt = delete(Carts).where(
+            and_(
+                Carts.deleted == True,
+                func.current_timestamp(timezone="utc") - Carts.created
+                >= func.make_interval(0, 0, 0, days, 0, 0, 0),
+            )
+        )
         try:
             async with async_session_taskmaker() as session:
                 result = await session.execute(stmt)
@@ -238,10 +243,5 @@ class CartDao(BaseDAO):
             elif isinstance(e, Exception):
                 msg = "Unknown Exc"
             msg += ": Cannot delete data from cart"
-            extra = {
-                "operation": "clean cart from old data"
-            }
+            extra = {"operation": "clean cart from old data"}
             logger.error(msg, extra=extra, exc_info=True)
-            
-    
-    

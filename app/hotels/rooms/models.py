@@ -7,7 +7,8 @@ if TYPE_CHECKING:
     from app.hotels.models import Hotels
     from app.favourites.models import Favourites
     from app.bookings.models import Bookings
-    from app.cart.models import Carts 
+    from app.cart.models import Carts
+
 
 class Rooms(Base):
     __tablename__ = "rooms"

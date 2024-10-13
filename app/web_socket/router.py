@@ -1,14 +1,15 @@
-
 from datetime import datetime
 import time
 import uuid
-from fastapi import  WebSocket, WebSocketDisconnect, APIRouter
+from fastapi import WebSocket, WebSocketDisconnect, APIRouter
 
 
 router = APIRouter(
     prefix="/chat",
-    tags=["WebSock",]
-    )
+    tags=[
+        "WebSock",
+    ],
+)
 
 
 class ConnectionManager:
@@ -38,10 +39,12 @@ manager = ConnectionManager()
 
 @router.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
-    messages = {'1': "Для регистрации выберите пункт меню 'Войти', затем в открывшемся окне пункт 'Зарегистрироваться'",
-                '2': "Чтобы забронировать отель, найдите через пункт меню 'Поиск' интересующий отель и номера, добавьте в корзину. Перейдите в корзину, выберите желаемые позиции и нажмите кнопку 'Забронировать'",
-                '3': "Вы можете отменить бронирование через пункт меню 'Мои бронирования'",
-                '4': "Оценить бронирование можно по окончании дат визита в разделе 'Личный кабинет' во вкладке 'Архив бронирований'"}
+    messages = {
+        "1": "Для регистрации выберите пункт меню 'Войти', затем в открывшемся окне пункт 'Зарегистрироваться'",
+        "2": "Чтобы забронировать отель, найдите через пункт меню 'Поиск' интересующий отель и номера, добавьте в корзину. Перейдите в корзину, выберите желаемые позиции и нажмите кнопку 'Забронировать'",
+        "3": "Вы можете отменить бронирование через пункт меню 'Мои бронирования'",
+        "4": "Оценить бронирование можно по окончании дат визита в разделе 'Личный кабинет' во вкладке 'Архив бронирований'",
+    }
     start_message = """Привет, я - демо-бот<br> Я могу сообщить как пользоваться сервисом<br>
     Выберите нужный пункт:<br> 1 - Регистрация в сервисе<br> 2 - Бронирование отеля<br> 3 - Отмена бронирования<br> 4 - Как оценить отель"""
     content = """
@@ -63,18 +66,33 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
         </div>
         
     """
-    
 
     await manager.connect(websocket)
-    await manager.send_personal_message(content1.format(message=start_message, time=datetime.strftime(datetime.now(), "%d.%m %H:%M")), websocket)
+    await manager.send_personal_message(
+        content1.format(
+            message=start_message, time=datetime.strftime(datetime.now(), "%d.%m %H:%M")
+        ),
+        websocket,
+    )
     try:
         while True:
             data = await websocket.receive_json()
-            await manager.send_personal_message(content.format( message=data["chat_message"], time=datetime.strftime(datetime.now(), "%d.%m %H:%M")), websocket)
-            await manager.send_personal_message(content1.format( message=messages.get(data["chat_message"], "Выберите пункт из предложенных"), time=datetime.strftime(datetime.now(), "%d.%m %H:%M")), websocket)
+            await manager.send_personal_message(
+                content.format(
+                    message=data["chat_message"],
+                    time=datetime.strftime(datetime.now(), "%d.%m %H:%M"),
+                ),
+                websocket,
+            )
+            await manager.send_personal_message(
+                content1.format(
+                    message=messages.get(
+                        data["chat_message"], "Выберите пункт из предложенных"
+                    ),
+                    time=datetime.strftime(datetime.now(), "%d.%m %H:%M"),
+                ),
+                websocket,
+            )
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         await manager.broadcast(f"Client #{client_id} left the chat")
-
-
-

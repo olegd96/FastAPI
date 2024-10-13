@@ -11,7 +11,6 @@ if TYPE_CHECKING:
 
 
 class Favourites(Base):
-
     __tablename__ = "favourites"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -24,10 +23,7 @@ class Favourites(Base):
     hotel: Mapped["Hotels"] = relationship(back_populates="favourite")
     room: Mapped["Rooms"] = relationship(back_populates="favourite")
 
-    __table_args__ = (
-        (UniqueConstraint("user_id", "room_id", name="fav_room_uc"),)
-        )
-    
+    __table_args__ = (UniqueConstraint("user_id", "room_id", name="fav_room_uc"),)
+
     def __str__(self):
         return f"Отель {self.hotel_id}, комната {self.room_id}"
-

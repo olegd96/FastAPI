@@ -13,10 +13,13 @@ if TYPE_CHECKING:
     from app.cart.models import Carts
     from app.favourites.models import Favourites
 
-class Users(Base):
-    __tablename__= "users"
 
-    id: Mapped[uuid.UUID] = mapped_column(UUID, primary_key=True, index=True, default=uuid.uuid4)
+class Users(Base):
+    __tablename__ = "users"
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID, primary_key=True, index=True, default=uuid.uuid4
+    )
     email: Mapped[str] = mapped_column(unique=True, index=True)
     hashed_password: Mapped[str]
     fio: Mapped[str]
@@ -28,18 +31,20 @@ class Users(Base):
     bookings: Mapped[list["Bookings"]] = relationship(back_populates="user")
     carts: Mapped[list["Carts"]] = relationship(back_populates="user")
     favourites: Mapped[list["Favourites"]] = relationship(back_populates="user")
-    
+
     def __str__(self):
         return f"Пользователь {self.email}"
-    
+
 
 class RefreshSessionModel(Base):
-    __tablename__ = 'refresh_session'
+    __tablename__ = "refresh_session"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     refresh_token: Mapped[uuid.UUID] = mapped_column(UUID, index=True)
     expires_in: Mapped[int]
-    created_at: Mapped[datetime] = mapped_column(sa.TIMESTAMP(timezone=True),
-                                                 server_default=func.now())
-    user_id: Mapped[uuid.UUID] = mapped_column(UUID, sa.ForeignKey(
-        "users.id", ondelete="CASCADE"))
+    created_at: Mapped[datetime] = mapped_column(
+        sa.TIMESTAMP(timezone=True), server_default=func.now()
+    )
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID, sa.ForeignKey("users.id", ondelete="CASCADE")
+    )

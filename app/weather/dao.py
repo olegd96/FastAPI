@@ -5,20 +5,15 @@ from app.weather.schemas import Location, Weather
 from motor.motor_asyncio import AsyncIOMotorDatabase, AsyncIOMotorClient
 
 
-
-
-
-class WeatherDAO():
-
+class WeatherDAO:
     """Data Access Object Layer for MongoDB"""
 
     @classmethod
     async def get_by_loc(
-            cls,
-            location: Location,
-            db:AsyncIOMotorDatabase,
-            ) -> Weather|None:
-        
+        cls,
+        location: Location,
+        db: AsyncIOMotorDatabase,
+    ) -> Weather | None:
         """
         Find city in MongoDB
         Args:
@@ -31,20 +26,18 @@ class WeatherDAO():
         async def gloc():
             return await collection.find_one({"location": location.location})
 
-        collection = db['weather']
+        collection = db["weather"]
         task_loc = [asyncio.create_task(gloc())]
-        loc, _ = await asyncio.wait(task_loc, timeout=0.5, return_when=asyncio.FIRST_COMPLETED)  
+        loc, _ = await asyncio.wait(
+            task_loc, timeout=0.5, return_when=asyncio.FIRST_COMPLETED
+        )
         if loc:
             try:
                 res = TypeAdapter(Weather).validate_python(loc.pop().result())
             except:
-                res = Weather(location='',
-                          temp=0.0, 
-                          condition_text='',
-                          condition_img='')
+                res = Weather(
+                    location="", temp=0.0, condition_text="", condition_img=""
+                )
         else:
-            res = Weather(location='',
-                          temp=0.0, 
-                          condition_text='',
-                          condition_img='')
+            res = Weather(location="", temp=0.0, condition_text="", condition_img="")
         return res

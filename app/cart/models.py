@@ -9,8 +9,8 @@ if TYPE_CHECKING:
     from app.users.models import Users
     from app.hotels.rooms.models import Rooms
 
-class Carts(Base):
 
+class Carts(Base):
     __tablename__ = "carts"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -23,11 +23,12 @@ class Carts(Base):
     total_cost: Mapped[int] = mapped_column(Computed("(date_to - date_from) * price"))
     total_days: Mapped[int] = mapped_column(Computed("date_to - date_from"))
     deleted: Mapped[bool] = mapped_column(Boolean, default=False)
-    created: Mapped[datetime] = mapped_column(server_default=text("TIMEZONE('utc', now())"))
+    created: Mapped[datetime] = mapped_column(
+        server_default=text("TIMEZONE('utc', now())")
+    )
 
     user: Mapped["Users"] = relationship(back_populates="carts")
     room: Mapped["Rooms"] = relationship(back_populates="carts")
-
 
     def __str__(self):
         return f"Бронирование #{self.id}"

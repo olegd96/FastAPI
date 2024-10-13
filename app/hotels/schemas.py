@@ -2,6 +2,7 @@ from pydantic import BaseModel, ConfigDict
 from typing import Any, List
 from sqlalchemy.dialects.postgresql import TSVECTOR
 
+
 class SHotels(BaseModel):
     id: int
     name: str

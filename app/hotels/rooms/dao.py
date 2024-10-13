@@ -22,44 +22,54 @@ class RoomsDAO(BaseDAO):
 
         SELECT * from booked
         UNION
-        SELECT rooms.id, rooms.name, 0, quantity FROM rooms 
+        SELECT rooms.id, rooms.name, 0, quantity FROM rooms
         WHERE hotel_id = 1 and name not in (SELECT name from booked)
 
         """
         if date_from > date_to:
             raise DateFromCannotBeAfterDateTo
-        
-        booked = select(Rooms.__table__.columns,
-                        (Rooms.price * (date_to - date_from).days).label("total_cost"),
-                        (Rooms.quantity - func.count(Bookings.room_id)).label("rooms_left"),
-                        ).select_from(Rooms).join(
-                         Bookings, Bookings.room_id == Rooms.id   
-                        ).where(
-                            and_(Rooms.hotel_id == hotel_id,
-                                or_(
-                                and_(
-                                    Bookings.date_from >= date_from,
-                                    Bookings.date_from <= date_to,
-                                ),
-                                and_(
-                                    Bookings.date_from <= date_from,
-                                    Bookings.date_to > date_from,
-                                ),
-                            ),
-                                ),
-                            ).group_by(Bookings.room_id, Rooms.id).cte("booked")
 
-        
-        rooms_left =(select(Rooms.__table__.columns, 
+        booked = (
+            select(
+                Rooms.__table__.columns,
                 (Rooms.price * (date_to - date_from).days).label("total_cost"),
-                Rooms.quantity.label("rooms_left")).select_from(Rooms).where(
-                    and_(
+                (Rooms.quantity - func.count(Bookings.room_id)).label("rooms_left"),
+            )
+            .select_from(Rooms)
+            .join(Bookings, Bookings.room_id == Rooms.id)
+            .where(
+                and_(
+                    Rooms.hotel_id == hotel_id,
+                    or_(
+                        and_(
+                            Bookings.date_from >= date_from,
+                            Bookings.date_from <= date_to,
+                        ),
+                        and_(
+                            Bookings.date_from <= date_from,
+                            Bookings.date_to > date_from,
+                        ),
+                    ),
+                ),
+            )
+            .group_by(Bookings.room_id, Rooms.id)
+            .cte("booked")
+        )
+
+        rooms_left = (
+            select(
+                Rooms.__table__.columns,
+                (Rooms.price * (date_to - date_from).days).label("total_cost"),
+                Rooms.quantity.label("rooms_left"),
+            )
+            .select_from(Rooms)
+            .where(
+                and_(
                     Rooms.hotel_id == hotel_id,
                     Rooms.name.not_in(select(booked.c.name)),
-                    
                 )
-        )).union_all(select(booked).where(booked.c.rooms_left > 0))
-
+            )
+        ).union_all(select(booked).where(booked.c.rooms_left > 0))
 
         async with async_session_maker() as session:
             rooms = await session.execute(rooms_left)

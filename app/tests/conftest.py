@@ -26,7 +26,7 @@ async def prepare_database():
     def open_mock_json(model: str):
         with open(f"app/tests/mock_{model}.json", encoding="UTF-8") as file:
             return json.load(file)
-        
+
     hotels = open_mock_json("hotels")
     rooms = open_mock_json("rooms")
     users = open_mock_json("users")
@@ -60,7 +60,7 @@ def event_loop(request):
     """Create an instance of the default event loop for each test case."""
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
-    loop.close() 
+    loop.close()
 
 
 @pytest.fixture(scope="function")
@@ -72,16 +72,18 @@ async def ac():
 @pytest.fixture(scope="session")
 async def authenticated_ac():
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
-        await ac.post("/auth/login", data={
-            "username": ["test@test.com"], 
-            "password": ["test"],
-        })
+        await ac.post(
+            "/auth/login",
+            data={
+                "username": ["test@test.com"],
+                "password": ["test"],
+            },
+        )
         assert ac.cookies["booking_access_token"]
         yield ac
 
-#@pytest.fixture(scope="function")
-#async def session():
+
+# @pytest.fixture(scope="function")
+# async def session():
 #    async with async_session_maker() as session:
 #        yield session
-
-

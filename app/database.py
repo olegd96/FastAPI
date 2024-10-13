@@ -25,7 +25,7 @@ client: motor_asyncio.AsyncIOMotorClient = motor_asyncio.AsyncIOMotorClient(
     settings.MONGO_URL, connect=True
 )
 database_mongo = client[settings.MONGO_NAME]
-channel = grpc.insecure_channel("localhost:50051")
+channel = grpc.aio.insecure_channel("localhost:50051")
 grpc_client = WeatherGrpcServiceStub(channel)
 
 

@@ -18,9 +18,9 @@ class WeatherService:
     ) -> Weather | None:
         weather = await grpc_client.Weather(WeatherRequest(location=location))
         return Weather(location=location,
-                       temp=weather.temp,
-                       condition_text=weather.condition_text,
-                       condition_img=weather.condition_img,
+                       temp=weather.location[0].temp,
+                       condition_text=weather.location[0].condition_text,
+                       condition_img=weather.location[0].condition_img,
                     )
     
 

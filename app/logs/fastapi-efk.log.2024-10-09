@@ -1,0 +1,127 @@
+{"timestamp": "2024-10-08T20:13:04.039532Z", "level": "WARNING", "name": "passlib.handlers.bcrypt", "message": "(trapped) error reading bcrypt version", "exc_info": "Traceback (most recent call last):\n  File \"/home/oleg96d/IT/FastAPI/FastAPI/.venv/lib/python3.11/site-packages/passlib/handlers/bcrypt.py\", line 620, in _load_backend_mixin\n    version = _bcrypt.__about__.__version__\n              ^^^^^^^^^^^^^^^^^\nAttributeError: module 'bcrypt' has no attribute '__about__'"}
+{"timestamp": "2024-10-08T20:13:04.288613Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.286}
+{"timestamp": "2024-10-08T20:13:04.293944Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/auth/login \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:04.389731Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0925}
+{"timestamp": "2024-10-08T20:13:04.393309Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:04.458146Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0637}
+{"timestamp": "2024-10-08T20:13:04.460865Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:04.529612Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0656}
+{"timestamp": "2024-10-08T20:13:04.534669Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:04.596642Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0605}
+{"timestamp": "2024-10-08T20:13:04.599189Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:04.669161Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0662}
+{"timestamp": "2024-10-08T20:13:04.672707Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:04.732688Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0588}
+{"timestamp": "2024-10-08T20:13:04.736613Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:04.808698Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0681}
+{"timestamp": "2024-10-08T20:13:04.814272Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:04.875797Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0604}
+{"timestamp": "2024-10-08T20:13:04.878437Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:04.950747Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0686}
+{"timestamp": "2024-10-08T20:13:04.954108Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.016131Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0607}
+{"timestamp": "2024-10-08T20:13:05.019113Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.090234Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0668}
+{"timestamp": "2024-10-08T20:13:05.095735Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.161301Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.064}
+{"timestamp": "2024-10-08T20:13:05.163884Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.234242Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.067}
+{"timestamp": "2024-10-08T20:13:05.238407Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.301334Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0615}
+{"timestamp": "2024-10-08T20:13:05.304401Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.374707Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0666}
+{"timestamp": "2024-10-08T20:13:05.378394Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.447364Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0677}
+{"timestamp": "2024-10-08T20:13:05.450548Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.514948Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0605}
+{"timestamp": "2024-10-08T20:13:05.517680Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/bookings \"HTTP/1.1 409 Conflict\""}
+{"timestamp": "2024-10-08T20:13:05.577208Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0583}
+{"timestamp": "2024-10-08T20:13:05.579830Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.643321Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0605}
+{"timestamp": "2024-10-08T20:13:05.646784Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/bookings \"HTTP/1.1 409 Conflict\""}
+{"timestamp": "2024-10-08T20:13:05.710200Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.062}
+{"timestamp": "2024-10-08T20:13:05.712737Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.776008Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0607}
+{"timestamp": "2024-10-08T20:13:05.778847Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.843900Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0638}
+{"timestamp": "2024-10-08T20:13:05.846549Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/bookings/1 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.908982Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0612}
+{"timestamp": "2024-10-08T20:13:05.911695Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/bookings/3 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:05.976151Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0632}
+{"timestamp": "2024-10-08T20:13:05.979185Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/bookings/4 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:06.044162Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0636}
+{"timestamp": "2024-10-08T20:13:06.047365Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/bookings/5 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:06.108515Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0596}
+{"timestamp": "2024-10-08T20:13:06.111442Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/bookings/6 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:06.176165Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0635}
+{"timestamp": "2024-10-08T20:13:06.180769Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/bookings/7 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:06.243162Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0607}
+{"timestamp": "2024-10-08T20:13:06.246538Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/bookings/8 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:06.309447Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0615}
+{"timestamp": "2024-10-08T20:13:06.312805Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/bookings/9 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:06.375295Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0612}
+{"timestamp": "2024-10-08T20:13:06.378362Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/bookings/10 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:06.442626Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.063}
+{"timestamp": "2024-10-08T20:13:06.445450Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/bookings/11 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:06.569303Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.1225}
+{"timestamp": "2024-10-08T20:13:06.572664Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/bookings \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:07.137100Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0685}
+{"timestamp": "2024-10-08T20:13:07.140255Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/cart \"HTTP/1.1 201 Created\""}
+{"timestamp": "2024-10-08T20:13:07.207140Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0657}
+{"timestamp": "2024-10-08T20:13:07.210022Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/cart \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:07.277734Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0649}
+{"timestamp": "2024-10-08T20:13:07.280615Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/cart \"HTTP/1.1 201 Created\""}
+{"timestamp": "2024-10-08T20:13:07.342702Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0608}
+{"timestamp": "2024-10-08T20:13:07.345767Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/cart \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:07.415988Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0671}
+{"timestamp": "2024-10-08T20:13:07.419496Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/cart \"HTTP/1.1 201 Created\""}
+{"timestamp": "2024-10-08T20:13:07.479878Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0587}
+{"timestamp": "2024-10-08T20:13:07.482577Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/cart \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:07.549325Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0636}
+{"timestamp": "2024-10-08T20:13:07.552734Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/cart \"HTTP/1.1 201 Created\""}
+{"timestamp": "2024-10-08T20:13:07.614598Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0604}
+{"timestamp": "2024-10-08T20:13:07.617252Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/cart \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:07.684839Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0638}
+{"timestamp": "2024-10-08T20:13:07.688266Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/cart \"HTTP/1.1 201 Created\""}
+{"timestamp": "2024-10-08T20:13:07.748595Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0592}
+{"timestamp": "2024-10-08T20:13:07.751122Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/cart \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:07.817171Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0621}
+{"timestamp": "2024-10-08T20:13:07.820539Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/cart \"HTTP/1.1 201 Created\""}
+{"timestamp": "2024-10-08T20:13:07.880275Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0584}
+{"timestamp": "2024-10-08T20:13:07.882893Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/cart \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:07.947495Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0612}
+{"timestamp": "2024-10-08T20:13:07.950073Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/cart \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:08.013393Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.062}
+{"timestamp": "2024-10-08T20:13:08.016674Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/cart/1 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:08.078858Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0606}
+{"timestamp": "2024-10-08T20:13:08.082483Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/cart/2 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:08.144324Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0606}
+{"timestamp": "2024-10-08T20:13:08.147115Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/cart/3 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:08.206763Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0584}
+{"timestamp": "2024-10-08T20:13:08.209719Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/cart/4 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:08.271200Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0603}
+{"timestamp": "2024-10-08T20:13:08.274280Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/cart/5 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:08.336745Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0612}
+{"timestamp": "2024-10-08T20:13:08.339515Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: DELETE http://test/cart/6 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:08.399161Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0585}
+{"timestamp": "2024-10-08T20:13:08.402466Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/cart \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:09.415433Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0006}
+{"timestamp": "2024-10-08T20:13:09.418054Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/hotels/%D0%90%D0%BB%D1%82%D0%B0%D0%B9?date_from=2030-07-25&date_to=2030-06-20 \"HTTP/1.1 400 Bad Request\""}
+{"timestamp": "2024-10-08T20:13:09.425857Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0014}
+{"timestamp": "2024-10-08T20:13:09.430756Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/hotels/%D0%90%D0%BB%D1%82%D0%B0%D0%B9?date_from=2030-07-25&date_to=2030-09-20 \"HTTP/1.1 400 Bad Request\""}
+{"timestamp": "2024-10-08T20:13:09.479097Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0437}
+{"timestamp": "2024-10-08T20:13:09.481894Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: GET http://test/hotels/%D0%90%D0%BB%D1%82%D0%B0%D0%B9?date_from=2030-07-15&date_to=2030-07-20 \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:09.746138Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.2607}
+{"timestamp": "2024-10-08T20:13:09.749109Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/auth/register \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:09.786859Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0342}
+{"timestamp": "2024-10-08T20:13:09.789610Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/auth/register \"HTTP/1.1 409 Conflict\""}
+{"timestamp": "2024-10-08T20:13:10.051462Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.2589}
+{"timestamp": "2024-10-08T20:13:10.055075Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/auth/register \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:10.059091Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0009}
+{"timestamp": "2024-10-08T20:13:10.061539Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/auth/register \"HTTP/1.1 422 Unprocessable Entity\""}
+{"timestamp": "2024-10-08T20:13:10.317980Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.2535}
+{"timestamp": "2024-10-08T20:13:10.321307Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/auth/login \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:10.583718Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.2591}
+{"timestamp": "2024-10-08T20:13:10.586996Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/auth/login \"HTTP/1.1 200 OK\""}
+{"timestamp": "2024-10-08T20:13:10.621708Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0317}
+{"timestamp": "2024-10-08T20:13:10.624234Z", "level": "INFO", "name": "httpx", "message": "HTTP Request: POST http://test/auth/login \"HTTP/1.1 401 Unauthorized\""}

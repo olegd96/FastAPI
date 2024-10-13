@@ -16,7 +16,7 @@ class WeatherService:
     @classmethod
     async def grpc_get_weather(cls, location: str
     ) -> Weather | None:
-        weather = await grpc_client.Weather(WeatherRequest(location=location))
+        weather = grpc_client.Weather(WeatherRequest(location=location))
         return Weather(location=location,
                        temp=weather.location[0].temp,
                        condition_text=weather.location[0].condition_text,

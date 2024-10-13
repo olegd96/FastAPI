@@ -140,7 +140,7 @@ async def get_hotels_by_loc_date(
     res = await HotelsDAO.find_all(location, date_from, date_to, limit, offset)
     count = await HotelsDAO.hotels_count(location, date_from, date_to)
     if location:
-        weather = await WeatherService.grpc_get_weather(location)
+        weather = WeatherService.grpc_get_weather(location)
     else:
         weather = Weather(location="", temp=0, condition_text="", condition_img="")
     return templates.TemplateResponse(

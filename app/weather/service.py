@@ -18,6 +18,6 @@ class WeatherService:
     async def grpc_get_weather(cls, location: str
     ) -> Weather | None:
         weather = grpc_client.Weather(WeatherRequest(location=location))
-        return TypeAdapter(Weather).validate_python(weather.pop())
+        return TypeAdapter(Weather).validate_python(weather.location.pop())
     
 

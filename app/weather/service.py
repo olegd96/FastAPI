@@ -3,6 +3,7 @@ from app.weather.schemas import Location, Weather
 from app.weather.dao import WeatherDAO
 from app.database import database_mongo, grpc_client
 from app.weather_pb2 import WeatherRequest
+from pydantic import TypeAdapter
 
 
 class WeatherService:
@@ -16,11 +17,7 @@ class WeatherService:
     @classmethod
     async def grpc_get_weather(cls, location: str
     ) -> Weather | None:
-        weather = grpc_client.Weather(location=location)
-        return Weather(location=location,
-                       temp=weather.location[0].temp,
-                       condition_text=weather.location[0].condition_text,
-                       condition_img=weather.location[0].condition_img,
-                    )
+        weather = grpc_client.Weather(WeatherRequest(location=location))
+        return TypeAdapter(Weather).validate_python(weather.pop())
     
 

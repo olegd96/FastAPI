@@ -5,9 +5,10 @@ message WeatherRequest {
 }
 
 message WeatherLocation {
-    float temp = 1;
-    string condition_text = 2;
-    string condition_img = 3;
+    string location = 1;
+    float temp = 2;
+    string condition_text = 3;
+    string condition_img = 4;
 }
 
 message WeatherResponse {

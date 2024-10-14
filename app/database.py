@@ -6,7 +6,7 @@ from motor import motor_asyncio
 from app.config import settings
 import grpc
 
-from app.weather_pb2_grpc import WeatherGrpcServiceStub
+from weather_pb2_grpc import WeatherGrpcServiceStub
 
 if settings.MODE == "TEST":
     DATABASE_URL = settings.TEST_DATABASE_URL

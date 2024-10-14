@@ -114,3 +114,75 @@
 {"timestamp": "2024-10-13T22:02:25.451064Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
 {"timestamp": "2024-10-13T23:03:36.851611Z", "level": "INFO", "name": "root", "message": "start_app"}
 {"timestamp": "2024-10-13T23:03:53.986904Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:04:33.652457Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:04:48.713086Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0652}
+{"timestamp": "2024-10-14T13:04:48.902515Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0007}
+{"timestamp": "2024-10-14T13:04:48.911207Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0472}
+{"timestamp": "2024-10-14T13:04:48.918290Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0528}
+{"timestamp": "2024-10-14T13:04:48.921083Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.003}
+{"timestamp": "2024-10-14T13:04:48.961407Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0435}
+{"timestamp": "2024-10-14T13:04:48.965859Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0398}
+{"timestamp": "2024-10-14T13:04:55.497543Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.004}
+{"timestamp": "2024-10-14T13:04:58.373697Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0391}
+{"timestamp": "2024-10-14T13:04:58.417157Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0221}
+{"timestamp": "2024-10-14T13:05:03.179228Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0302}
+{"timestamp": "2024-10-14T13:05:03.943030Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0297}
+{"timestamp": "2024-10-14T13:05:05.610992Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0449}
+{"timestamp": "2024-10-14T13:05:06.907258Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0323}
+{"timestamp": "2024-10-14T13:05:08.431826Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0399}
+{"timestamp": "2024-10-14T13:07:20.404928Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0506}
+{"timestamp": "2024-10-14T13:07:21.329017Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0259}
+{"timestamp": "2024-10-14T13:07:23.143435Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0306}
+{"timestamp": "2024-10-14T13:08:06.721973Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:08:28.296812Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:11:31.792373Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:11:33.840721Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:13:30.445900Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:18:44.616644Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:21:44.445725Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:21:46.248194Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:22:27.065777Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:22:29.181609Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:25:56.831637Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:25:58.767796Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:26:05.624062Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:26:07.216271Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:26:36.849681Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:26:38.663918Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:26:59.924610Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:27:01.561121Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:30:23.082409Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:30:25.034266Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:34:06.955962Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:34:08.722248Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:34:54.803734Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:34:56.701800Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:35:05.375666Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:35:07.154036Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:35:35.290723Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:35:37.107337Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:37:50.588796Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:41:03.281513Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:41:53.304466Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:43:16.476591Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:43:18.811785Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.005}
+{"timestamp": "2024-10-14T13:44:22.902713Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:44:25.057866Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:44:35.691495Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T13:44:37.442556Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T13:46:56.576958Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0414}
+{"timestamp": "2024-10-14T13:46:58.543709Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0463}
+{"timestamp": "2024-10-14T13:47:01.427846Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0317}
+{"timestamp": "2024-10-14T13:47:02.350708Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.036}
+{"timestamp": "2024-10-14T13:47:06.996218Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.081}
+{"timestamp": "2024-10-14T14:16:34.851140Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.076}
+{"timestamp": "2024-10-14T14:16:39.840073Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0417}
+{"timestamp": "2024-10-14T14:16:44.716478Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0453}
+{"timestamp": "2024-10-14T14:23:50.979686Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T14:23:53.147681Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T14:24:04.279144Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0018}
+{"timestamp": "2024-10-14T14:24:25.356717Z", "level": "INFO", "name": "root", "message": "shutdown_app"}
+{"timestamp": "2024-10-14T14:24:27.136356Z", "level": "INFO", "name": "root", "message": "start_app"}
+{"timestamp": "2024-10-14T14:24:28.173446Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0752}
+{"timestamp": "2024-10-14T14:24:34.158901Z", "level": "INFO", "name": "root", "message": "Request execution time", "process_time": 0.0749}
+{"timestamp": "2024-10-14T14:24:42.490160Z", "level": "INFO", "name": "root", "message": "shutdown_app"}

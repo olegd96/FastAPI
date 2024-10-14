@@ -1,6 +1,6 @@
 import asyncio
 from pydantic import TypeAdapter
-from app.weather.schemas import Location, Weather
+from app.weather.schemas import Location, Weathers
 
 from motor.motor_asyncio import AsyncIOMotorDatabase, AsyncIOMotorClient
 
@@ -13,7 +13,7 @@ class WeatherDAO:
         cls,
         location: Location,
         db: AsyncIOMotorDatabase,
-    ) -> Weather | None:
+    ) -> Weathers| None:
         """
         Find city in MongoDB
         Args:
@@ -33,11 +33,11 @@ class WeatherDAO:
         )
         if loc:
             try:
-                res = TypeAdapter(Weather).validate_python(loc.pop().result())
+                res = TypeAdapter(Weathers).validate_python(loc.pop().result())
             except:
-                res = Weather(
+                res = Weathers(
                     location="", temp=0.0, condition_text="", condition_img=""
                 )
         else:
-            res = Weather(location="", temp=0.0, condition_text="", condition_img="")
+            res = Weathers(location="", temp=0.0, condition_text="", condition_img="")
         return res

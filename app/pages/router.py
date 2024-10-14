@@ -29,7 +29,7 @@ from app.users.models import Users
 
 
 from app.users.models import Users
-from app.weather.schemas import Location, Weather
+from app.weather.schemas import Location, Weathers
 from app.weather.service import WeatherService
 from app.config import settings
 
@@ -142,7 +142,7 @@ async def get_hotels_by_loc_date(
     if location:
         weather = await WeatherService.grpc_get_weather(location)
     else:
-        weather = Weather(location="", temp=0, condition_text="", condition_img="")
+        weather = Weathers(location="", temp=0, condition_text="", condition_img="")
     return templates.TemplateResponse(
         "hotels_by_loc_and_time.html",
         {

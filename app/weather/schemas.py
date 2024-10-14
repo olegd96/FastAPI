@@ -7,7 +7,7 @@ class Location(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-class Weather(Location):
+class Weathers(Location):
     temp: float
     condition_text: str
     condition_img: str

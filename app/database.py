@@ -2,6 +2,7 @@ from sqlalchemy import NullPool
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
 from motor import motor_asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 from app.config import settings
 import grpc
@@ -27,7 +28,7 @@ client: motor_asyncio.AsyncIOMotorClient = motor_asyncio.AsyncIOMotorClient(
 database_mongo = client[settings.MONGO_NAME]
 channel = grpc.insecure_channel("10.1.179.64:50051")
 grpc_client = WeatherGrpcServiceStub(channel)
-
+thread_executor = ThreadPoolExecutor()
 
 class Base(DeclarativeBase):
     pass

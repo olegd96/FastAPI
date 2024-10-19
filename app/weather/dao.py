@@ -51,7 +51,7 @@ class WeatherDAO:
         with thread_executor(max_workers=1) as executor:
             try:
                 weather = executor.submit(
-                    grpc_client.Weather(WeatherRequest(location=location)),
+                    grpc_client.Weather, WeatherRequest(location=location)
                     )
                 result = weather.result(timeout=0.2)
                 if len(result.location) !=0:

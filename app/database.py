@@ -28,7 +28,6 @@ client: motor_asyncio.AsyncIOMotorClient = motor_asyncio.AsyncIOMotorClient(
 database_mongo = client[settings.MONGO_NAME]
 channel = grpc.insecure_channel("10.1.179.64:50051")
 grpc_client = WeatherGrpcServiceStub(channel)
-thread_executor = ThreadPoolExecutor()
 
 class Base(DeclarativeBase):
     pass

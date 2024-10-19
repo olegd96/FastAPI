@@ -1,10 +1,11 @@
 import asyncio
 from pydantic import TypeAdapter
 from app.weather.schemas import Location, Weathers
-from app.database import grpc_client, thread_executor
+from app.database import grpc_client
 from motor.motor_asyncio import AsyncIOMotorDatabase, AsyncIOMotorClient
 from weather_pb2 import WeatherRequest # type: ignore
 from app.loger import logger
+from concurrent.futures import ThreadPoolExecutor as thread_executor
 
 class WeatherDAO:
     """Data Access Object Layer for MongoDB"""
@@ -47,7 +48,7 @@ class WeatherDAO:
     async def grpc_get_by_loc(cls,
                                 location:str) -> Weathers | None:
         result = None
-        with thread_executor as executor:
+        with thread_executor(max_workers=1) as executor:
             try:
                 weather = executor.submit(
                     grpc_client.Weather(WeatherRequest(location=location)),
